@@ -1,0 +1,21 @@
+﻿<Window x:Class="DDRemakeProject.MainWindow" Name="mainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:DDRemakeProject"
+        mc:Ignorable="d"
+        Title="MainWindow" Width="1366" Height="766" MouseMove="mainWindow_MouseMove" KeyDown="mainWindow_KeyDown" >
+    <Canvas Name="canvas" Margin="0,20,0,0.4" Width="3000" Height="3000">
+        <Canvas.LayoutTransform>
+            <ScaleTransform 
+                
+            />
+
+        </Canvas.LayoutTransform>
+        <Canvas Name="canvas3" Margin="0,0,0,0" Width="3000" Height="3000"></Canvas>
+
+        <Canvas Name="canvas2" Margin="0,0,0,0" Width="3000" Height="3000"></Canvas>
+    </Canvas>
+
+</Window>
