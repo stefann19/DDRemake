@@ -78,6 +78,9 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <Compile Include="Test.xaml.cs">
+      <DependentUpon>Test.xaml</DependentUpon>
+    </Compile>
     <Compile Include="WorldGeneration\GeneratorFromFile.cs" />
     <Compile Include="World\Point.cs" />
     <Compile Include="World\RoomSpace.cs" />
@@ -110,6 +113,10 @@
       <SubType>Code</SubType>
     </Compile>
     <Page Include="NewMapMenu.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Test.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -487,6 +494,18 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="idle.gif" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="black-strip.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="faceset.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="background.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="red.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

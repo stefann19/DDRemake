@@ -7,22 +7,79 @@
 
         xmlns:local="clr-namespace:DDRemakeProject"
         mc:Ignorable="d"
-        Title="BattleWindow" Height="500" Width="500">
+        Title="BattleWindow" Width="648" Height="505" >
+
+    <Window.Resources>
+
+        <ControlTemplate x:Key="Icons" TargetType="ContentControl">
+        <Grid Grid.Row="0" Grid.Column="0">
+                <Grid.RowDefinitions>
+                    <RowDefinition ></RowDefinition>
+                    <RowDefinition Height="7"></RowDefinition>
+                </Grid.RowDefinitions>
+                <Image Grid.Row="0" Source="{DynamicResource ResourceKey=Img}" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                <Grid Grid.Row="1" Margin="5,0">
+                    <Rectangle Fill="Gray" ></Rectangle>
+                    <Rectangle Width="51.125" Fill="Red" HorizontalAlignment="Left" ></Rectangle>
+                </Grid>
+
+
+            </Grid>
+        </ControlTemplate>
+    </Window.Resources>
+
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="186*"/>
-            <RowDefinition Height="49*"/>
+            <RowDefinition Height="52"/>
+            <RowDefinition Height="4*"/>
+            <RowDefinition Height="115"/>
         </Grid.RowDefinitions>
-        <Grid Grid.Row="0" Margin="0,0,-0.4,2">
-            <Image Source="Assets/backgrounds/21.png" Stretch="Uniform" Margin="0"/>
-        </Grid>
-        <Grid Background="Black" Margin="0,370,-0.4,0.4" Grid.RowSpan="2">
+
+        <!--#region Background Image + Black Strips -->
+        <Image Source="Assets/backgrounds/21.png" Stretch="None" Grid.Row="1"/>
+        <Rectangle Grid.Row="0" Fill="Black"></Rectangle>
+        <Rectangle Grid.Row="2" Fill="Black"></Rectangle>
+        <!--#endregion-->
+        <!--#region Characters and action-->
+        <Image Grid.Row="1" Panel.ZIndex="1" HorizontalAlignment="Left" Height="100" VerticalAlignment="Top" Width="100"  gif:ImageBehavior.AutoStart="True" gif:ImageBehavior.AnimatedSource="idle.gif" Margin="73,208,0,0"/>
+        <!--#endregion-->
+
+
+        <!--#region Bottom Grid-->
+        <Grid Height="115" Width="640" Grid.Row="2" >
+            <!--#region rows and columns definitions-->
+            <Grid.RowDefinitions>
+
+                <RowDefinition Height="1*"/>
+                <RowDefinition Height="1*"/>
+
+            </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="155"/>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="155"/>
+                <ColumnDefinition Width="1*"/>
+                <ColumnDefinition Width="1*"/>
+                <ColumnDefinition Width="1*"/>
+                <ColumnDefinition Width="3*"/>
+                <ColumnDefinition Width="3*"/>
             </Grid.ColumnDefinitions>
-            <Image HorizontalAlignment="Left" Height="100" Margin="2.667,-188.8,0,0" VerticalAlignment="Top" Width="100"  gif:ImageBehavior.AutoStart="True" gif:ImageBehavior.AnimatedSource="idle.gif"/>
+            <!--#endregion-->
+
+            <!--#region Characters Icons -->
+
+            <ContentControl Grid.Row="0" Grid.Column="0" Template="{StaticResource ResourceKey=Icons}">
+                <ContentControl.Resources>
+                    <ImageSource x:Key="Img">Assets/backgrounds/21.png</ImageSource>
+                </ContentControl.Resources>
+
+            </ContentControl>
+            <ContentControl Grid.Row="1" Grid.Column="0" Template="{StaticResource ResourceKey=Icons}">
+                
+
+            </ContentControl>
+
+            <!--#endregion-->
+
+
+
             <!--<Border BorderThickness="1" BorderBrush="Black" Grid.Column="0" >
                 <StackPanel  Margin="0.2,0.2,-1.6,0.4">
                     <Label Content="Attacks" FontSize="18" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" BorderBrush="Black" BorderThickness="1px" Margin="0,0,-0.4,0"/>
@@ -82,6 +139,8 @@
                 </StackPanel>
             </Border>-->
         </Grid>
+        <!--#endregion-->
+
         <!--
         <Border BorderBrush="Black" BorderThickness="1" HorizontalAlignment="Left" Height="200" Margin="10,260,0,0" VerticalAlignment="Top" Width="474">
             <Canvas>
