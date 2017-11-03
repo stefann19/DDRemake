@@ -26,7 +26,7 @@ namespace DDRemakeProject
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            NewMapMenu window = new NewMapMenu();
+            BattleWindow window = new BattleWindow();
             window.Show();
             this.Close();
         }

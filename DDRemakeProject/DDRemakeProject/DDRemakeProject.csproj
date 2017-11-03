@@ -50,12 +50,18 @@
     <Reference Include="WindowsBase" />
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
+    <Reference Include="WpfAnimatedGif, Version=1.4.15.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\WpfAnimatedGif.1.4.15\lib\net\WpfAnimatedGif.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <ApplicationDefinition Include="App.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="BattleWindow.xaml.cs">
+      <DependentUpon>BattleWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="EngineV1.cs" />
     <Compile Include="LoadMapMenu.xaml.cs">
       <DependentUpon>LoadMapMenu.xaml</DependentUpon>
@@ -67,6 +73,11 @@
     <Compile Include="NewMapMenu.xaml.cs">
       <DependentUpon>NewMapMenu.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
     <Compile Include="WorldGeneration\GeneratorFromFile.cs" />
     <Compile Include="World\Point.cs" />
     <Compile Include="World\RoomSpace.cs" />
@@ -74,6 +85,10 @@
     <Compile Include="WorldGeneration\GeneratorV1.cs" />
     <Compile Include="WorldGeneration\RoomModule.cs" />
     <Compile Include="XmlToFile.cs" />
+    <Page Include="BattleWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="LoadMapMenu.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -103,11 +118,6 @@
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Properties\Resources.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Resources.resx</DependentUpon>
-    </Compile>
     <Compile Include="Properties\Settings.Designer.cs">
       <AutoGen>True</AutoGen>
       <DependentUpon>Settings.settings</DependentUpon>
@@ -117,34 +127,366 @@
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
+    <None Include="Assets\monster\mimic\animation.aseprite" />
+    <None Include="Assets\music\theme-1.ogg" />
+    <None Include="Assets\music\theme-10.ogg" />
+    <None Include="Assets\music\theme-11.ogg" />
+    <None Include="Assets\music\theme-12.ogg" />
+    <None Include="Assets\music\theme-13.ogg" />
+    <None Include="Assets\music\theme-14.ogg" />
+    <None Include="Assets\music\theme-15.ogg" />
+    <None Include="Assets\music\theme-16.ogg" />
+    <None Include="Assets\music\theme-2.ogg" />
+    <None Include="Assets\music\theme-3.ogg" />
+    <None Include="Assets\music\theme-4.ogg" />
+    <None Include="Assets\music\theme-5.ogg" />
+    <None Include="Assets\music\theme-6.ogg" />
+    <None Include="Assets\music\theme-7.ogg" />
+    <None Include="Assets\music\theme-8.ogg" />
+    <None Include="Assets\music\theme-9.ogg" />
+    <None Include="Assets\sound\1.ogg" />
+    <None Include="Assets\sound\10.ogg" />
+    <None Include="Assets\sound\11.ogg" />
+    <None Include="Assets\sound\12.ogg" />
+    <None Include="Assets\sound\13.ogg" />
+    <None Include="Assets\sound\14.ogg" />
+    <None Include="Assets\sound\15.ogg" />
+    <None Include="Assets\sound\16.ogg" />
+    <None Include="Assets\sound\17.ogg" />
+    <None Include="Assets\sound\18.ogg" />
+    <None Include="Assets\sound\19.ogg" />
+    <None Include="Assets\sound\2.ogg" />
+    <None Include="Assets\sound\20.ogg" />
+    <None Include="Assets\sound\21.ogg" />
+    <None Include="Assets\sound\22.ogg" />
+    <None Include="Assets\sound\23.ogg" />
+    <None Include="Assets\sound\24.ogg" />
+    <None Include="Assets\sound\25.ogg" />
+    <None Include="Assets\sound\26.ogg" />
+    <None Include="Assets\sound\27.ogg" />
+    <None Include="Assets\sound\28.ogg" />
+    <None Include="Assets\sound\29.ogg" />
+    <None Include="Assets\sound\3.ogg" />
+    <None Include="Assets\sound\30.ogg" />
+    <None Include="Assets\sound\31.ogg" />
+    <None Include="Assets\sound\32.ogg" />
+    <None Include="Assets\sound\33.ogg" />
+    <None Include="Assets\sound\34.ogg" />
+    <None Include="Assets\sound\35.ogg" />
+    <None Include="Assets\sound\36.ogg" />
+    <None Include="Assets\sound\37.ogg" />
+    <None Include="Assets\sound\38.ogg" />
+    <None Include="Assets\sound\39.ogg" />
+    <None Include="Assets\sound\4.ogg" />
+    <None Include="Assets\sound\40.ogg" />
+    <None Include="Assets\sound\5.ogg" />
+    <None Include="Assets\sound\6.ogg" />
+    <None Include="Assets\sound\7.ogg" />
+    <None Include="Assets\sound\8.ogg" />
+    <None Include="Assets\sound\9.ogg" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Textures\brick_brown_0.png" />
-    <Resource Include="Textures\white_marble_0.png" />
-  </ItemGroup>
-  <ItemGroup>
     <Folder Include="Managers\" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Textures\rect_gray_0_new.png" />
-    <Resource Include="Textures\rect_gray_1_new.png" />
-    <Resource Include="Textures\rect_gray_2_new.png" />
-    <Resource Include="Textures\rect_gray_3_new.png" />
-    <Resource Include="Textures\sand_1.png" />
-    <Resource Include="Textures\sand_2.png" />
-    <Resource Include="Textures\sand_3.png" />
-    <Resource Include="Textures\sand_4.png" />
-    <Resource Include="Textures\sand_5.png" />
-    <Resource Include="Textures\sand_6.png" />
-    <Resource Include="Textures\sand_7.png" />
-    <Resource Include="Textures\sand_8.png" />
+    <Resource Include="Assets\backgrounds\1.png" />
+    <Resource Include="Assets\backgrounds\10.png" />
+    <Resource Include="Assets\backgrounds\11.png" />
+    <Resource Include="Assets\backgrounds\12.png" />
+    <Resource Include="Assets\backgrounds\13.png" />
+    <Resource Include="Assets\backgrounds\14.png" />
+    <Resource Include="Assets\backgrounds\15.png" />
+    <Resource Include="Assets\backgrounds\16.png" />
+    <Resource Include="Assets\backgrounds\17.png" />
+    <Resource Include="Assets\backgrounds\18.png" />
+    <Resource Include="Assets\backgrounds\19.png" />
+    <Resource Include="Assets\backgrounds\2.png" />
+    <Resource Include="Assets\backgrounds\20.png" />
+    <Resource Include="Assets\backgrounds\21.png" />
+    <Resource Include="Assets\backgrounds\22.png" />
+    <Resource Include="Assets\backgrounds\23.png" />
+    <Resource Include="Assets\backgrounds\24.png" />
+    <Resource Include="Assets\backgrounds\3.png" />
+    <Resource Include="Assets\backgrounds\4.png" />
+    <Resource Include="Assets\backgrounds\5.png" />
+    <Resource Include="Assets\backgrounds\6.png" />
+    <Resource Include="Assets\backgrounds\7.png" />
+    <Resource Include="Assets\backgrounds\8.png" />
+    <Resource Include="Assets\backgrounds\9.png" />
+    <Resource Include="Assets\char\bowman\attack.gif" />
+    <Resource Include="Assets\char\bowman\attack2.gif" />
+    <Resource Include="Assets\char\bowman\faceset-b.png" />
+    <Resource Include="Assets\char\bowman\faceset.png" />
+    <Resource Include="Assets\char\bowman\hit.gif" />
+    <Resource Include="Assets\char\bowman\idle.gif" />
+    <Resource Include="Assets\char\bowman\sprite-sheet-158x173.png" />
+    <Resource Include="Assets\char\bowman\sprite-sheet-b-158x173.png" />
+    <Resource Include="Assets\char\mage\attack.gif" />
+    <Resource Include="Assets\char\mage\attack2.gif" />
+    <Resource Include="Assets\char\mage\faceset-b.png" />
+    <Resource Include="Assets\char\mage\faceset.png" />
+    <Resource Include="Assets\char\mage\hit.gif" />
+    <Resource Include="Assets\char\mage\idle.gif" />
+    <Resource Include="Assets\char\mage\sprite-sheet-151x100.png" />
+    <Resource Include="Assets\char\mage\sprite-sheet-b-151x100.png" />
+    <Resource Include="Assets\char\paladin\attack.gif" />
+    <Resource Include="Assets\char\paladin\attack2.gif" />
+    <Resource Include="Assets\char\paladin\faceset-b.png" />
+    <Resource Include="Assets\char\paladin\faceset.png" />
+    <Resource Include="Assets\char\paladin\hit.gif" />
+    <Resource Include="Assets\char\paladin\idle.gif" />
+    <Resource Include="Assets\char\paladin\sprite-sheet-249x100.png" />
+    <Resource Include="Assets\char\paladin\sprite-sheet-b-249x100.png" />
+    <Resource Include="Assets\char\warrior2\attack.gif" />
+    <Resource Include="Assets\char\warrior2\faceset-b.png" />
+    <Resource Include="Assets\char\warrior2\faceset.png" />
+    <Resource Include="Assets\char\warrior2\guard.gif" />
+    <Resource Include="Assets\char\warrior2\hit.gif" />
+    <Resource Include="Assets\char\warrior2\idle.gif" />
+    <Resource Include="Assets\char\warrior2\sprite-sheet-183-123.png" />
+    <Resource Include="Assets\char\warrior2\sprite-sheet-b-183-123.png" />
+    <Resource Include="Assets\char\warrior\attack.gif" />
+    <Resource Include="Assets\char\warrior\faceset-b.png" />
+    <Resource Include="Assets\char\warrior\faceset.png" />
+    <Resource Include="Assets\char\warrior\guard.gif" />
+    <Resource Include="Assets\char\warrior\hit.gif" />
+    <Resource Include="Assets\char\warrior\idle.gif" />
+    <Resource Include="Assets\char\warrior\sprite-sheet-240x104.png" />
+    <Resource Include="Assets\char\warrior\sprite-sheet-b-240x104.png" />
+    <Resource Include="Assets\char\Wizard\attack.gif" />
+    <Resource Include="Assets\char\Wizard\attack2.gif" />
+    <Resource Include="Assets\char\Wizard\faceset-b.png" />
+    <Resource Include="Assets\char\Wizard\faceset.png" />
+    <Resource Include="Assets\char\Wizard\hit.gif" />
+    <Resource Include="Assets\char\Wizard\idle.gif" />
+    <Resource Include="Assets\char\Wizard\sprite-sheet-161x106.png" />
+    <Resource Include="Assets\char\Wizard\sprite-sheet-b-161x106.png" />
+    <Resource Include="Assets\font-16x16.png" />
+    <Resource Include="Assets\font-20x20.png" />
+    <Resource Include="Assets\fx\1-b.png" />
+    <Resource Include="Assets\fx\1.gif" />
+    <Resource Include="Assets\fx\1.png" />
+    <Resource Include="Assets\fx\10 - Copie.png" />
+    <Resource Include="Assets\fx\10.gif" />
+    <Resource Include="Assets\fx\10.png" />
+    <Resource Include="Assets\fx\11 - Copie.png" />
+    <Resource Include="Assets\fx\11-b.png" />
+    <Resource Include="Assets\fx\11.gif" />
+    <Resource Include="Assets\fx\11.png" />
+    <Resource Include="Assets\fx\12 - Copie.png" />
+    <Resource Include="Assets\fx\12-b.png" />
+    <Resource Include="Assets\fx\12.gif" />
+    <Resource Include="Assets\fx\12.png" />
+    <Resource Include="Assets\fx\13 - Copie.png" />
+    <Resource Include="Assets\fx\13-b.png" />
+    <Resource Include="Assets\fx\13.gif" />
+    <Resource Include="Assets\fx\13.png" />
+    <Resource Include="Assets\fx\14-b.png" />
+    <Resource Include="Assets\fx\14.gif" />
+    <Resource Include="Assets\fx\14.png" />
+    <Resource Include="Assets\fx\2-b.png" />
+    <Resource Include="Assets\fx\2.gif" />
+    <Resource Include="Assets\fx\2.png" />
+    <Resource Include="Assets\fx\3-b.png" />
+    <Resource Include="Assets\fx\3.gif" />
+    <Resource Include="Assets\fx\3.png" />
+    <Resource Include="Assets\fx\4-b.png" />
+    <Resource Include="Assets\fx\4.gif" />
+    <Resource Include="Assets\fx\4.png" />
+    <Resource Include="Assets\fx\5-b.png" />
+    <Resource Include="Assets\fx\5.gif" />
+    <Resource Include="Assets\fx\5.png" />
+    <Resource Include="Assets\fx\6-b.png" />
+    <Resource Include="Assets\fx\6.gif" />
+    <Resource Include="Assets\fx\6.png" />
+    <Resource Include="Assets\fx\7-b.png" />
+    <Resource Include="Assets\fx\7.gif" />
+    <Resource Include="Assets\fx\7.png" />
+    <Resource Include="Assets\fx\8-b.png" />
+    <Resource Include="Assets\fx\8.gif" />
+    <Resource Include="Assets\fx\8.png" />
+    <Resource Include="Assets\fx\9.gif" />
+    <Resource Include="Assets\fx\9.png" />
+    <Resource Include="Assets\HUD\arrow-down.png" />
+    <Resource Include="Assets\HUD\arrow-left.png" />
+    <Resource Include="Assets\HUD\arrow-right.png" />
+    <Resource Include="Assets\HUD\arrow-up.png" />
+    <Resource Include="Assets\HUD\bar\background.png" />
+    <Resource Include="Assets\HUD\bar\green.png" />
+    <Resource Include="Assets\HUD\bar\purple.png" />
+    <Resource Include="Assets\HUD\bar\red.png" />
+    <Resource Include="Assets\HUD\bar\yellow.png" />
+    <Resource Include="Assets\HUD\black-strip.png" />
+    <Resource Include="Assets\HUD\icon.gif" />
+    <Resource Include="Assets\HUD\icon.png" />
+    <Resource Include="Assets\HUD\menu-item.png" />
+    <Resource Include="Assets\HUD\menuIcon.gif" />
+    <Resource Include="Assets\HUD\sprite-sheet-icon.png" />
+    <Resource Include="Assets\Item\1.png" />
+    <Resource Include="Assets\Item\10.png" />
+    <Resource Include="Assets\Item\11.png" />
+    <Resource Include="Assets\Item\12.png" />
+    <Resource Include="Assets\Item\13.png" />
+    <Resource Include="Assets\Item\14.png" />
+    <Resource Include="Assets\Item\15.png" />
+    <Resource Include="Assets\Item\16.png" />
+    <Resource Include="Assets\Item\17.png" />
+    <Resource Include="Assets\Item\18.png" />
+    <Resource Include="Assets\Item\19.png" />
+    <Resource Include="Assets\Item\2.png" />
+    <Resource Include="Assets\Item\20.png" />
+    <Resource Include="Assets\Item\21.png" />
+    <Resource Include="Assets\Item\22.png" />
+    <Resource Include="Assets\Item\23.png" />
+    <Resource Include="Assets\Item\24.png" />
+    <Resource Include="Assets\Item\25.png" />
+    <Resource Include="Assets\Item\26.png" />
+    <Resource Include="Assets\Item\27.png" />
+    <Resource Include="Assets\Item\28.png" />
+    <Resource Include="Assets\Item\29.png" />
+    <Resource Include="Assets\Item\3.png" />
+    <Resource Include="Assets\Item\30.png" />
+    <Resource Include="Assets\Item\31.png" />
+    <Resource Include="Assets\Item\32.png" />
+    <Resource Include="Assets\Item\33.png" />
+    <Resource Include="Assets\Item\34.png" />
+    <Resource Include="Assets\Item\35.png" />
+    <Resource Include="Assets\Item\36.png" />
+    <Resource Include="Assets\Item\37.png" />
+    <Resource Include="Assets\Item\38.png" />
+    <Resource Include="Assets\Item\39.png" />
+    <Resource Include="Assets\Item\4.png" />
+    <Resource Include="Assets\Item\40.png" />
+    <Resource Include="Assets\Item\41.png" />
+    <Resource Include="Assets\Item\42.png" />
+    <Resource Include="Assets\Item\43.png" />
+    <Resource Include="Assets\Item\44.png" />
+    <Resource Include="Assets\Item\45.png" />
+    <Resource Include="Assets\Item\46.png" />
+    <Resource Include="Assets\Item\47.png" />
+    <Resource Include="Assets\Item\48.png" />
+    <Resource Include="Assets\Item\49.png" />
+    <Resource Include="Assets\Item\5.png" />
+    <Resource Include="Assets\Item\50.png" />
+    <Resource Include="Assets\Item\51.png" />
+    <Resource Include="Assets\Item\52.png" />
+    <Resource Include="Assets\Item\53.png" />
+    <Resource Include="Assets\Item\54.png" />
+    <Resource Include="Assets\Item\55.png" />
+    <Resource Include="Assets\Item\56.png" />
+    <Resource Include="Assets\Item\57.png" />
+    <Resource Include="Assets\Item\58.png" />
+    <Resource Include="Assets\Item\59.png" />
+    <Resource Include="Assets\Item\6.png" />
+    <Resource Include="Assets\Item\60.png" />
+    <Resource Include="Assets\Item\61.png" />
+    <Resource Include="Assets\Item\62.png" />
+    <Resource Include="Assets\Item\63.png" />
+    <Resource Include="Assets\Item\64.png" />
+    <Resource Include="Assets\Item\65.png" />
+    <Resource Include="Assets\Item\66.png" />
+    <Resource Include="Assets\Item\67.png" />
+    <Resource Include="Assets\Item\68.png" />
+    <Resource Include="Assets\Item\69.png" />
+    <Resource Include="Assets\Item\70.png" />
+    <Resource Include="Assets\Item\71.png" />
+    <Resource Include="Assets\Item\72.png" />
+    <Resource Include="Assets\Item\73.png" />
+    <Resource Include="Assets\Item\74.png" />
+    <Resource Include="Assets\Item\75.png" />
+    <Resource Include="Assets\Item\76.png" />
+    <Resource Include="Assets\Item\77.png" />
+    <Resource Include="Assets\Item\78.png" />
+    <Resource Include="Assets\Item\79.png" />
+    <Resource Include="Assets\Item\80.png" />
+    <Resource Include="Assets\Item\81.png" />
+    <Resource Include="Assets\Item\chest\Open.gif" />
+    <Resource Include="Assets\Item\chest\sprite-sheet-127x88.png" />
+    <Resource Include="Assets\Item\chest\sprite-sheet-2-127x88.png" />
+    <Resource Include="Assets\mockup.png" />
+    <Resource Include="Assets\mockup2.png" />
+    <Resource Include="Assets\monster\bat\attack-2.gif" />
+    <Resource Include="Assets\monster\bat\attack.gif" />
+    <Resource Include="Assets\monster\bat\hit.gif" />
+    <Resource Include="Assets\monster\bat\idle.gif" />
+    <Resource Include="Assets\monster\bat\sprite-sheet-121x89.png" />
+    <Resource Include="Assets\monster\bat\sprite-sheet-2-121x89.png" />
+    <Resource Include="Assets\monster\boar\attack.gif" />
+    <Resource Include="Assets\monster\boar\attack2.gif" />
+    <Resource Include="Assets\monster\boar\hit.gif" />
+    <Resource Include="Assets\monster\boar\idle.gif" />
+    <Resource Include="Assets\monster\boar\sprite-sheet-2-239x178.png" />
+    <Resource Include="Assets\monster\boar\sprite-sheet-239x178.png" />
+    <Resource Include="Assets\monster\dino\attack.gif" />
+    <Resource Include="Assets\monster\dino\attack2.gif" />
+    <Resource Include="Assets\monster\dino\hit.gif" />
+    <Resource Include="Assets\monster\dino\idle.gif" />
+    <Resource Include="Assets\monster\dino\sprite-sheet-154x118.png" />
+    <Resource Include="Assets\monster\dino\sprite-sheet-2-154x118.png" />
+    <Resource Include="Assets\monster\dragon\attack.gif" />
+    <Resource Include="Assets\monster\dragon\attack2.gif" />
+    <Resource Include="Assets\monster\dragon\hit.gif" />
+    <Resource Include="Assets\monster\dragon\idle.gif" />
+    <Resource Include="Assets\monster\dragon\sprite-sheet-2-258x209.png" />
+    <Resource Include="Assets\monster\dragon\sprite-sheet-258x209 - Copie.png" />
+    <Resource Include="Assets\monster\ghost\attack.gif" />
+    <Resource Include="Assets\monster\ghost\attack2.gif" />
+    <Resource Include="Assets\monster\ghost\hit.gif" />
+    <Resource Include="Assets\monster\ghost\idle.gif" />
+    <Resource Include="Assets\monster\ghost\sprite-sheet-112x93.png" />
+    <Resource Include="Assets\monster\ghost\sprite-sheet-2-112x93.png" />
+    <Resource Include="Assets\monster\giant\attack.gif" />
+    <Resource Include="Assets\monster\giant\attack2.gif" />
+    <Resource Include="Assets\monster\giant\hit.gif" />
+    <Resource Include="Assets\monster\giant\idle.gif" />
+    <Resource Include="Assets\monster\giant\sprite-sheet-2-385x318.png" />
+    <Resource Include="Assets\monster\giant\sprite-sheet-385x318.png" />
+    <Resource Include="Assets\monster\mimic\attack.gif" />
+    <Resource Include="Assets\monster\mimic\attack2.gif" />
+    <Resource Include="Assets\monster\mimic\hit.gif" />
+    <Resource Include="Assets\monster\mimic\idle.gif" />
+    <Resource Include="Assets\monster\mimic\sprite-sheet-2-231x172.png" />
+    <Resource Include="Assets\monster\mimic\sprite-sheet-231x172.png" />
+    <Resource Include="Assets\monster\mushroom\attack.gif" />
+    <Resource Include="Assets\monster\mushroom\attack2.gif" />
+    <Resource Include="Assets\monster\mushroom\hit.gif" />
+    <Resource Include="Assets\monster\mushroom\idle.gif" />
+    <Resource Include="Assets\monster\mushroom\sprite-sheet-192x163.png" />
+    <Resource Include="Assets\monster\mushroom\sprite-sheet-2-192x163.png" />
+    <Resource Include="Assets\monster\octopus.png" />
+    <Resource Include="Assets\monster\reptile\attack.gif" />
+    <Resource Include="Assets\monster\reptile\guard.gif" />
+    <Resource Include="Assets\monster\reptile\Hit.gif" />
+    <Resource Include="Assets\monster\reptile\idle.gif" />
+    <Resource Include="Assets\monster\reptile\sprite-sheet- 248x151.png" />
+    <Resource Include="Assets\monster\reptile\sprite-sheet-2-248x151.png" />
+    <Resource Include="Assets\monster\slime\attack.gif" />
+    <Resource Include="Assets\monster\slime\attack2.gif" />
+    <Resource Include="Assets\monster\slime\hit.gif" />
+    <Resource Include="Assets\monster\slime\idle.gif" />
+    <Resource Include="Assets\monster\slime\sprite-sheet-141x107.png" />
+    <Resource Include="Assets\monster\slime\sprite-sheet-2-141x107.png" />
+    <Resource Include="Assets\monster\snake\attack.gif" />
+    <Resource Include="Assets\monster\snake\attack2.gif" />
+    <Resource Include="Assets\monster\snake\hit.gif" />
+    <Resource Include="Assets\monster\snake\idle.gif" />
+    <Resource Include="Assets\monster\snake\sprite-sheet-147x94.png" />
+    <Resource Include="Assets\monster\snake\sprite-sheet-2-147x94.png" />
+    <Resource Include="Assets\monster\yeti.png" />
+    <Resource Include="Assets\preview.png" />
+    <Resource Include="Assets\preview2.png" />
+    <Resource Include="Assets\README.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="idle.gif" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

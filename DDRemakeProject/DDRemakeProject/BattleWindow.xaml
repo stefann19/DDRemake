@@ -1,0 +1,114 @@
+﻿<Window x:Class="DDRemakeProject.BattleWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:gif="http://wpfanimatedgif.codeplex.com"
+
+        xmlns:local="clr-namespace:DDRemakeProject"
+        mc:Ignorable="d"
+        Title="BattleWindow" Height="500" Width="500">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="186*"/>
+            <RowDefinition Height="49*"/>
+        </Grid.RowDefinitions>
+        <Grid Grid.Row="0" Margin="0,0,-0.4,2">
+            <Image Source="Assets/backgrounds/21.png" Stretch="Uniform" Margin="0"/>
+        </Grid>
+        <Grid Background="Black" Margin="0,370,-0.4,0.4" Grid.RowSpan="2">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="155"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="155"/>
+            </Grid.ColumnDefinitions>
+            <Image HorizontalAlignment="Left" Height="100" Margin="2.667,-188.8,0,0" VerticalAlignment="Top" Width="100"  gif:ImageBehavior.AutoStart="True" gif:ImageBehavior.AnimatedSource="idle.gif"/>
+            <!--<Border BorderThickness="1" BorderBrush="Black" Grid.Column="0" >
+                <StackPanel  Margin="0.2,0.2,-1.6,0.4">
+                    <Label Content="Attacks" FontSize="18" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" BorderBrush="Black" BorderThickness="1px" Margin="0,0,-0.4,0"/>
+                    <Button Content="Basic" Height="51" Margin="0,0,0.2,0"/>
+                    <Button Content="Critical" Height="51"/>
+                    <Button Content="Splash" Height="52"/>
+
+                </StackPanel>
+            </Border>
+            <Border Grid.Column="1" BorderThickness="1px" BorderBrush="Black">
+                <StackPanel >
+                    <Label Content="Log" HorizontalContentAlignment="Center" Height="36" Margin="0,0,0.2,0" FontSize="18"  BorderThickness="1px" BorderBrush="Black"/>
+                    <ScrollViewer VerticalScrollBarVisibility="Auto"  />
+                </StackPanel>
+            </Border>
+            <Border BorderThickness="1" BorderBrush="Black" Grid.Column="2" >
+                <StackPanel Orientation="Horizontal">
+                    <StackPanel>
+
+                        <Border BorderThickness="1" BorderBrush="Black" Height="95">
+                            <TextBox TextWrapping="Wrap" HorizontalAlignment="Center" FontWeight="Bold" Width="10" ScrollViewer.VerticalScrollBarVisibility="Disabled" MinWidth="12" Text="Attack" FontSize="11"/>
+                        </Border>
+                        <Border BorderThickness="1" BorderBrush="Black" Height="95">
+                            <TextBox TextWrapping="Wrap" HorizontalAlignment="Center" FontWeight="Bold" Width="10" ScrollViewer.VerticalScrollBarVisibility="Disabled" MinWidth="12" Text="Defense" FontSize="10"/>
+                        </Border>
+
+                    </StackPanel>
+                    <StackPanel  Margin="0.2,0.2,-1.6,0.4">
+                        <Border BorderBrush="Black" BorderThickness="1" Height="96" Margin="0,0,0.2,0">
+                            <StackPanel Orientation="Vertical" Margin="0,0.2,0,0.4" Width="137">
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock TextWrapping="Wrap" Height="50" Width="70" HorizontalAlignment="Center" VerticalAlignment="Center">Slash</TextBlock>
+                                    <TextBlock TextWrapping="Wrap" Width="67" HorizontalAlignment="Center">Pierce</TextBlock>
+                                </StackPanel>
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock TextWrapping="Wrap" Height="50" Width="70" HorizontalAlignment="Center" VerticalAlignment="Center">Fire</TextBlock>
+                                    <TextBlock TextWrapping="Wrap" Width="67">Poison</TextBlock>
+                                </StackPanel>
+                                <StackPanel Height="100" Width="100"/>
+                            </StackPanel>
+                        </Border>
+                        <Border BorderBrush="Black" BorderThickness="1" Height="100" Margin="0,0,0.2,0">
+                            <StackPanel Orientation="Vertical" Margin="0,0.2,0,0.4" Width="137">
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock TextWrapping="Wrap" Height="46" Width="70" HorizontalAlignment="Center" VerticalAlignment="Center">Slash</TextBlock>
+                                    <TextBlock TextWrapping="Wrap" Width="67" HorizontalAlignment="Center">Pierce</TextBlock>
+                                </StackPanel>
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock TextWrapping="Wrap" Height="46" Width="70" HorizontalAlignment="Center" VerticalAlignment="Center">Fire</TextBlock>
+                                    <TextBlock TextWrapping="Wrap" Width="67">Poison</TextBlock>
+                                </StackPanel>
+                                <StackPanel Height="100" Width="100"/>
+                            </StackPanel>
+                        </Border>
+
+                    </StackPanel>
+                </StackPanel>
+            </Border>-->
+        </Grid>
+        <!--
+        <Border BorderBrush="Black" BorderThickness="1" HorizontalAlignment="Left" Height="200" Margin="10,260,0,0" VerticalAlignment="Top" Width="474">
+            <Canvas>
+                <Border BorderBrush="Black" BorderThickness="1" Height="198" Canvas.Left="152" Width="164">
+                    <Canvas>
+                        <Border BorderBrush="Black" BorderThickness="1" Height="36" Width="162">
+                            <Label Content="Log" FontSize="20" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="55,0"/>
+                        </Border>
+                        <Label Content="" Canvas.Top="36" Height="161" Width="145"/>
+                        <ScrollBar Canvas.Left="145" Canvas.Top="36" Width="17" Height="161"/>
+                    </Canvas>
+                </Border>
+                <Border BorderBrush="Black" BorderThickness="1" Height="198" Width="152">
+                    <Canvas>
+                        <Border BorderBrush="Black" BorderThickness="1" Height="36" Width="150">
+                            <Label Content="Attacks" HorizontalAlignment="Center" FontSize="20" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Margin="30,0" Height="34" VerticalAlignment="Top"/>
+                        </Border>
+                        <Button Content="Basic" Canvas.Left="10" Canvas.Top="43" Width="130" Height="40" FontSize="16"/>
+                        <Button Content="Critical" Canvas.Top="88" Width="130" Height="54" Canvas.Left="10" FontSize="16"/>
+                        <Button Content="Splash" Canvas.Top="147" Width="130" Height="40" Canvas.Left="10" FontSize="16"/>
+                    </Canvas>
+                </Border>
+                <Border BorderBrush="Black" BorderThickness="1" Height="198" Canvas.Left="316" Width="156"/>
+
+            </Canvas>
+        </Border>
+-->
+
+    </Grid>
+</Window>
