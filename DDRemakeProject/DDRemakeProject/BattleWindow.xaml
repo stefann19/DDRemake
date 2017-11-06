@@ -69,7 +69,6 @@
                 <ContentControl.Resources>
                     <ImageSource x:Key="Img">Assets/backgrounds/21.png</ImageSource>
                 </ContentControl.Resources>
-
             </ContentControl>
             <ContentControl Grid.Row="1" Grid.Column="0" Template="{StaticResource ResourceKey=Icons}">
                 
