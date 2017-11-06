@@ -41,7 +41,10 @@
         <Rectangle Grid.Row="2" Fill="Black"></Rectangle>
         <!--#endregion-->
         <!--#region Characters and action-->
-        <Image Grid.Row="1" Panel.ZIndex="1" HorizontalAlignment="Left" Height="100" VerticalAlignment="Top" Width="100"  gif:ImageBehavior.AutoStart="True" gif:ImageBehavior.AnimatedSource="idle.gif" Margin="73,208,0,0"/>
+        <Image Grid.Row="1" Panel.ZIndex="1" HorizontalAlignment="Left" Height="100" VerticalAlignment="Top" Width="100"  gif:ImageBehavior.AutoStart="True" gif:ImageBehavior.AnimatedSource="Assets/char/mage/idle.gif" Margin="73,208,0,0"/>
+        <Image Grid.Row="1" Panel.ZIndex="1" HorizontalAlignment="Left" Height="100" VerticalAlignment="Top" Width="100"  gif:ImageBehavior.AutoStart="True" gif:ImageBehavior.AnimatedSource="Assets/char/warrior/idle.gif" Margin="43,179,0,0"/>
+        <Image Grid.Row="1" Panel.ZIndex="1" HorizontalAlignment="Left" Height="100" VerticalAlignment="Top" Width="100"  gif:ImageBehavior.AutoStart="True" gif:ImageBehavior.AnimatedSource="Assets/char/paladin/idle.gif" Margin="26,234,0,0" Grid.RowSpan="2"/>
+
         <!--#endregion-->
 
 
@@ -67,15 +70,36 @@
 
             <ContentControl Grid.Row="0" Grid.Column="0" Template="{StaticResource ResourceKey=Icons}">
                 <ContentControl.Resources>
-                    <ImageSource x:Key="Img">Assets/backgrounds/21.png</ImageSource>
+                    <ImageSource x:Key="Img">Assets\char\mage\faceset.png</ImageSource>
                 </ContentControl.Resources>
 
             </ContentControl>
+            <ContentControl Grid.Row="0" Grid.Column="1" Template="{StaticResource ResourceKey=Icons}">
+                <ContentControl.Resources>
+                    <ImageSource x:Key="Img">Assets\char\paladin\faceset.png</ImageSource>
+                </ContentControl.Resources>
+            </ContentControl>
+            <ContentControl Grid.Row="0" Grid.Column="2" Template="{StaticResource ResourceKey=Icons}">
+                <ContentControl.Resources>
+                    <ImageSource x:Key="Img">Assets\char\warrior\faceset.png</ImageSource>
+                </ContentControl.Resources>
+            </ContentControl>
             <ContentControl Grid.Row="1" Grid.Column="0" Template="{StaticResource ResourceKey=Icons}">
-                
+                <ContentControl.Resources>
+                    <ImageSource x:Key="Img">Assets\monster\bat\idle.gif</ImageSource>
+                </ContentControl.Resources>
 
             </ContentControl>
-
+            <ContentControl Grid.Row="1" Grid.Column="1" Template="{StaticResource ResourceKey=Icons}">
+                <ContentControl.Resources>
+                    <ImageSource x:Key="Img">Assets\monster\boar\idle.gif</ImageSource>
+                </ContentControl.Resources>
+            </ContentControl>
+            <ContentControl Grid.Row="1" Grid.Column="2" Template="{StaticResource ResourceKey=Icons}">
+                <ContentControl.Resources>
+                    <ImageSource x:Key="Img">Assets\monster\dino\idle.gif</ImageSource>
+                </ContentControl.Resources>
+            </ContentControl>
             <!--#endregion-->
 
 
