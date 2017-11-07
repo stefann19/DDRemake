@@ -10,6 +10,7 @@ using System.Windows.Media.Imaging;
 using System.Drawing;
 using System.Threading;
 using System.Windows.Media;
+using DDRemakeProject.World;
 
 namespace DDRemakeProject.WorldGeneration
 {
@@ -45,7 +46,7 @@ namespace DDRemakeProject.WorldGeneration
         ///  Contruct room by giving the top right corner coordinates and room size in tPixels
         /// </summary>
         /// 
-        public static RoomSpace CheckForSpace(Point coord,Tile[][] dungeon,Point size,int scanSize)
+        public static RoomSpace CheckForSpace(World.Point coord,Tile[][] dungeon, World.Point size,int scanSize)
         {
             int lX=0, rX=0, tY=0, bY=0;
             if(!(coord.X>=0 && coord.X< size.X && coord.Y>=0 && coord.Y < size.Y)) return new RoomSpace(lX, rX, tY, bY);
@@ -67,7 +68,7 @@ namespace DDRemakeProject.WorldGeneration
                         breaked = true;
                         break;
                     }
-                    Tile.ShowTile(new Point(i,j), System.Windows.Media.Color.FromRgb(0, 0, 255));
+                    Tile.ShowTile(new World.Point(i,j), System.Windows.Media.Color.FromRgb(0, 0, 255));
                 }
                 if (breaked)
                 {
@@ -95,7 +96,7 @@ namespace DDRemakeProject.WorldGeneration
                         breaked = true;
                         break;
                     }
-                    Tile.ShowTile(new Point(i,j), System.Windows.Media.Color.FromRgb(0, 255, 255));
+                    Tile.ShowTile(new World.Point(i,j), System.Windows.Media.Color.FromRgb(0, 255, 255));
 
                 }
                 k++;
@@ -123,7 +124,7 @@ namespace DDRemakeProject.WorldGeneration
                         breaked = true;
                         break;
                     }
-                    Tile.ShowTile(new Point(i, j), System.Windows.Media.Color.FromRgb(255, 0, 255));
+                    Tile.ShowTile(new World.Point(i, j), System.Windows.Media.Color.FromRgb(255, 0, 255));
 
                 }
                 k++;
@@ -151,7 +152,7 @@ namespace DDRemakeProject.WorldGeneration
                         breaked = true;
                         break;
                     }
-                    Tile.ShowTile(new Point(i, j), System.Windows.Media.Color.FromRgb(120, 255, 255));
+                    Tile.ShowTile(new World.Point(i, j), System.Windows.Media.Color.FromRgb(120, 255, 255));
 
                 }
                 k++;
@@ -276,19 +277,19 @@ namespace DDRemakeProject.WorldGeneration
                                 t.IsWall = true;
                                 if (top)
                                 {
-                                    t.OuterDirection = new Point(0, -1);
+                                    t.OuterDirection = new World.Point(0, -1);
                                 }
                                 else if (bottom)
                                 {
-                                    t.OuterDirection = new Point(0, 1);
+                                    t.OuterDirection = new World.Point(0, 1);
                                 }
                                 if (left)
                                 {
-                                    t.OuterDirection = new Point(-1, 0);
+                                    t.OuterDirection = new World.Point(-1, 0);
                                 }
                                 else if (right)
                                 {
-                                    t.OuterDirection = new Point(1, 0);
+                                    t.OuterDirection = new World.Point(1, 0);
                                 }
 
                                 WallTiles.Add(t); //if not corner

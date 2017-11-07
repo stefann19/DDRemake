@@ -5,6 +5,8 @@ using System.Threading;
 using System.Windows;
 using System.Windows.Media;
 using System.Xml.Serialization;
+using DDRemakeProject.World;
+using Point = System.Windows.Point;
 
 namespace DDRemakeProject.WorldGeneration
 {
@@ -43,7 +45,7 @@ namespace DDRemakeProject.WorldGeneration
         public Tile[][] TilesMatrix { get; set; }
 
 
-        private RoomModule MakeRoom(Point coord, Point size)
+        private RoomModule MakeRoom(World.Point coord, World.Point size)
         {
             if (coord.X > SizeX) return null;
             if (coord.Y > SizeY) return null;
@@ -267,9 +269,13 @@ namespace DDRemakeProject.WorldGeneration
                 }
                 else
                 {
-                    Point derivedP;
+                    World.Point derivedP;
                     var aux = rnd.Next(4, 6);
                     derivedP = current.Coord + current.OuterDirection * aux;
+
+
+
+
 
 
                     Tile.ShowTile(derivedP, Color.FromRgb(0, 255, 0));

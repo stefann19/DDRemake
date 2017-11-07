@@ -15,7 +15,7 @@ namespace DDRemakeProject.GamePlay
         public const int SpeedToHp = 3;
         public const int InteligenceToHp = 2;
 
-
+        
         public static int GetHp(Character ch)
         {
             int hp = 0;

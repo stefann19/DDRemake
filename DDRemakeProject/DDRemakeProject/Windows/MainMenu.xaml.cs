@@ -21,6 +21,7 @@ namespace DDRemakeProject
     {
         public MainMenu()
         {
+            
             InitializeComponent();
         }
 

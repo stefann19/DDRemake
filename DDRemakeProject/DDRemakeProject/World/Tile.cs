@@ -3,7 +3,7 @@ using System.Windows;
 using System.Windows.Media;
 using System.Xml.Serialization;
 
-namespace DDRemakeProject
+namespace DDRemakeProject.World
 {
     public class Tile : IComparable<Tile>
     {
@@ -60,6 +60,9 @@ namespace DDRemakeProject
                 //this.Rect.Fill = System.Windows.Media.Color.FromRgb();
                 //this.Rect.Fill = new SolidColorBrush(System.Windows.Media.Color.FromRgb(220, 220, 220));
                 this.Rect.StrokeThickness = 0;
+               // MainWindow.CanvasS1.Children.Add()
+                //MainWindow.CanvasS1.Children.Add(this.Rect);
+                //MainWindow.CanvasS1.
                 MainWindow.CanvasS1.Children.Add(this.Rect);
 
             });
@@ -114,7 +117,7 @@ namespace DDRemakeProject
             Application.Current.Dispatcher.Invoke((System.Action)delegate
             {
                 if(pos>0)
-                MainWindow.CanvasS1.Children.RemoveAt(pos);
+                   MainWindow.CanvasS1.Children.RemoveAt(pos);
             });
 
 

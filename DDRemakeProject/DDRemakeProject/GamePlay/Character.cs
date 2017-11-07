@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using DDRemakeProject.GamePlay;
 
-namespace DDRemakeProject
+namespace DDRemakeProject.GamePlay
 {
     class Character
     {
@@ -17,19 +17,20 @@ namespace DDRemakeProject
 
         public int Strength { get; }
         public int Inteligence { get; }
-        public int Constitution { get;  }
+        public int Constitution { get; }
         public int Speed { get; }
 
 
         public int Level { get; }
         public int CurrentXp { get; }
 
-        public string CharacterIcon { get;}
+        public string CharacterIcon { get; }
         #endregion
 
         #region Constructors
         public Character(string characterIcon, int level, int strength, int inteligence, int constitution, int speed)
         {
+            #region SetStats
             CharacterIcon = characterIcon;
             CurrentXp = 0;
             Level = level;
@@ -37,11 +38,16 @@ namespace DDRemakeProject
             Inteligence = inteligence;
             Constitution = constitution;
             Speed = speed;
+            #endregion
+            //get HP/MP/AP Values from the above stats
+            Intialize();
+        }
 
+        private void Intialize()
+        {
             Hp = StatsLogic.GetHp(this);
             Ap = StatsLogic.GetAp(this);
             Mp = StatsLogic.GetMp(this);
-
         }
         #endregion
 
