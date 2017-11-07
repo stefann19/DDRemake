@@ -59,27 +59,27 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="BattleWindow.xaml.cs">
+    <Compile Include="GamePlay\Character.cs" />
+    <Compile Include="GamePlay\Skill.cs" />
+    <Compile Include="GamePlay\StatsLogic.cs" />
+    <Compile Include="Windows\BattleWindow.xaml.cs">
       <DependentUpon>BattleWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="EngineV1.cs" />
-    <Compile Include="LoadMapMenu.xaml.cs">
+    <Compile Include="GamePlay\EngineV1.cs" />
+    <Compile Include="Windows\LoadMapMenu.xaml.cs">
       <DependentUpon>LoadMapMenu.xaml</DependentUpon>
     </Compile>
-    <Compile Include="MainMenu.xaml.cs">
+    <Compile Include="Windows\MainMenu.xaml.cs">
       <DependentUpon>MainMenu.xaml</DependentUpon>
     </Compile>
     <Compile Include="MapBasicInfo.cs" />
-    <Compile Include="NewMapMenu.xaml.cs">
+    <Compile Include="Windows\NewMapMenu.xaml.cs">
       <DependentUpon>NewMapMenu.xaml</DependentUpon>
     </Compile>
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
-    </Compile>
-    <Compile Include="Test.xaml.cs">
-      <DependentUpon>Test.xaml</DependentUpon>
     </Compile>
     <Compile Include="WorldGeneration\GeneratorFromFile.cs" />
     <Compile Include="World\Point.cs" />
@@ -88,19 +88,19 @@
     <Compile Include="WorldGeneration\GeneratorV1.cs" />
     <Compile Include="WorldGeneration\RoomModule.cs" />
     <Compile Include="XmlToFile.cs" />
-    <Page Include="BattleWindow.xaml">
+    <Page Include="Windows\BattleWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="LoadMapMenu.xaml">
+    <Page Include="Windows\LoadMapMenu.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="MainMenu.xaml">
+    <Page Include="Windows\MainMenu.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="MainWindow.xaml">
+    <Page Include="Windows\MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -108,15 +108,11 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="MainWindow.xaml.cs">
+    <Compile Include="Windows\MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Page Include="NewMapMenu.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Test.xaml">
+    <Page Include="Windows\NewMapMenu.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -506,6 +502,39 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="red.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Assets\HUD\Air.png" />
+    <Resource Include="Assets\HUD\Attack.png" />
+    <Resource Include="Assets\HUD\Defend.png" />
+    <Resource Include="Assets\HUD\Earth.png" />
+    <Resource Include="Assets\HUD\Fire.png" />
+    <Resource Include="Assets\HUD\HeavyAttack.png" />
+    <Resource Include="Assets\HUD\LowAttack.png" />
+    <Resource Include="Assets\HUD\MediumAttack.png" />
+    <Resource Include="Assets\HUD\Spells.png" />
+    <Resource Include="Assets\HUD\Water.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Attack.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Defend.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="icon.gif" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Assets\HUD\Inventory.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Inventory.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Spells.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="purple.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
