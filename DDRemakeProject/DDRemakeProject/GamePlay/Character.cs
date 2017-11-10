@@ -7,32 +7,64 @@ using DDRemakeProject.GamePlay;
 
 namespace DDRemakeProject.GamePlay
 {
-    class Character
+    public class Character
     {
         #region Properties
-        public int Hp { get; set; }
-        public int Mp { get; set; }
 
-        public int Ap { get; set; }
+        /// <summary>
+        /// Max HP
+        /// </summary>
+        public int Hp { get; private set; }
+        /// <summary>
+        /// Current Hp
+        /// </summary>
+        private int _hp;
 
-        public int Strength { get; }
-        public int Inteligence { get; }
-        public int Constitution { get; }
-        public int Speed { get; }
+        /// <summary>
+        /// Max MP
+        /// </summary>
+        public int Mp { get; private set; }
+        /// <summary>
+        /// Current MP
+        /// </summary>
+        private int _mp;
 
 
-        public int Level { get; }
-        public int CurrentXp { get; }
+        /// <summary>
+        /// Max AP
+        /// </summary>
+        public int Ap { get; private set; }
+        /// <summary>
+        /// Current AP
+        /// </summary>
+        private int _ap;
 
-        public string CharacterIcon { get; }
+
+        public int Strength { get; private set; }
+        public int Inteligence { get; private set; }
+        public int Constitution { get; private set; }
+        public int Speed { get; private set; }
+
+        public int Level { get; set; }
+        public int CurrentXp { get; set; }
+
+        public string CharacterPng { get; set; }
+        public string CharacterIconPng { get; set; }
+        public string Name { get; private set; }
         #endregion
 
         #region Constructors
-        public Character(string characterIcon, int level, int strength, int inteligence, int constitution, int speed)
+        public Character(string name,string characterPng,string characterIconPng, int level, int strength, int inteligence, int constitution, int speed)
         {
             #region SetStats
-            CharacterIcon = characterIcon;
+
+            _hp = 0;
+            _mp = 0;
+            _ap = 0;
             CurrentXp = 0;
+            CharacterIconPng = characterIconPng;
+            CharacterPng = characterPng;
+            Name = name;
             Level = level;
             Strength = strength;
             Inteligence = inteligence;

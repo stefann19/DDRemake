@@ -59,6 +59,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="GamePlay\BattleEngine.cs" />
     <Compile Include="GamePlay\Character.cs" />
     <Compile Include="GamePlay\Skill.cs" />
     <Compile Include="GamePlay\StatsLogic.cs" />
