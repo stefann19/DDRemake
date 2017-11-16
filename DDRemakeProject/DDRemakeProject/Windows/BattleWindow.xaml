@@ -4,7 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:gif="http://wpfanimatedgif.codeplex.com"
-
+        xmlns:converters="clr-namespace:DDRemakeProject"
         xmlns:local="clr-namespace:DDRemakeProject"
         mc:Ignorable="d"
         ResizeMode="NoResize"
@@ -14,20 +14,47 @@
 
 
         <ControlTemplate x:Key="Icons" TargetType="ContentControl">
-            <Grid Grid.Row="0" Grid.Column="0">
+            <Grid Grid.Row="0" Grid.Column="0" Name="gri">
+                
                 <Grid.RowDefinitions>
                     <RowDefinition ></RowDefinition>
                     <RowDefinition Height="7"></RowDefinition>
                 </Grid.RowDefinitions>
+                
                 <Image Grid.Row="0" Source="{DynamicResource ResourceKey=Img}" HorizontalAlignment="Center" VerticalAlignment="Center" />
-                <Grid Grid.Row="1" Margin="5,0">
+                <Grid Grid.Row="1" Margin="5,0" Name="gri2">
                     <Rectangle Fill="Gray" ></Rectangle>
-                    <Rectangle Width="51.125" Fill="Red" HorizontalAlignment="Left" ></Rectangle>
+                    <Rectangle Width="50" Fill="Red" HorizontalAlignment="Left" Name="re"></Rectangle>
+                    <!--<ProgressBar x:Name="progressBar" Value="{DynamicResource ResourceKey=currentHP}" Maximum="100"/>-->
                 </Grid>
-
-
             </Grid>
         </ControlTemplate>
+
+
+        <Style x:Key="Smth" TargetType="{x:Type ContentControl}">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="ContentControl">
+                        <Grid Grid.Row="0" Grid.Column="0" Name="gri">
+
+                            <Grid.RowDefinitions>
+                                <RowDefinition ></RowDefinition>
+                                <RowDefinition Height="7"></RowDefinition>
+                            </Grid.RowDefinitions>
+
+                            <Image Grid.Row="0" Source="{DynamicResource ResourceKey=Img}" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                            <Grid Grid.Row="1" Margin="5,0" Name="gri2">
+                                <Rectangle Fill="Gray" ></Rectangle>
+                                <Rectangle Width="50" Fill="Red" HorizontalAlignment="Left" Name="re"></Rectangle>
+                                <!--<ProgressBar x:Name="progressBar" Value="{DynamicResource ResourceKey=currentHP}" Maximum="100"/>-->
+                            </Grid>
+                        </Grid>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+
     </Window.Resources>
 
     <Grid>
@@ -110,7 +137,7 @@
 
 
         <!--#region Bottom Grid-->
-        <Grid Height="115" Width="640" Grid.Row="2" >
+        <Grid Name="pleaseWork" Height="115" Width="640" Grid.Row="2" >
             <!--#region rows and columns definitions-->
             <Grid.RowDefinitions>
 
@@ -132,11 +159,16 @@
 
             <!--#region Characters Icons -->
 
-            <ContentControl x:Name="Icon0" Grid.Row="0" Grid.Column="0" Template="{StaticResource ResourceKey=Icons}">
+
+            <!--<Rectangle Fill="Gray" ></Rectangle>-->
+            <!--<Rectangle--> 
+                <!--Width="{Binding Path=ActualWidth, ElementName=ParentGrid, Converter={converters:PercentageConverter}, ConverterParameter='0,5'}"-->
+                <!--Fill="Red" HorizontalAlignment="Left" ></Rectangle>-->
+
+            <ContentControl x:Name="Icon0" Grid.Row="0" Grid.Column="0" Style="{StaticResource Smth}">
                 <ContentControl.Resources>
                     <ImageSource x:Key="Img">../Assets/char/mage/faceset.png</ImageSource>
                 </ContentControl.Resources>
-
             </ContentControl>
             <ContentControl x:Name="Icon1" Grid.Row="0" Grid.Column="1" Template="{StaticResource ResourceKey=Icons}">
                 <ContentControl.Resources>

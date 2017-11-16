@@ -58,5 +58,29 @@ namespace DDRemakeProject.GamePlay
             return ap;
         }
         #endregion
+
+        #region Armour
+        public const float LevelToAr = 1f;
+        public const float ConstitutionToAr = 2f;
+        public const float StrengthToAr = 1f;
+        public const float SpeedToAr = 0.5f;
+        public const float InteligenceToAr = 0.3f;
+
+        public static float CalculateDamageAfterAr(float armour,float damage)
+        {
+            return (damage / damage + armour);
+        }
+
+
+        public static int GetAr(Character ch)
+        {
+            int ar = 0;
+            ar = (int)(ch.Level * LevelToAr + ch.Constitution * ConstitutionToAr + ch.Strength * StrengthToAr +
+                       ch.Inteligence * SpeedToAr + ch.Speed * InteligenceToAr);
+            return ar;
+        }
+
+
+        #endregion
     }
 }

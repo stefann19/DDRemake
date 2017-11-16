@@ -14,6 +14,7 @@ namespace DDRemakeProject.WorldGeneration
     {
         private int _nrOfUsedtiles;
 
+        #region Constructors
         /// <summary>
         ///     Generate a map of tiles using own algorithm
         /// </summary>
@@ -25,10 +26,17 @@ namespace DDRemakeProject.WorldGeneration
             SizeY = sizeY;
             Generate(sizeX, sizeY);
         }
-
+        /// <summary>
+        /// Needed for serialization
+        /// </summary>
         public GeneratorV1()
         {
         }
+
+
+        #endregion
+
+        #region Properties
 
         /// <summary>
         ///     Width of the map in tPixels
@@ -45,26 +53,40 @@ namespace DDRemakeProject.WorldGeneration
         public Tile[][] TilesMatrix { get; set; }
 
 
+        #endregion
+
+        #region Methods
+
         private RoomModule MakeRoom(World.Point coord, World.Point size)
         {
-            if (coord.X > SizeX) return null;
-            if (coord.Y > SizeY) return null;
+            //check if room can exist
             if (coord.X + size.X > SizeX) return null;
             if (coord.Y + size.Y > SizeY) return null;
-
+            if (coord.X <0 || coord.Y<0) return null;
+            
+            //create Room
             var rm = new RoomModule(coord.X, coord.Y, size.X, size.Y);
-            Rooms.Add(rm);
-            GenerationTiles.Remove(GenerationTiles.First());
-            foreach (var t in rm.WallTiles)
-                GenerationTiles.Add(t);
 
-            foreach (var columns in rm.Tiles)
-            foreach (var t in columns)
+            //Add it in the list of rooms 
+            Rooms.Add(rm);
+
+            //remove the generation tile (it served its purpose)
+            GenerationTiles.Remove(GenerationTiles.First());
+
+            //Add the generation tiles from the newly created room in to the list so they get used later on
+            foreach (var t in rm.WallTiles)
             {
-                _nrOfUsedtiles++;
-                if (t.Coord.X < SizeX && t.Coord.Y < SizeY && t.Coord.X > 0 && t.Coord.Y > 0)
-                    TilesMatrix[t.Coord.X][t.Coord.Y] = t;
+                GenerationTiles.Add(t);
             }
+
+            //Add each tile from the room in the World matrix for easier search
+            foreach (var columns in rm.Tiles)
+                foreach (var t in columns)
+                {
+                    _nrOfUsedtiles++;
+                    if (t.Coord.X < SizeX && t.Coord.Y < SizeY && t.Coord.X > 0 && t.Coord.Y > 0)
+                        TilesMatrix[t.Coord.X][t.Coord.Y] = t;
+                }
             return rm;
         }
 
@@ -73,33 +95,42 @@ namespace DDRemakeProject.WorldGeneration
         {
             if (t.IsWall)
             {
-                var p = t.Coord + t.OuterDirection;
-                if (p.X > 0 && p.X < SizeX && p.Y > 0 && p.Y < SizeY)
-                    if (TilesMatrix[p.X][p.Y] != null)
+                
+                World.Point otherDoorPoint = t.Coord + t.OuterDirection;
+                if (otherDoorPoint.X > 0 && otherDoorPoint.X < SizeX && otherDoorPoint.Y > 0 && otherDoorPoint.Y < SizeY)
+                    if (TilesMatrix[otherDoorPoint.X][otherDoorPoint.Y] != null)
                     {
-                        if (TilesMatrix[p.X][p.Y].IsWall)
+                        if (TilesMatrix[otherDoorPoint.X][otherDoorPoint.Y].IsWall)
                         {
                             t.Color = Colors.LightCyan;
-                            TilesMatrix[p.X][p.Y].Color = Colors.LightCyan;
+                            TilesMatrix[otherDoorPoint.X][otherDoorPoint.Y].Color = Colors.LightCyan;
                             Application.Current.Dispatcher.Invoke(delegate
                             {
                                 t.Rect.Fill = Brushes.LightCyan;
-                                TilesMatrix[p.X][p.Y].Rect.Fill = Brushes.LightCyan;
+                                TilesMatrix[otherDoorPoint.X][otherDoorPoint.Y].Rect.Fill = Brushes.LightCyan;
                             });
                         }
 
-                        if (t.OuterDirection.IsTop() || t.OuterDirection.IsBottom())
+                        if (t.OuterDirection.IsTop() || t.OuterDirection.IsBottom() || t.OuterDirection.IsLeft() || t.OuterDirection.IsRight())
                         {
-                            var k = 1;
+                            int k = 1;
                             while (true)
-                                if (p.X + k < SizeX)
+                            {
+                                int directionX = (otherDoorPoint.X + k < SizeX) ? 1 : -1;
+                                int directionY = (otherDoorPoint.Y + k < SizeY) ? 1 : -1;
+
+                                if (t.OuterDirection.IsLeft() || t.OuterDirection.IsRight()) directionX = 0;
+                                else directionY = 0;
+
+
+                                if (otherDoorPoint.X + k*directionX < SizeX || otherDoorPoint.X + k * directionX > 0 || otherDoorPoint.Y + k * directionY > 0 || otherDoorPoint.Y + k*directionX < SizeY)
                                 {
-                                    if (TilesMatrix[p.X + k][p.Y] != null &&
-                                        TilesMatrix[t.Coord.X + k][t.Coord.Y] != null)
-                                        if (TilesMatrix[p.X + k][p.Y].IsWall)
+                                    if (TilesMatrix[otherDoorPoint.X + k*directionX][otherDoorPoint.Y+k* directionY] != null &&
+                                        TilesMatrix[t.Coord.X + k* directionX][t.Coord.Y+k * directionY] != null)
+                                        if (TilesMatrix[otherDoorPoint.X + k*directionX][otherDoorPoint.Y+k * directionY].IsWall)
                                         {
-                                            TilesMatrix[p.X + k][p.Y].IsWall = false;
-                                            TilesMatrix[t.Coord.X + k][t.Coord.Y].IsWall = false;
+                                            TilesMatrix[otherDoorPoint.X + k* directionX][otherDoorPoint.Y+ k * directionY].IsWall = false;
+                                            TilesMatrix[t.Coord.X + k* directionX][t.Coord.Y+ k * directionY].IsWall = false;
                                         }
                                         else
                                         {
@@ -111,73 +142,53 @@ namespace DDRemakeProject.WorldGeneration
                                 {
                                     break;
                                 }
-                            k = 1;
-                            while (true)
-                                if (p.X - k > 0)
-                                {
-                                    if (TilesMatrix[p.X - k][p.Y] != null &&
-                                        TilesMatrix[t.Coord.X - k][t.Coord.Y] != null)
-                                        if (TilesMatrix[p.X - k][p.Y].IsWall)
-                                        {
-                                            TilesMatrix[p.X - k][p.Y].IsWall = false;
-                                            TilesMatrix[t.Coord.X - k][t.Coord.Y].IsWall = false;
-                                        }
-                                        else
-                                        {
-                                            break;
-                                        }
-                                    k++;
-                                }
-                                else
-                                {
-                                    break;
-                                }
+                            }
                         }
-                        if (t.OuterDirection.IsLeft() || t.OuterDirection.IsRight())
-                        {
-                            var k = 1;
-                            while (true)
-                                if (p.Y + k < SizeY)
-                                {
-                                    if (TilesMatrix[p.X][p.Y + k] != null &&
-                                        TilesMatrix[t.Coord.X][t.Coord.Y + k] != null)
-                                        if (TilesMatrix[p.X][p.Y + k].IsWall)
-                                        {
-                                            TilesMatrix[p.X][p.Y + k].IsWall = false;
-                                            TilesMatrix[t.Coord.X][t.Coord.Y + k].IsWall = false;
-                                        }
-                                        else
-                                        {
-                                            break;
-                                        }
-                                    k++;
-                                }
-                                else
-                                {
-                                    break;
-                                }
-                            k = 1;
-                            while (true)
-                                if (p.Y - k > 0)
-                                {
-                                    if (TilesMatrix[p.X][p.Y - k] != null &&
-                                        TilesMatrix[t.Coord.X][t.Coord.Y - k] != null)
-                                        if (TilesMatrix[p.X][p.Y - k].IsWall)
-                                        {
-                                            TilesMatrix[p.X][p.Y - k].IsWall = false;
-                                            TilesMatrix[t.Coord.X][t.Coord.Y - k].IsWall = false;
-                                        }
-                                        else
-                                        {
-                                            break;
-                                        }
-                                    k++;
-                                }
-                                else
-                                {
-                                    break;
-                                }
-                        }
+                        //if (t.OuterDirection.IsLeft() || t.OuterDirection.IsRight())
+                        //{
+                        //    var k = 1;
+                        //    while (true)
+                        //        if (otherDoorPoint.Y + k < SizeY)
+                        //        {
+                        //            if (TilesMatrix[otherDoorPoint.X][otherDoorPoint.Y + k] != null &&
+                        //                TilesMatrix[t.Coord.X][t.Coord.Y + k] != null)
+                        //                if (TilesMatrix[otherDoorPoint.X][otherDoorPoint.Y + k].IsWall)
+                        //                {
+                        //                    TilesMatrix[otherDoorPoint.X][otherDoorPoint.Y + k].IsWall = false;
+                        //                    TilesMatrix[t.Coord.X][t.Coord.Y + k].IsWall = false;
+                        //                }
+                        //                else
+                        //                {
+                        //                    break;
+                        //                }
+                        //            k++;
+                        //        }
+                        //        else
+                        //        {
+                        //            break;
+                        //        }
+                        //    k = 1;
+                        //    while (true)
+                        //        if (otherDoorPoint.Y - k > 0)
+                        //        {
+                        //            if (TilesMatrix[otherDoorPoint.X][otherDoorPoint.Y - k] != null &&
+                        //                TilesMatrix[t.Coord.X][t.Coord.Y - k] != null)
+                        //                if (TilesMatrix[otherDoorPoint.X][otherDoorPoint.Y - k].IsWall)
+                        //                {
+                        //                    TilesMatrix[otherDoorPoint.X][otherDoorPoint.Y - k].IsWall = false;
+                        //                    TilesMatrix[t.Coord.X][t.Coord.Y - k].IsWall = false;
+                        //                }
+                        //                else
+                        //                {
+                        //                    break;
+                        //                }
+                        //            k++;
+                        //        }
+                        //        else
+                        //        {
+                        //            break;
+                        //        }
+                        //}
                     }
             }
         }
@@ -204,13 +215,13 @@ namespace DDRemakeProject.WorldGeneration
                     {
                         if (callingRoomTile.OuterDirection.IsTop())
                         {
-                            TilesMatrix[(int) x21][callingRoomTile.Coord.Y].Rect.Fill = Brushes.ForestGreen;
-                            TilesMatrix[(int) x21][callingRoomTile.Coord.Y - 1].Rect.Fill = Brushes.ForestGreen;
+                            TilesMatrix[(int)x21][callingRoomTile.Coord.Y].Rect.Fill = Brushes.ForestGreen;
+                            TilesMatrix[(int)x21][callingRoomTile.Coord.Y - 1].Rect.Fill = Brushes.ForestGreen;
                         }
                         else
                         {
-                            TilesMatrix[(int) x21][callingRoomTile.Coord.Y].Rect.Fill = Brushes.ForestGreen;
-                            TilesMatrix[(int) x21][callingRoomTile.Coord.Y + 1].Rect.Fill = Brushes.ForestGreen;
+                            TilesMatrix[(int)x21][callingRoomTile.Coord.Y].Rect.Fill = Brushes.ForestGreen;
+                            TilesMatrix[(int)x21][callingRoomTile.Coord.Y + 1].Rect.Fill = Brushes.ForestGreen;
                         }
                     });
             }
@@ -224,13 +235,13 @@ namespace DDRemakeProject.WorldGeneration
                     {
                         if (callingRoomTile.OuterDirection.IsLeft())
                         {
-                            TilesMatrix[callingRoomTile.Coord.X][(int) y21].Rect.Fill = Brushes.ForestGreen;
-                            TilesMatrix[callingRoomTile.Coord.X - 1][(int) y21].Rect.Fill = Brushes.ForestGreen;
+                            TilesMatrix[callingRoomTile.Coord.X][(int)y21].Rect.Fill = Brushes.ForestGreen;
+                            TilesMatrix[callingRoomTile.Coord.X - 1][(int)y21].Rect.Fill = Brushes.ForestGreen;
                         }
                         else
                         {
-                            TilesMatrix[callingRoomTile.Coord.X][(int) y21].Rect.Fill = Brushes.ForestGreen;
-                            TilesMatrix[callingRoomTile.Coord.X + 1][(int) y21].Rect.Fill = Brushes.ForestGreen;
+                            TilesMatrix[callingRoomTile.Coord.X][(int)y21].Rect.Fill = Brushes.ForestGreen;
+                            TilesMatrix[callingRoomTile.Coord.X + 1][(int)y21].Rect.Fill = Brushes.ForestGreen;
                         }
                     });
             }
@@ -304,5 +315,9 @@ namespace DDRemakeProject.WorldGeneration
                 Thread.Sleep(10);
             }
         }
+
+
+        #endregion
+
     }
 }

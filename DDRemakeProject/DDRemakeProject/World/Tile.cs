@@ -7,6 +7,7 @@ namespace DDRemakeProject.World
 {
     public class Tile : IComparable<Tile>
     {
+        #region Properties
         [XmlIgnore]
         public System.Windows.Shapes.Rectangle Rect { get; set; }
 
@@ -26,6 +27,10 @@ namespace DDRemakeProject.World
         public Point OuterDirection { get; set; }
         public System.Windows.Media.Color Color { get; set; }
         public RoomSpace RoomDim { get; set; }
+        #endregion
+
+        #region Constructors
+
         /// <summary>
         /// Basic Constructor.
         /// Probably not used
@@ -47,27 +52,11 @@ namespace DDRemakeProject.World
             InitialiseRect();
         }
 
-        public void InitialiseRect()
-        {
-            Application.Current.Dispatcher.Invoke((System.Action)delegate
-            {
-                Rect = new System.Windows.Shapes.Rectangle();
+        #endregion
 
-                this.Rect.Margin = new Thickness(Coord.X * Constants.TilePx, Coord.Y * Constants.TilePx, 0, 0);
-                this.Rect.Width = Constants.TilePx;
-                this.Rect.Height = Constants.TilePx;
-                this.Rect.Fill = new System.Windows.Media.SolidColorBrush(Color);
-                //this.Rect.Fill = System.Windows.Media.Color.FromRgb();
-                //this.Rect.Fill = new SolidColorBrush(System.Windows.Media.Color.FromRgb(220, 220, 220));
-                this.Rect.StrokeThickness = 0;
-               // MainWindow.CanvasS1.Children.Add()
-                //MainWindow.CanvasS1.Children.Add(this.Rect);
-                //MainWindow.CanvasS1.
-                MainWindow.CanvasS1.Children.Add(this.Rect);
 
-            });
-        }
 
+        #region Operators
         /// <summary>
         /// Compare function to sort the tiles in the sorted set
         /// </summary>
@@ -81,7 +70,8 @@ namespace DDRemakeProject.World
             {
                 if (a.Coord.X > b.Coord.X) return 1;
                 else return 0;
-            }else return 0;
+            }
+            else return 0;
         }
         /// <summary>
         /// Compare function to sort the tiles in the sorted set
@@ -98,6 +88,34 @@ namespace DDRemakeProject.World
             }
             else return 0;
         }
+
+
+
+        #endregion
+
+        #region Methods
+
+        public void InitialiseRect()
+        {
+            Application.Current.Dispatcher.Invoke((System.Action)delegate
+            {
+                Rect = new System.Windows.Shapes.Rectangle();
+
+                this.Rect.Margin = new Thickness(Coord.X * Constants.TilePx, Coord.Y * Constants.TilePx, 0, 0);
+                this.Rect.Width = Constants.TilePx;
+                this.Rect.Height = Constants.TilePx;
+                this.Rect.Fill = new System.Windows.Media.SolidColorBrush(Color);
+                //this.Rect.Fill = System.Windows.Media.Color.FromRgb();
+                //this.Rect.Fill = new SolidColorBrush(System.Windows.Media.Color.FromRgb(220, 220, 220));
+                this.Rect.StrokeThickness = 0;
+                // MainWindow.CanvasS1.Children.Add()
+                //MainWindow.CanvasS1.Children.Add(this.Rect);
+                //MainWindow.CanvasS1.
+                MainWindow.CanvasS1.Children.Add(this.Rect);
+
+            });
+        }
+
 
         public static void ShowTile(Point p, System.Windows.Media.Color c)
         {
@@ -116,12 +134,15 @@ namespace DDRemakeProject.World
 
             Application.Current.Dispatcher.Invoke((System.Action)delegate
             {
-                if(pos>0)
-                   MainWindow.CanvasS1.Children.RemoveAt(pos);
+                if (pos > 0)
+                    MainWindow.CanvasS1.Children.RemoveAt(pos);
             });
 
 
         }
+
+
+        #endregion
 
     }
 }

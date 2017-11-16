@@ -18,7 +18,7 @@ namespace DDRemakeProject.GamePlay
         /// <summary>
         /// Current Hp
         /// </summary>
-        private int _hp;
+        public int CurrentHp { get; set; }
 
         /// <summary>
         /// Max MP
@@ -27,7 +27,7 @@ namespace DDRemakeProject.GamePlay
         /// <summary>
         /// Current MP
         /// </summary>
-        private int _mp;
+        public int CurrentMp { get; set; }
 
 
         /// <summary>
@@ -37,8 +37,9 @@ namespace DDRemakeProject.GamePlay
         /// <summary>
         /// Current AP
         /// </summary>
-        private int _ap;
+        public int CurrentAp { get; set; }
 
+        public float Armour { get;private set; }
 
         public int Strength { get; private set; }
         public int Inteligence { get; private set; }
@@ -58,9 +59,7 @@ namespace DDRemakeProject.GamePlay
         {
             #region SetStats
 
-            _hp = 0;
-            _mp = 0;
-            _ap = 0;
+            
             CurrentXp = 0;
             CharacterIconPng = characterIconPng;
             CharacterPng = characterPng;
@@ -73,6 +72,10 @@ namespace DDRemakeProject.GamePlay
             #endregion
             //get HP/MP/AP Values from the above stats
             Intialize();
+
+            CurrentHp = Hp;
+            CurrentMp = Mp;
+            CurrentAp = Ap;
         }
 
         private void Intialize()

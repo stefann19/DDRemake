@@ -41,8 +41,9 @@ namespace DDRemakeProject
                 new Character("Bob", "../../Assets/monster/boar/idle.gif","../../Assets/monster/boar/idle.gif", 2, 2, 5, 3, 4)
             };
 
-            BattleEngine be = new BattleEngine(allies,enemies);
+            BattleEngine be = new BattleEngine(allies, enemies);
             BattleWindow window = be.BWindow;
+            //NewMapMenu window = new NewMapMenu();
             window.Show();
             this.Close();
         }
