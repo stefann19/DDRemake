@@ -1,5 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace DDRemakeProject.GamePlay
+{
+    class CharDetailsTemp
+    {
+
+        /*
+         * using System;
+using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 using System.Text;
@@ -78,5 +90,8 @@ namespace DDRemakeProject.GamePlay
         }
 
 
+    }
+}
+         */
     }
 }

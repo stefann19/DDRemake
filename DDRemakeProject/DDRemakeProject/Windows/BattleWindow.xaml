@@ -30,7 +30,45 @@
             </Grid>
         </ControlTemplate>
 
+        <ControlTemplate x:Key="CharDetails" TargetType="ContentControl">
+            <Grid Grid.Row="0" Grid.Column="5" Grid.RowSpan="2">
+                <!--#region Column and row definitions-->
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="2"/>
+                    <RowDefinition Height="45"/>
+                    <RowDefinition Height="1*"/>
+                    <RowDefinition Height="1*"/>
+                    <RowDefinition Height="1*"/>
+                    <RowDefinition Height="1*"/>
+                    <RowDefinition Height="2"/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="2"/>
+                    <ColumnDefinition Width="0.5*"/>
+                    <ColumnDefinition Width="1*"/>
+                    <ColumnDefinition Width="2"/>
+                </Grid.ColumnDefinitions>
+                <Border BorderThickness="2" Grid.RowSpan="7" Grid.ColumnSpan="7" BorderBrush="#FF98FF03" ></Border>
 
+                <Image Grid.Row="1" Grid.Column="1" Name="CharIcon" Source="{DynamicResource ResourceKey=icon}" ></Image>
+                <TextBlock Name="CharName" Grid.Row="1" Grid.Column="2" Text="{DynamicResource ResourceKey=charName}"  Foreground="White" FontSize="16" HorizontalAlignment="Center" VerticalAlignment="Top" FontFamily="KaiTi" ></TextBlock>
+                <TextBlock Grid.Row="1" Grid.Column="2" Text="Current turn"  Foreground="White" FontSize="10" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="0,0,0,15" FontFamily="SimSun" ></TextBlock>
+
+                <Image Stretch="Uniform" Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="2" Source="../Assets/HUD/bar/background.png"></Image>
+                <Image Name="CharRedBar" Stretch="Uniform" Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="2" Source="../Assets/HUD/bar/red.png" Width="{DynamicResource ResourceKey=hpBarWidth}" HorizontalAlignment="Left" Margin="5,0,0,0"></Image>
+                <TextBlock Name="CharHpValue" Text="{DynamicResource ResourceKey=hpBarValue}" Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="2" HorizontalAlignment="Center" VerticalAlignment="Bottom" Foreground="Black" FontSize="10" Margin="0,0,0,4" FontFamily="KaiTi" FontWeight="Bold" TextDecorations="{x:Null}"></TextBlock>
+
+                <Image Stretch="Uniform" Grid.Row="3" Grid.Column="1" Grid.ColumnSpan="2" Source="../Assets/HUD/bar/background.png"></Image>
+                <Image Name="CharPurpBar" Stretch="Uniform" Grid.Row="3" Grid.Column="1" Grid.ColumnSpan="2" Source="../Assets/HUD/bar/purple.png" Width="{DynamicResource ResourceKey=mpBarWidth}" HorizontalAlignment="Left" Margin="5,0,0,0"></Image>
+                <TextBlock Name="CharMpValue" Text="{DynamicResource ResourceKey=mpBarValue}" Grid.Row="3" Grid.Column="1" Grid.ColumnSpan="2" HorizontalAlignment="Center" VerticalAlignment="Bottom" Foreground="Black" FontSize="10" Margin="0,0,0,4" FontFamily="KaiTi" FontWeight="Bold" TextDecorations="{x:Null}"></TextBlock>
+
+                <Image Stretch="Uniform" Grid.Row="4" Grid.Column="1" Grid.ColumnSpan="2" Source="../Assets/HUD/bar/background.png"></Image>
+                <Image Name="CharYelBar" Stretch="Uniform" Grid.Row="4" Grid.Column="1" Grid.ColumnSpan="2" Source="../Assets/HUD/bar/yellow.png" Width="{DynamicResource ResourceKey=apBarWidth}" HorizontalAlignment="Left" Margin="5,0,0,0"></Image>
+                <TextBlock Name="CharApValue" Text="{DynamicResource ResourceKey=apBarValue}" Grid.Row="4" Grid.Column="1" Grid.ColumnSpan="2" HorizontalAlignment="Center" VerticalAlignment="Bottom" Foreground="Black" FontSize="10" Margin="0,0,0,4" FontFamily="KaiTi" FontWeight="Bold" TextDecorations="{x:Null}"></TextBlock>
+
+
+            </Grid>
+        </ControlTemplate>
 
 
     </Window.Resources>
@@ -145,8 +183,8 @@
                 <ColumnDefinition Width="1*"/>
                 <ColumnDefinition Width="0.665*"/>
                 <ColumnDefinition Width="0.665*"/>
-                <ColumnDefinition Width="1.7*"/>
-                <ColumnDefinition Width="1.3*"/>
+                <ColumnDefinition Width="1.5*"/>
+                <ColumnDefinition Width="1.5*"/>
 
             </Grid.ColumnDefinitions>
             <!--#endregion-->
@@ -196,91 +234,21 @@
             <!--#endregion-->
 
             <!--#region Selected Character-->
-            <Grid Grid.Row="0" Grid.Column="5" Grid.RowSpan="2">
-                <!--#region Column and row definitions-->
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="1*"/>
-                    <RowDefinition Height="1*"/>
-                    <RowDefinition Height="1*"/>
-                    <RowDefinition Height="1*"/>
-                    <RowDefinition Height="1*"/>
-                </Grid.RowDefinitions>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="0.5*"/>
-                    <ColumnDefinition Width="1*"/>
-                </Grid.ColumnDefinitions>
-                <!--#endregion-->
-
-                <Label Name="CurrentCharName" Grid.Row="0" Grid.ColumnSpan="2" Content="Name" Foreground="White" HorizontalContentAlignment="Center" VerticalAlignment="Top" HorizontalAlignment="Center"/>
-                <!--#region HP-->
-                <Label Grid.Row="1" Content="HP" Foreground="White" HorizontalAlignment="Center"></Label>
-                <Label x:Name="CurrentCharHpValue" Grid.Row="1" Grid.Column="1" Content="12../" Foreground="Red" HorizontalAlignment="Right" HorizontalContentAlignment="Right" VerticalContentAlignment="Bottom" FontFamily="MS Gothic" VerticalAlignment="Bottom" FontSize="14" FontWeight="Bold"/>
-                <Image Grid.Row="2" Grid.ColumnSpan="2" Source="../background.png" ></Image>
-                <Image x:Name="CurrentCharHpValueSlider" Grid.Row="2" Stretch="Fill" Grid.ColumnSpan="2" Source="../red.png" Margin="6,7" ></Image>
-                <!--#endregion-->
-                <!--#region MP-->
-                <Label Grid.Row="3" Content="MP" Foreground="White" HorizontalAlignment="Center"></Label>
-                <Label x:Name="CurrentCharMpValue" Grid.Row="3" Grid.Column="1" Content="12" Foreground="purple" HorizontalAlignment="Right" HorizontalContentAlignment="Right" VerticalContentAlignment="Bottom" FontFamily="MS Gothic" VerticalAlignment="Bottom" FontSize="14" FontWeight="Bold"/>
-                <Image Grid.Row="4" Grid.ColumnSpan="2" Source="../background.png" ></Image>
-                <Image x:Name="CurrentCharMpValueSlider" Grid.Row="4" Stretch="Fill" Grid.ColumnSpan="2" Source="../purple.png" Margin="6,7" ></Image>
-                <!--#endregion-->
-            </Grid>
-
-            <Image x:Name="CurrentCharIcon" Grid.Row="0" Grid.Column="6" Grid.RowSpan="2" Source="../faceset.png" ></Image>
+            <ContentControl x:Name="CurrentChar" Grid.Row="0" Grid.Column="5" Grid.RowSpan="2" Template="{StaticResource ResourceKey=CharDetails}" >
+                <ContentControl.Resources>
+                    <ImageSource x:Key="icon">../Assets/char/bowman/faceset-b.png</ImageSource>
+                </ContentControl.Resources>
+            </ContentControl>
+            <ContentControl x:Name="TargetChar" Grid.Row="0" Grid.Column="6" Grid.RowSpan="2" Template="{StaticResource ResourceKey=CharDetails}" >
+                <ContentControl.Resources>
+                    <ImageSource x:Key="icon">../Assets/char/bowman/faceset.png</ImageSource>
+                </ContentControl.Resources>
+            </ContentControl>
             <!--#endregion-->
 
         </Grid>
         <!--#endregion-->
-        <!--#region Pop up stats -->
-        <Grid Name="PopOutWindow" Grid.Row="1" Margin="0" Width="200" Height="100" HorizontalAlignment="Center" VerticalAlignment="Center">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="12"/>
-                <RowDefinition Height="12"/>
-                <RowDefinition Height="12"/>
-                <RowDefinition Height="14"/>
-                <RowDefinition Height="*"/>
-
-            </Grid.RowDefinitions>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="1"/>
-                <ColumnDefinition Width="100"/>
-                <ColumnDefinition Width="1"/>
-                <ColumnDefinition Width="*"/>
-
-            </Grid.ColumnDefinitions>
-
-            <!--#region Stats small-->
-
-            <Image Source="C:\Users\stefan.tudor\Source\Repos\DDRemake\DDRemakeProject\DDRemakeProject\Assets\HUD\Star.png" Grid.Row="1" Grid.Column="1" Margin="-87,0,0,0" Width="11" Height="12"></Image>
-            <TextBlock Name="popOutCharacterLevel" Grid.Row="1" Grid.Column="1" Text="10" Width="12" Height="12" FontSize="10" TextAlignment="Right" LineHeight="12" Margin="-68,-1,0,0" />
-
-            <Image Source="C:\Users\stefan.tudor\Source\Repos\DDRemake\DDRemakeProject\DDRemakeProject\Assets\HUD\Sword.png" Grid.Row="1" Grid.Column="1" Margin="-47,0,0,0" Width="11" Height="12"></Image>
-            <TextBlock Name="popOutCharacterAttackValue" Grid.Row="1" Grid.Column="1" Text="15" Width="17" Height="12" FontSize="10" TextAlignment="Right" LineHeight="12" Margin="-24,-1,0,0" />
-
-            <Image Source="C:\Users\stefan.tudor\Source\Repos\DDRemake\DDRemakeProject\DDRemakeProject\Assets\HUD\Shield.png" Grid.Row="1" Grid.Column="1" Margin="4,0,0,0" Width="11" Height="12"></Image>
-            <TextBlock Name="popOutCharacterDefenseValue" Grid.Row="1" Grid.Column="1" Text="12" Width="17" Height="12" FontSize="10" TextAlignment="Right" LineHeight="12" Margin="30,-1,0,0" />
-
-            <Image Source="C:\Users\stefan.tudor\Source\Repos\DDRemake\DDRemakeProject\DDRemakeProject\Assets\HUD\fireSmall.png" Grid.Row="1" Grid.Column="1" Margin="55,0,0,0" Width="11" Height="12"></Image>
-            <TextBlock Name="popOutCharacterMagicValue" Grid.Row="1" Grid.Column="1" Text="2" Width="17" Height="12" FontSize="10" TextAlignment="Right" LineHeight="12" Margin="81,-1,0,0" />
-
-            <!--#endregion-->
-
-            <!--#region Stats big -->
-            <TextBlock Grid.Row="0" Grid.Column="1" Name="popUpCharacterName" Text="Name" FontSize="10" HorizontalAlignment="Center" Foreground="White"></TextBlock>
-            <Rectangle Grid.Row="2" Grid.Column="1" Width="100" Fill="Gray" ></Rectangle>
-
-            <Rectangle Name="popUpCharacterHp" Grid.Row="2" Grid.Column="1" Width="100" Fill="Red" HorizontalAlignment="Left"></Rectangle>
-            <TextBlock Name="popUpCharacterHpTextBlock" Grid.Row="2" Grid.Column="1" Text="50/100" HorizontalAlignment="Center" FontSize="10"></TextBlock>
-
-            <Rectangle Grid.Row="3" Width="100" Fill="Gray" Grid.Column="1" ></Rectangle>
-            <Rectangle Name="popUpCharacterMp" Grid.Row="3" Grid.Column="1" Width="60" Fill="MediumPurple" HorizontalAlignment="Left"></Rectangle>
-            <TextBlock Name="popUpCharacterMpTextBlock" Grid.Row="3" Grid.Column="1" Text="30/100" HorizontalAlignment="Center" FontSize="10"></TextBlock>
-
-            <!--#endregion-->
-
-            <Image Stretch="Fill" Grid.RowSpan="5" Grid.ColumnSpan="4" Source="C:\Users\stefan.tudor\Source\Repos\DDRemake\DDRemakeProject\DDRemakeProject\Assets\HUD\popOutWindowBorder.png" Height="100" VerticalAlignment="Center" HorizontalAlignment="Center" Width="200" Margin="0"/>
-        </Grid>
-        <!--#endregion-->
+        
 
 
     </Grid>

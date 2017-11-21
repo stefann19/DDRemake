@@ -82,7 +82,7 @@
     </ApplicationDefinition>
     <Compile Include="GamePlay\BattleEngine.cs" />
     <Compile Include="GamePlay\Character.cs" />
-    <Compile Include="GamePlay\PopOutWindow.cs" />
+    <Compile Include="GamePlay\CharDetailsTemp.cs" />
     <Compile Include="GamePlay\Skill.cs" />
     <Compile Include="GamePlay\StatsLogic.cs" />
     <Compile Include="GamePlay\UIBackEnd.cs" />
