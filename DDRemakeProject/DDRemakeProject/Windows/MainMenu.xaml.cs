@@ -37,8 +37,8 @@ namespace DDRemakeProject
             List<Character> enemies = new List<Character>
             {
                 new Character("Lizzy", "../../Assets/monster/dino/idle.gif","../../Assets/monster/dino/idle.gif", 1, 5, 2, 4, 3),
-                new Character("Bats", "../../Assets/monster/bat/idle.gif","../../Assets/monster/bat/idle.gif", 1, 3, 5, 3, 2),
-                new Character("Bob", "../../Assets/monster/boar/idle.gif","../../Assets/monster/boar/idle.gif", 2, 2, 5, 3, 4)
+                new Character("Bats", "../../Assets/monster/bat/idle.gif","../../Assets/monster/bat/idle.gif", 1, 5, 3,4, 2),
+                new Character("Bob", "../../Assets/monster/boar/idle.gif","../../Assets/monster/boar/idle.gif", 3, 2, 5,5, 4)
             };
 
             BattleEngine be = new BattleEngine(allies, enemies);

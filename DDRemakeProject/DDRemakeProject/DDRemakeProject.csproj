@@ -82,8 +82,10 @@
     </ApplicationDefinition>
     <Compile Include="GamePlay\BattleEngine.cs" />
     <Compile Include="GamePlay\Character.cs" />
+    <Compile Include="GamePlay\PopOutWindow.cs" />
     <Compile Include="GamePlay\Skill.cs" />
     <Compile Include="GamePlay\StatsLogic.cs" />
+    <Compile Include="GamePlay\UIBackEnd.cs" />
     <Compile Include="Windows\BattleWindow.xaml.cs">
       <DependentUpon>BattleWindow.xaml</DependentUpon>
     </Compile>
@@ -556,6 +558,18 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="purple.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Assets\HUD\fireSmall.png" />
+    <Resource Include="Assets\HUD\Shield.png" />
+    <Resource Include="Assets\HUD\Star.png" />
+    <Resource Include="Assets\HUD\Sword.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Assets\HUD\popOutWindowBorder.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Assets\char\paladin\idle2.gif" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

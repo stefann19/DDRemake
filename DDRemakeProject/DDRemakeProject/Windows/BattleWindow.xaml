@@ -14,45 +14,23 @@
 
 
         <ControlTemplate x:Key="Icons" TargetType="ContentControl">
-            <Grid Grid.Row="0" Grid.Column="0" Name="gri">
-                
+            <Grid Grid.Row="0" Grid.Column="0" >
+
                 <Grid.RowDefinitions>
                     <RowDefinition ></RowDefinition>
-                    <RowDefinition Height="7"></RowDefinition>
+                    <RowDefinition Height="11"></RowDefinition>
                 </Grid.RowDefinitions>
-                
+
                 <Image Grid.Row="0" Source="{DynamicResource ResourceKey=Img}" HorizontalAlignment="Center" VerticalAlignment="Center" />
-                <Grid Grid.Row="1" Margin="5,0" Name="gri2">
+                <Grid Grid.Row="1" Margin="5,0">
                     <Rectangle Fill="Gray" ></Rectangle>
-                    <Rectangle Width="50" Fill="Red" HorizontalAlignment="Left" Name="re"></Rectangle>
-                    <!--<ProgressBar x:Name="progressBar" Value="{DynamicResource ResourceKey=currentHP}" Maximum="100"/>-->
+                    <Rectangle Width="{DynamicResource ResourceKey=width}" Fill="Red" HorizontalAlignment="Left"></Rectangle>
+                    <TextBlock Text="{DynamicResource ResourceKey=hpValue}"  Background="#00000000" FontSize="10" FontWeight="Bold" HorizontalAlignment="Center" FontFamily="MS Gothic"></TextBlock>
                 </Grid>
             </Grid>
         </ControlTemplate>
 
 
-        <Style x:Key="Smth" TargetType="{x:Type ContentControl}">
-            <Setter Property="Template">
-                <Setter.Value>
-                    <ControlTemplate TargetType="ContentControl">
-                        <Grid Grid.Row="0" Grid.Column="0" Name="gri">
-
-                            <Grid.RowDefinitions>
-                                <RowDefinition ></RowDefinition>
-                                <RowDefinition Height="7"></RowDefinition>
-                            </Grid.RowDefinitions>
-
-                            <Image Grid.Row="0" Source="{DynamicResource ResourceKey=Img}" HorizontalAlignment="Center" VerticalAlignment="Center" />
-                            <Grid Grid.Row="1" Margin="5,0" Name="gri2">
-                                <Rectangle Fill="Gray" ></Rectangle>
-                                <Rectangle Width="50" Fill="Red" HorizontalAlignment="Left" Name="re"></Rectangle>
-                                <!--<ProgressBar x:Name="progressBar" Value="{DynamicResource ResourceKey=currentHP}" Maximum="100"/>-->
-                            </Grid>
-                        </Grid>
-                    </ControlTemplate>
-                </Setter.Value>
-            </Setter>
-        </Style>
 
 
     </Window.Resources>
@@ -65,12 +43,48 @@
         </Grid.RowDefinitions>
 
         <!--#region Background Image + Black Strips -->
-        <Image Source="../Assets/backgrounds/21.png" Stretch="None" Grid.Row="1"/>
+        <Image Source="../Assets/backgrounds/21.png" Stretch="None" Grid.Row="1" MouseDown="Image_MouseDown"/>
         <Rectangle Grid.Row="0" Fill="Black"></Rectangle>
         <Rectangle Grid.Row="2" Fill="Black"></Rectangle>
         <!--#endregion-->
         <!--#region Characters and action-->
-        <Image x:Name="BChar1" Grid.Row="1" Panel.ZIndex="1" HorizontalAlignment="Left" Height="100" VerticalAlignment="Top" Width="100"  gif:ImageBehavior.AutoStart="True" gif:ImageBehavior.AnimatedSource="../Assets/char/mage/idle.gif" Margin="84,203,0,0" RenderTransformOrigin="0.5,0.5">
+
+
+
+
+        <Image x:Name="BChar1" Grid.Row="1" Panel.ZIndex="1" HorizontalAlignment="Center" Height="100" VerticalAlignment="Center" Width="100"  gif:ImageBehavior.AutoStart="True" gif:ImageBehavior.AnimatedSource="../Assets/char/mage/idle.gif" Margin="125,166,417,44" RenderTransformOrigin="0.5,0.5">
+            <Image.RenderTransform>
+                <TransformGroup>
+                    <ScaleTransform ScaleX="-1"/>
+                    <SkewTransform/>
+                    <RotateTransform/>
+                    <TranslateTransform/>
+                </TransformGroup>
+            </Image.RenderTransform>
+        </Image>
+        <Image x:Name="BChar2" Grid.Row="1" Panel.ZIndex="1" HorizontalAlignment="Center" Height="100" VerticalAlignment="Center" Width="100"  gif:ImageBehavior.AutoStart="True" gif:ImageBehavior.AnimatedSource="../Assets/char/paladin/idle.gif" Margin="87,199,455,11" RenderTransformOrigin="0.5,0.5">
+            <Image.RenderTransform>
+                <TransformGroup>
+                    <ScaleTransform ScaleX="-1"/>
+                    <SkewTransform/>
+                    <RotateTransform/>
+                    <TranslateTransform/>
+                </TransformGroup>
+            </Image.RenderTransform>
+        </Image>
+        <Image x:Name="BChar3" Grid.Row="1" Panel.ZIndex="1" HorizontalAlignment="Center"  Height="100" VerticalAlignment="Center" Width="100" gif:ImageBehavior.AutoStart="True" gif:ImageBehavior.AnimatedSource="../Assets/char/warrior/idle.gif" Margin="25,218,517,107" RenderTransformOrigin="0.5,0.5" Grid.RowSpan="2">
+            <Image.RenderTransform>
+                <TransformGroup>
+                    <ScaleTransform ScaleX="-1"/>
+                    <SkewTransform/>
+                    <RotateTransform/>
+                    <TranslateTransform/>
+                </TransformGroup>
+            </Image.RenderTransform>
+        </Image>
+
+
+        <Image x:Name="BeChar1" Grid.Row="1" Panel.ZIndex="1" HorizontalAlignment="Center" Height="100" VerticalAlignment="Center" Width="100"  gif:ImageBehavior.AutoStart="True" gif:ImageBehavior.AnimatedSource="../Assets/monster/bat/idle.gif" Margin="403,175,139,35" RenderTransformOrigin="0.5,0.5" >
             <Image.RenderTransform>
                 <TransformGroup>
                     <ScaleTransform ScaleY="1" ScaleX="-1"/>
@@ -80,7 +94,7 @@
                 </TransformGroup>
             </Image.RenderTransform>
         </Image>
-        <Image x:Name="BChar2" Grid.Row="1" Panel.ZIndex="1" HorizontalAlignment="Left" Height="100" VerticalAlignment="Top" Width="100"  gif:ImageBehavior.AutoStart="True" gif:ImageBehavior.AnimatedSource="../Assets/char/paladin/idle.gif" Margin="23.5,223.5,0,0" Grid.RowSpan="2" RenderTransformOrigin="0.5,0.5">
+        <Image x:Name="BeChar2" Grid.Row="1" Panel.ZIndex="1" HorizontalAlignment="Center" Height="100" VerticalAlignment="Center" Width="100"  gif:ImageBehavior.AutoStart="True" gif:ImageBehavior.AnimatedSource="../Assets/monster/boar/idle.gif" Margin="452,182,90,28" RenderTransformOrigin="0.5,0.5">
             <Image.RenderTransform>
                 <TransformGroup>
                     <ScaleTransform ScaleY="1" ScaleX="-1"/>
@@ -90,7 +104,7 @@
                 </TransformGroup>
             </Image.RenderTransform>
         </Image>
-        <Image x:Name="BChar3" Grid.Row="1" Panel.ZIndex="1" HorizontalAlignment="Left" Height="100" VerticalAlignment="Top" Width="100"  gif:ImageBehavior.AutoStart="True" gif:ImageBehavior.AnimatedSource="../Assets/char/warrior/idle.gif" Margin="32,168,0,0" RenderTransformOrigin="0.5,0.5">
+        <Image x:Name="BeChar3" Grid.Row="1" Panel.ZIndex="1" HorizontalAlignment="Center" Height="100" VerticalAlignment="Center" Width="100"  gif:ImageBehavior.AutoStart="True" gif:ImageBehavior.AnimatedSource="../Assets/monster/dino/idle.gif" Margin="521,201,21,9" RenderTransformOrigin="0.5,0.5" >
             <Image.RenderTransform>
                 <TransformGroup>
                     <ScaleTransform ScaleY="1" ScaleX="-1"/>
@@ -102,36 +116,16 @@
         </Image>
 
 
-        <Image x:Name="BeChar1" Grid.Row="1" Panel.ZIndex="1" HorizontalAlignment="Left" Height="100" VerticalAlignment="Top" Width="100"  gif:ImageBehavior.AutoStart="True" gif:ImageBehavior.AnimatedSource="../Assets/monster/bat/idle.gif" Margin="466,203,0,0" RenderTransformOrigin="0.5,0.5">
-            <Image.RenderTransform>
-                <TransformGroup>
-                    <ScaleTransform ScaleY="1" ScaleX="-1"/>
-                    <SkewTransform AngleY="0" AngleX="0"/>
-                    <RotateTransform Angle="0"/>
-                    <TranslateTransform/>
-                </TransformGroup>
-            </Image.RenderTransform>
-        </Image>
-        <Image x:Name="BeChar2" Grid.Row="1" Panel.ZIndex="1" HorizontalAlignment="Left" Height="100" VerticalAlignment="Top" Width="100"  gif:ImageBehavior.AutoStart="True" gif:ImageBehavior.AnimatedSource="../Assets/monster/boar/idle.gif" Margin="514,168,0,0" RenderTransformOrigin="0.5,0.5">
-            <Image.RenderTransform>
-                <TransformGroup>
-                    <ScaleTransform ScaleY="1" ScaleX="-1"/>
-                    <SkewTransform AngleY="0" AngleX="0"/>
-                    <RotateTransform Angle="0"/>
-                    <TranslateTransform/>
-                </TransformGroup>
-            </Image.RenderTransform>
-        </Image>
-        <Image x:Name="BeChar3" Grid.Row="1" Panel.ZIndex="1" HorizontalAlignment="Left" Height="100" VerticalAlignment="Top" Width="100"  gif:ImageBehavior.AutoStart="True" gif:ImageBehavior.AnimatedSource="../Assets/monster/dino/idle.gif" Margin="514,223.5,0,0" Grid.RowSpan="2" RenderTransformOrigin="0.5,0.5">
-            <Image.RenderTransform>
-                <TransformGroup>
-                    <ScaleTransform ScaleY="1" ScaleX="-1"/>
-                    <SkewTransform AngleY="0" AngleX="0"/>
-                    <RotateTransform Angle="0"/>
-                    <TranslateTransform/>
-                </TransformGroup>
-            </Image.RenderTransform>
-        </Image>
+        <Rectangle Fill="Transparent"  x:Name="BhChar1" Grid.Row="1" Panel.ZIndex="1" HorizontalAlignment="Left" Height="50" VerticalAlignment="Top" Width="50" Margin="150,192,0,0" RenderTransformOrigin="0.5,0.5" MouseDown="SelectChar" MouseEnter="MouseEntered" MouseLeave="MouseLeft"/>
+        <Rectangle Fill="Transparent"  x:Name="BhChar2" Grid.Row="1" Panel.ZIndex="1" HorizontalAlignment="Left" Height="50" VerticalAlignment="Top" Width="50"  Margin="100,221,0,0" RenderTransformOrigin="0.5,0.5" MouseDown="SelectChar" MouseEnter="MouseEntered" MouseLeave="MouseLeft"/>
+        <Rectangle Fill="Transparent"  x:Name="BhChar3" Grid.Row="1" Panel.ZIndex="1" HorizontalAlignment="Left" Height="50" VerticalAlignment="Top" Width="50"  Margin="50,245,0,0" RenderTransformOrigin="0.5,0.5" MouseDown="SelectChar" MouseEnter="MouseEntered" MouseLeave="MouseLeft" />
+
+
+
+
+        <Rectangle Fill="Transparent"  x:Name="BehChar1" Grid.Row="1" Panel.ZIndex="1" HorizontalAlignment="Left" Height="50" VerticalAlignment="Top" Width="50"  Margin="428,200,0,0" RenderTransformOrigin="0.5,0.5" MouseDown="SelectChar" MouseEnter="MouseEntered" MouseLeave="MouseLeft"/>
+        <Rectangle Fill="Transparent"  x:Name="BehChar2" Grid.Row="1" Panel.ZIndex="1" HorizontalAlignment="Left" Height="50" VerticalAlignment="Top" Width="50"  Margin="478,221,0,0" RenderTransformOrigin="0.5,0.5" MouseDown="SelectChar" MouseEnter="MouseEntered" MouseLeave="MouseLeft"/>
+        <Rectangle Fill="Transparent"  x:Name="BehChar3" Grid.Row="1" Panel.ZIndex="1" HorizontalAlignment="Left" Height="50" VerticalAlignment="Top" Width="50"  Margin="543,221,0,0" RenderTransformOrigin="0.5,0.5" MouseDown="SelectChar" MouseEnter="MouseEntered" MouseLeave="MouseLeft"/>
 
         <!--#endregion-->
 
@@ -160,12 +154,8 @@
             <!--#region Characters Icons -->
 
 
-            <!--<Rectangle Fill="Gray" ></Rectangle>-->
-            <!--<Rectangle--> 
-                <!--Width="{Binding Path=ActualWidth, ElementName=ParentGrid, Converter={converters:PercentageConverter}, ConverterParameter='0,5'}"-->
-                <!--Fill="Red" HorizontalAlignment="Left" ></Rectangle>-->
 
-            <ContentControl x:Name="Icon0" Grid.Row="0" Grid.Column="0" Style="{StaticResource Smth}">
+            <ContentControl x:Name="Icon0" Grid.Row="0" Grid.Column="0" Template="{StaticResource ResourceKey=Icons}">
                 <ContentControl.Resources>
                     <ImageSource x:Key="Img">../Assets/char/mage/faceset.png</ImageSource>
                 </ContentControl.Resources>
@@ -199,7 +189,7 @@
             <!--#endregion-->
 
             <!--#region Actions-->
-            <Image Grid.Row="0" Grid.Column="3" Source="../Attack.png"/>
+            <Image Grid.Row="0" Grid.Column="3" Source="../Attack.png" MouseEnter="ShowAvailableActions"/>
             <Image Grid.Row="0" Grid.Column="4" Source="../Defend.png"/>
             <Image Grid.Row="1" Grid.Column="3" Source="../Spells.png"/>
             <Image Grid.Row="1" Grid.Column="4" Source="../Inventory.png"/>
@@ -220,28 +210,77 @@
                     <ColumnDefinition Width="1*"/>
                 </Grid.ColumnDefinitions>
                 <!--#endregion-->
-                
-                <Label Grid.Row="0" Grid.ColumnSpan="2" Content="Name" Foreground="White" HorizontalContentAlignment="Center" VerticalAlignment="Top" HorizontalAlignment="Center"/>
+
+                <Label Name="CurrentCharName" Grid.Row="0" Grid.ColumnSpan="2" Content="Name" Foreground="White" HorizontalContentAlignment="Center" VerticalAlignment="Top" HorizontalAlignment="Center"/>
                 <!--#region HP-->
                 <Label Grid.Row="1" Content="HP" Foreground="White" HorizontalAlignment="Center"></Label>
-                <Label x:Name="HpValue" Grid.Row="1" Grid.Column="1" Content="12../" Foreground="Red" HorizontalAlignment="Right" HorizontalContentAlignment="Right" VerticalContentAlignment="Bottom" FontFamily="MS Gothic" VerticalAlignment="Bottom" FontSize="14" FontWeight="Bold"/>
+                <Label x:Name="CurrentCharHpValue" Grid.Row="1" Grid.Column="1" Content="12../" Foreground="Red" HorizontalAlignment="Right" HorizontalContentAlignment="Right" VerticalContentAlignment="Bottom" FontFamily="MS Gothic" VerticalAlignment="Bottom" FontSize="14" FontWeight="Bold"/>
                 <Image Grid.Row="2" Grid.ColumnSpan="2" Source="../background.png" ></Image>
-                <Image x:Name="HpValueSlider" Grid.Row="2" Stretch="Fill" Grid.ColumnSpan="2" Source="../red.png" Margin="6,7" ></Image>
+                <Image x:Name="CurrentCharHpValueSlider" Grid.Row="2" Stretch="Fill" Grid.ColumnSpan="2" Source="../red.png" Margin="6,7" ></Image>
                 <!--#endregion-->
                 <!--#region MP-->
                 <Label Grid.Row="3" Content="MP" Foreground="White" HorizontalAlignment="Center"></Label>
-                <Label x:Name="MpValue" Grid.Row="3" Grid.Column="1" Content="12" Foreground="purple" HorizontalAlignment="Right" HorizontalContentAlignment="Right" VerticalContentAlignment="Bottom" FontFamily="MS Gothic" VerticalAlignment="Bottom" FontSize="14" FontWeight="Bold"/>
+                <Label x:Name="CurrentCharMpValue" Grid.Row="3" Grid.Column="1" Content="12" Foreground="purple" HorizontalAlignment="Right" HorizontalContentAlignment="Right" VerticalContentAlignment="Bottom" FontFamily="MS Gothic" VerticalAlignment="Bottom" FontSize="14" FontWeight="Bold"/>
                 <Image Grid.Row="4" Grid.ColumnSpan="2" Source="../background.png" ></Image>
-                <Image x:Name="MpValueSlider" Grid.Row="4" Stretch="Fill" Grid.ColumnSpan="2" Source="../purple.png" Margin="6,7" ></Image>
+                <Image x:Name="CurrentCharMpValueSlider" Grid.Row="4" Stretch="Fill" Grid.ColumnSpan="2" Source="../purple.png" Margin="6,7" ></Image>
                 <!--#endregion-->
             </Grid>
 
-            <Image x:Name="SelectedIcon" Grid.Row="0" Grid.Column="6" Grid.RowSpan="2" Source="../faceset.png" ></Image>
+            <Image x:Name="CurrentCharIcon" Grid.Row="0" Grid.Column="6" Grid.RowSpan="2" Source="../faceset.png" ></Image>
             <!--#endregion-->
 
         </Grid>
         <!--#endregion-->
+        <!--#region Pop up stats -->
+        <Grid Name="PopOutWindow" Grid.Row="1" Margin="0" Width="200" Height="100" HorizontalAlignment="Center" VerticalAlignment="Center">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="12"/>
+                <RowDefinition Height="12"/>
+                <RowDefinition Height="12"/>
+                <RowDefinition Height="14"/>
+                <RowDefinition Height="*"/>
 
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="1"/>
+                <ColumnDefinition Width="100"/>
+                <ColumnDefinition Width="1"/>
+                <ColumnDefinition Width="*"/>
+
+            </Grid.ColumnDefinitions>
+
+            <!--#region Stats small-->
+
+            <Image Source="C:\Users\stefan.tudor\Source\Repos\DDRemake\DDRemakeProject\DDRemakeProject\Assets\HUD\Star.png" Grid.Row="1" Grid.Column="1" Margin="-87,0,0,0" Width="11" Height="12"></Image>
+            <TextBlock Name="popOutCharacterLevel" Grid.Row="1" Grid.Column="1" Text="10" Width="12" Height="12" FontSize="10" TextAlignment="Right" LineHeight="12" Margin="-68,-1,0,0" />
+
+            <Image Source="C:\Users\stefan.tudor\Source\Repos\DDRemake\DDRemakeProject\DDRemakeProject\Assets\HUD\Sword.png" Grid.Row="1" Grid.Column="1" Margin="-47,0,0,0" Width="11" Height="12"></Image>
+            <TextBlock Name="popOutCharacterAttackValue" Grid.Row="1" Grid.Column="1" Text="15" Width="17" Height="12" FontSize="10" TextAlignment="Right" LineHeight="12" Margin="-24,-1,0,0" />
+
+            <Image Source="C:\Users\stefan.tudor\Source\Repos\DDRemake\DDRemakeProject\DDRemakeProject\Assets\HUD\Shield.png" Grid.Row="1" Grid.Column="1" Margin="4,0,0,0" Width="11" Height="12"></Image>
+            <TextBlock Name="popOutCharacterDefenseValue" Grid.Row="1" Grid.Column="1" Text="12" Width="17" Height="12" FontSize="10" TextAlignment="Right" LineHeight="12" Margin="30,-1,0,0" />
+
+            <Image Source="C:\Users\stefan.tudor\Source\Repos\DDRemake\DDRemakeProject\DDRemakeProject\Assets\HUD\fireSmall.png" Grid.Row="1" Grid.Column="1" Margin="55,0,0,0" Width="11" Height="12"></Image>
+            <TextBlock Name="popOutCharacterMagicValue" Grid.Row="1" Grid.Column="1" Text="2" Width="17" Height="12" FontSize="10" TextAlignment="Right" LineHeight="12" Margin="81,-1,0,0" />
+
+            <!--#endregion-->
+
+            <!--#region Stats big -->
+            <TextBlock Grid.Row="0" Grid.Column="1" Name="popUpCharacterName" Text="Name" FontSize="10" HorizontalAlignment="Center" Foreground="White"></TextBlock>
+            <Rectangle Grid.Row="2" Grid.Column="1" Width="100" Fill="Gray" ></Rectangle>
+
+            <Rectangle Name="popUpCharacterHp" Grid.Row="2" Grid.Column="1" Width="100" Fill="Red" HorizontalAlignment="Left"></Rectangle>
+            <TextBlock Name="popUpCharacterHpTextBlock" Grid.Row="2" Grid.Column="1" Text="50/100" HorizontalAlignment="Center" FontSize="10"></TextBlock>
+
+            <Rectangle Grid.Row="3" Width="100" Fill="Gray" Grid.Column="1" ></Rectangle>
+            <Rectangle Name="popUpCharacterMp" Grid.Row="3" Grid.Column="1" Width="60" Fill="MediumPurple" HorizontalAlignment="Left"></Rectangle>
+            <TextBlock Name="popUpCharacterMpTextBlock" Grid.Row="3" Grid.Column="1" Text="30/100" HorizontalAlignment="Center" FontSize="10"></TextBlock>
+
+            <!--#endregion-->
+
+            <Image Stretch="Fill" Grid.RowSpan="5" Grid.ColumnSpan="4" Source="C:\Users\stefan.tudor\Source\Repos\DDRemake\DDRemakeProject\DDRemakeProject\Assets\HUD\popOutWindowBorder.png" Height="100" VerticalAlignment="Center" HorizontalAlignment="Center" Width="200" Margin="0"/>
+        </Grid>
+        <!--#endregion-->
 
 
     </Grid>

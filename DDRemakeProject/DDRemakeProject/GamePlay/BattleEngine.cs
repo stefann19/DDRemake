@@ -1,24 +1,59 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.Remoting.Metadata.W3cXsd2001;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace DDRemakeProject.GamePlay
 {
-    class BattleEngine
+    public class BattleEngine
     {
         public List<Character> AllyCharacters { get; private set; }
         public List<Character> EnemyCharacters { get; private set; }
+        public List<Character> Characters { get; private set; }
 
         public BattleWindow BWindow { get; set; }
+        public UIBackEnd UiBackEndInstance;
+
+
+        public List<int> AttackOrder;
+        public int currentCharacterIndex;
 
         public BattleEngine(List<Character> allyCharacters, List<Character> enemyCharacters)
         {
             AllyCharacters = allyCharacters;
             EnemyCharacters = enemyCharacters;
-            BWindow = new BattleWindow();
+
+            Characters = new List<Character>();
+            Characters.AddRange(AllyCharacters);
+            Characters.AddRange(EnemyCharacters);
+
+
+            UiBackEndInstance = new UIBackEnd(this);
+            BWindow = new BattleWindow(UiBackEndInstance);
+            UiBackEndInstance.SetPopOutWindow(BWindow.PopOutWindow);
             GenerateMap();
+        }
+
+
+        private void GenerateAttackOrder()
+        {
+            currentCharacterIndex = 0;
+            List<Character> chararacters = new List<Character>(Characters);
+            while (chararacters.Count > 0)
+            {
+                int indexOfMax = 0;
+                for (int i = 0; i < chararacters.Count; i++)
+                {
+                    if (chararacters[indexOfMax].Inteligence < chararacters[i].Inteligence)
+                    {
+                        indexOfMax = i;
+                    }
+                }
+                AttackOrder.Add(indexOfMax);
+                chararacters.RemoveAt(indexOfMax);
+            }
         }
 
         /// <summary>
@@ -30,24 +65,44 @@ namespace DDRemakeProject.GamePlay
             BWindow.InitializeBattleUI(AllyCharacters,EnemyCharacters);
         }
 
-        private Character SelectCharacter()
+        private Character SelectedCharacter(bool enemy)
         {
-            return null;
+            if (enemy) return EnemyCharacters.ElementAt(BWindow.SelectedCharacterIndex);
+            return AllyCharacters.ElementAt(BWindow.SelectedCharacterIndex);
         }
 
-        private void Fight(Character attackerCharacter,Character defenderCharacter,Skill skill)
+
+
+        public void SelectNewCharacter()
+        {
+            currentCharacterIndex++;
+            if (currentCharacterIndex > Characters.Count)
+            {
+                currentCharacterIndex -= Characters.Count;
+            }
+        }
+
+        private void Fight(Character defenderCharacter,Skill skill)
         {
 
             // execute the attack animation in the UI
             //skill.SkillEffect;
 
 
-
             //execute the hp/ap drain animation in the UI
-            int damageAfterReductions =(int) (StatsLogic.CalculateDamageAfterAr(defenderCharacter.Armour, skill.Damage));
+            
+            
+            //Execute the stats changes of the fight
+            DoFightStatChanges(Characters[currentCharacterIndex], defenderCharacter, skill);
+        }
+
+        private void DoFightStatChanges(Character attackerCharacter, Character defenderCharacter, Skill skill)
+        {
+            int damageAfterReductions = (int)(StatsLogic.CalculateDamageAfterAr(defenderCharacter.Armour, skill.Damage));
             defenderCharacter.CurrentHp -= damageAfterReductions;
             attackerCharacter.CurrentAp -= skill.ApCost;
             attackerCharacter.CurrentMp -= skill.MpCost;
+            CheckIfDead(defenderCharacter);
         }
 
         private bool CheckIfDead(Character ch)

@@ -25,64 +25,19 @@ using Microsoft.Practices.Prism.Mvvm;
 namespace DDRemakeProject
 {
 
-    //public class Questionnaire : BindableBase
-    //{
-    //    private string favoriteColor;
-    //    public event PropertyChangedEventHandler PropertyChanged;
-    //    public string FavoriteColor
-    //    {
-    //        get
-
-    //        {
-
-    //            return favoriteColor;
-
-    //        }
-
-    //        set
-
-    //        {
-
-    //            favoriteColor = value;
-
-    //            OnPropertyChanged("FavoriteColor");
-
-    //        }
-    //    }
-    //}
-
-    public class PercentageConverter : MarkupExtension, IValueConverter
-    {
-        private static PercentageConverter _instance;
-
-        #region IValueConverter Members
-
-        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
-        {
-            return System.Convert.ToDouble(value) * System.Convert.ToDouble(parameter);
-        }
-
-        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
-        {
-            throw new NotImplementedException();
-        }
-
-        #endregion
-
-        public override object ProvideValue(IServiceProvider serviceProvider)
-        {
-            return _instance ?? (_instance = new PercentageConverter());
-        }
-    }
+  
 
     /// <summary>
     /// Interaction logic for BattleWindow.xaml
     /// </summary>
     public partial class BattleWindow : Window 
     {
-        public BattleWindow()
+        public UIBackEnd UiBackEnd;
+        public BattleWindow(UIBackEnd uiBackEnd)
         {
             InitializeComponent();
+            UiBackEnd = uiBackEnd;
+            SelectedCharacterIndex = -1;
         }
 
         private void ScrollBar_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
@@ -90,61 +45,150 @@ namespace DDRemakeProject
 
         }
 
-        /// <summary>
-        /// is on worker thread :)
-        /// </summary>
+    
         private string _message;
 
         public void InitializeBattleUI(List<Character> allyCharacters, List<Character> enemyCharacters)
         {
-            Grid re = Icon0.FindName("gri") as Grid;
-
-            re.Width = 10;
+         
             #region foreach character
             for (int i = 0; i < allyCharacters.Count; i++)
             {
-                //set battle image
-                string file = System.IO.Path.Combine(Environment.CurrentDirectory, allyCharacters[i].CharacterPng);
-                ImageBehavior.SetAnimatedSource((this.FindName("BChar" + (i + 1)) as System.Windows.Controls.Image), new BitmapImage(new Uri(file)));
-                
-                //set icon image
-                file = System.IO.Path.Combine(Environment.CurrentDirectory, allyCharacters[i].CharacterIconPng);
-                (this.FindName("Icon" + i) as System.Windows.Controls.ContentControl).Resources["Img"] =new BitmapImage(new Uri(file));
-
-                //redBarSize
-
-                 
-
-                //IEnumerable<ProgressBar> collection = Icon0.FindName("progressBar");
-                //foreach (var progressBar in collection)
-                //{
-                //    progressBar.Value = 50;
-                //}
-                //(Icon0.FindName("rectangle") as Rectangle).Width = 20;
-                //((allyCharacters[i].CurrentHp*100 / allyCharacters[i].Hp)).ToString()
-
-                //Questionnaire q = new Questionnaire();
-                //q.FavoriteColor = "20";
-                //favoriteColor = 20;
-                //(this.FindName("Icon" + i) as System.Windows.Controls.ContentControl).Resources["redBarSize"] = 20;//77 is the hp bar length in pixels;
-                //set ico
+                CharacterSetup(allyCharacters[i],i,"");
             }
 
             for (int i = 0; i < enemyCharacters.Count; i++)
             {
-                string file = System.IO.Path.Combine(Environment.CurrentDirectory, enemyCharacters[i].CharacterPng);
-
-                ImageBehavior.SetAnimatedSource((this.FindName("BeChar" + (i + 1)) as System.Windows.Controls.Image), new BitmapImage(new Uri(file)));
-
-
-                file = System.IO.Path.Combine(Environment.CurrentDirectory, enemyCharacters[i].CharacterIconPng);
-                (this.FindName("Icon" +(allyCharacters.Count+i)) as System.Windows.Controls.ContentControl).Resources["Img"] = new BitmapImage(new Uri(file));
-               // (this.FindName("Icon" + (allyCharacters.Count + i)) as System.Windows.Controls.ContentControl).Resources["redBarSize"] = ((allyCharacters[i].CurrentHp / allyCharacters[i].Hp) * 77).ToString();//77 is the hp bar length in pixels;
-
+                CharacterSetup(enemyCharacters[i],i,"e");
             }
             #endregion
 
 
+        }
+
+        private void CharacterSetup(Character character, int i, string e)
+        {
+            string file = System.IO.Path.Combine(Environment.CurrentDirectory, character.CharacterPng);
+            ImageBehavior.SetAnimatedSource((this.FindName("B" + e + "Char" + (i + 1)) as System.Windows.Controls.Image),
+                new BitmapImage(new Uri(file)));
+
+            //set icon image
+            file = System.IO.Path.Combine(Environment.CurrentDirectory, character.CharacterIconPng);
+            ContentControl cc = (this.FindName("Icon" +( i + (e == "e" ? 3 : 0))) as System.Windows.Controls.ContentControl);
+            cc.Resources["Img"] = new BitmapImage(new Uri(file));
+            cc.Resources["width"] = (double)(character.CurrentHp * 78f/character.Hp);
+            cc.Resources["hpValue"] = character.CurrentHp.ToString() +"/"+ character.Hp.ToString();
+        }
+
+
+        public int SelectedCharacterIndex;
+
+        private void SelectChar(object sender, MouseButtonEventArgs e)
+        {
+
+
+            //Rectangle senderImage = sender as Rectangle;
+            SelectChar((sender as Rectangle).Name,true);
+            //int enemy = (senderImage.Name.Contains("e") ? 1 : 0);
+
+            //SelectedCharacterIndex = senderImage.Name.Last() - '1' + enemy * 3;
+        }
+
+        private void ShowAvailableActions(object sender, MouseEventArgs e)
+        {
+
+        }
+
+        private void MouseEntered(object sender, MouseEventArgs e)
+        {
+            SelectChar((sender as Rectangle).Name,false);
+            //Rectangle senderImage = sender as Rectangle;
+            //string aux = senderImage.Name;
+            //int enemy = (aux.Contains("e") ? 1 : 0);
+            //aux = aux.Substring(0, 1 + enemy) + aux.Substring(2+enemy);
+            //System.Windows.Controls.Image charImage = FindName(aux) as System.Windows.Controls.Image;
+            ////PopOutWindow.Margin = new Thickness(charImage.Margin.Left, charImage.Margin.Top-25,0,0);
+            //int index = senderImage.Name.Last() - '1' + enemy*3;
+            //UiBackEnd.PopedChar(index);
+        }
+
+
+        private System.Windows.Controls.Image _selectedCharacterImage;
+        private System.Windows.Controls.Image _hoveredCharImage;
+
+        private void SelectChar(string name,bool selected)
+        {
+
+            string aux = name;
+            int enemy = (aux.Contains("e") ? 1 : 0);
+            aux = aux.Substring(0, 1 + enemy) + aux.Substring(2 + enemy);
+            int index = name.Last() - '1' + enemy * 3;
+            UiBackEnd.PopedChar(index);
+
+            if (selected)
+            {
+                if (_selectedCharacterImage != null)
+                {
+                    _selectedCharacterImage.Width = 100f;
+                    _selectedCharacterImage.Height = 100f;
+                }
+
+                _selectedCharacterImage = FindName(aux) as System.Windows.Controls.Image;
+                _selectedCharacterImage.Width = 150f;
+                _selectedCharacterImage.Height = 150f;
+                SelectedCharacterIndex = index;
+
+            }
+            else
+            {
+                _hoveredCharImage = FindName(aux) as System.Windows.Controls.Image;
+                _hoveredCharImage.Width = 150f;
+                _hoveredCharImage.Height = 150f;
+            }
+      
+           
+        }
+
+        private void DeselectChar()
+        {
+            UiBackEnd.PopOutQuit();
+            SelectedCharacterIndex = -1;
+            if (_selectedCharacterImage != null)
+            {
+                _selectedCharacterImage.Width = 100f;
+                _selectedCharacterImage.Height = 100f;
+            }
+            if (_hoveredCharImage!=null && !_hoveredCharImage.Equals(_selectedCharacterImage))
+            {
+                _hoveredCharImage.Width = 100f;
+                _hoveredCharImage.Height = 100f;
+            }
+        }
+
+        private void MouseLeft(object sender, MouseEventArgs e)
+        {
+            //PopOutWindow.IsEnabled = false;
+            if (SelectedCharacterIndex == -1)
+            {
+                DeselectChar();
+                //UiBackEnd.PopOutQuit();
+                //selectedCharacterImage.Width = 100f;
+                //selectedCharacterImage.Height = 100f;
+            }
+            else
+            {
+                UiBackEnd.PopedChar(SelectedCharacterIndex);
+                if (_hoveredCharImage != null && !_hoveredCharImage.Equals(_selectedCharacterImage))
+                {
+                    _hoveredCharImage.Width = 100f;
+                    _hoveredCharImage.Height = 100f;
+                }
+            }
+        }
+
+        private void Image_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            DeselectChar();
         }
     }
 }

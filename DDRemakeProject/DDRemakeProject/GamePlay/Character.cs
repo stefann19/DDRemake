@@ -76,6 +76,7 @@ namespace DDRemakeProject.GamePlay
             CurrentHp = Hp;
             CurrentMp = Mp;
             CurrentAp = Ap;
+            
         }
 
         private void Intialize()
@@ -83,6 +84,8 @@ namespace DDRemakeProject.GamePlay
             Hp = StatsLogic.GetHp(this);
             Ap = StatsLogic.GetAp(this);
             Mp = StatsLogic.GetMp(this);
+
+            Armour = StatsLogic.GetAr(this);
         }
         #endregion
 

@@ -68,7 +68,7 @@ namespace DDRemakeProject.GamePlay
 
         public static float CalculateDamageAfterAr(float armour,float damage)
         {
-            return (damage / damage + armour);
+            return (damage /( damage + armour));
         }
 
 
