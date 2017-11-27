@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace DDRemakeProject.GamePlay
 {
-    class StatsLogic
+    public class StatsLogic
     {
         #region HP
         public const int LevelToHp = 3;
@@ -16,7 +16,7 @@ namespace DDRemakeProject.GamePlay
         public const int InteligenceToHp = 2;
 
         
-        public static int GetHp(Character ch)
+        public static int GetHp(CharacterStats ch)
         {
             int hp = 0;
             hp = ch.Level * LevelToHp + ch.Constitution * ConstitutionToHp + ch.Strength * StrengthToHp +
@@ -33,7 +33,7 @@ namespace DDRemakeProject.GamePlay
         public const int InteligenceToMp = 5;
 
 
-        public static int GetMp(Character ch)
+        public static int GetMp(CharacterStats ch)
         {
             int mp = 0;
             mp = ch.Level * LevelToMp + ch.Constitution * ConstitutionToMp + ch.Strength * StrengthToMp +
@@ -50,7 +50,7 @@ namespace DDRemakeProject.GamePlay
         public const float InteligenceToAp = 0.2f;
 
 
-        public static int GetAp(Character ch)
+        public static int GetAp(CharacterStats ch)
         {
             int ap = 0;
             ap = (int)( ch.Level * LevelToAp + ch.Constitution * ConstitutionToAp + ch.Strength * StrengthToAp +
@@ -68,17 +68,28 @@ namespace DDRemakeProject.GamePlay
 
         public static float CalculateDamageAfterAr(float armour,float damage)
         {
-            return (damage /( damage + armour));
+            return damage * (1-(damage /( damage + armour)));
         }
 
 
-        public static int GetAr(Character ch)
+        public static int GetAr(CharacterStats ch)
         {
             int ar = 0;
             ar = (int)(ch.Level * LevelToAr + ch.Constitution * ConstitutionToAr + ch.Strength * StrengthToAr +
                        ch.Inteligence * SpeedToAr + ch.Speed * InteligenceToAr);
             return ar;
         }
+
+
+        #endregion
+
+        #region Actions
+
+        //default Medium Attack
+        public static Action MediumAttack = new Action("../../Assets/HUD/MediumAttack.png","../../Assets/fx/5.gif",10,2,0,ActionTypes.ActionType.Attack);
+        //default Low Attack
+        public static Action LowAttack = new Action("../../Assets/HUD/LowAttack.png", "../../Assets/fx/2.gif", 6, 1, 0, ActionTypes.ActionType.Attack);
+        public static Action FireSpell = new Action("../../Assets/HUD/Fire.png", "../../Assets/fx/9.gif", 15, 1, 5, ActionTypes.ActionType.Spell);
 
 
         #endregion

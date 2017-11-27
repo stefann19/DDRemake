@@ -3,97 +3,31 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using DDRemakeProject.GamePlay;
 
 namespace DDRemakeProject.GamePlay
 {
-    public class Character
+    public class Character : IComparable <Character>
     {
-        #region Properties
-
-        /// <summary>
-        /// Max HP
-        /// </summary>
-        public int Hp { get; private set; }
-        /// <summary>
-        /// Current Hp
-        /// </summary>
-        public int CurrentHp { get; set; }
-
-        /// <summary>
-        /// Max MP
-        /// </summary>
-        public int Mp { get; private set; }
-        /// <summary>
-        /// Current MP
-        /// </summary>
-        public int CurrentMp { get; set; }
+        public CharacterStats CharacterStats { get; set; }
+        public CharacterTypes.Status Status { get; set; }
+        public CharacterTypes.Type Type { get; set; }
 
 
-        /// <summary>
-        /// Max AP
-        /// </summary>
-        public int Ap { get; private set; }
-        /// <summary>
-        /// Current AP
-        /// </summary>
-        public int CurrentAp { get; set; }
 
-        public float Armour { get;private set; }
+        public System.Windows.Controls.Image ImageGif { get; set; }
 
-        public int Strength { get; private set; }
-        public int Inteligence { get; private set; }
-        public int Constitution { get; private set; }
-        public int Speed { get; private set; }
-
-        public int Level { get; set; }
-        public int CurrentXp { get; set; }
-
-        public string CharacterPng { get; set; }
-        public string CharacterIconPng { get; set; }
-        public string Name { get; private set; }
-        #endregion
-
-        #region Constructors
-        public Character(string name,string characterPng,string characterIconPng, int level, int strength, int inteligence, int constitution, int speed)
+        public Character(CharacterStats characterStats,CharacterTypes.Type type)
         {
-            #region SetStats
-
-            
-            CurrentXp = 0;
-            CharacterIconPng = characterIconPng;
-            CharacterPng = characterPng;
-            Name = name;
-            Level = level;
-            Strength = strength;
-            Inteligence = inteligence;
-            Constitution = constitution;
-            Speed = speed;
-            #endregion
-            //get HP/MP/AP Values from the above stats
-            Intialize();
-
-            CurrentHp = Hp;
-            CurrentMp = Mp;
-            CurrentAp = Ap;
-            
+            CharacterStats = characterStats;
+            Status = CharacterTypes.Status.Alive;
+            Type = type;
         }
 
-        private void Intialize()
+
+
+        public int CompareTo(Character ch)
         {
-            Hp = StatsLogic.GetHp(this);
-            Ap = StatsLogic.GetAp(this);
-            Mp = StatsLogic.GetMp(this);
-
-            Armour = StatsLogic.GetAr(this);
+            return this.CharacterStats.Inteligence - ch.CharacterStats.Inteligence;
         }
-        #endregion
-
-        #region private Methods
-
-
-
-        #endregion
-
     }
 }

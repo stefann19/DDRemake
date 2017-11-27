@@ -10,7 +10,7 @@ namespace DDRemakeProject.GamePlay
 {
     public class UIBackEnd
     {
-        private PopOutWindow pop;
+        private CharacterMiniWindow pop;
         private BattleEngine _battleEngine;
         public  Grid _popOutWindow;
 
@@ -22,7 +22,7 @@ namespace DDRemakeProject.GamePlay
 
         public void SetPopOutWindow(Grid popOutWindow)
         {
-            pop = new PopOutWindow(popOutWindow);
+            //pop = new PopOutWindow(popOutWindow);
             _popOutWindow = popOutWindow;
             PopOutQuit();
         }
@@ -30,7 +30,7 @@ namespace DDRemakeProject.GamePlay
         public void PopedChar(int index)
         {
             _popOutWindow.Visibility = Visibility.Visible;
-            pop.PopOutChararacter = index < 3 ? _battleEngine.AllyCharacters.ElementAt(index) : _battleEngine.EnemyCharacters.ElementAt(index-3);
+            //pop.PopOutChararacter = index < 3 ? _battleEngine.AllyCharacters.ElementAt(index) : _battleEngine.EnemyCharacters.ElementAt(index-3);
         }
 
         public void PopOutQuit()

@@ -6,23 +6,24 @@ using System.Threading.Tasks;
 
 namespace DDRemakeProject.GamePlay
 {
-    class Skill
+    public class Action
     {
-        public Skill(string skillIcon, string skillEffect, int damage,int apCost,int mpCost)
+        public Action(string actionIcon, string actionEffect, int damage,int apCost,int mpCost,ActionTypes.ActionType actionType)
         {
-            SkillIcon = skillIcon;
-            SkillEffect = skillEffect;
+            Icon = actionIcon;
+            Effect = actionEffect;
             Damage = damage;
             ApCost = apCost;
             MpCost = mpCost;
+            ActionType = actionType;
         }
 
-        public string SkillIcon { get; }
-        public string SkillEffect { get; }
+        public string Icon { get; }
+        public string Effect { get; }
 
         public int Damage { get; private set; }
         public int ApCost { get; private set; }
         public int MpCost { get; private set; }
-
+        public ActionTypes.ActionType ActionType { get; private set; }
     }
 }

@@ -20,6 +20,7 @@ using WpfAnimatedGif;
 using Image = System.Drawing.Image;
 using Microsoft.Practices.Prism;
 using Microsoft.Practices.Prism.Mvvm;
+using Action = DDRemakeProject.GamePlay.Action;
 
 
 namespace DDRemakeProject
@@ -30,14 +31,14 @@ namespace DDRemakeProject
     /// <summary>
     /// Interaction logic for BattleWindow.xaml
     /// </summary>
-    public partial class BattleWindow : Window 
+    public partial class BattleWindow : Window
     {
-        public UIBackEnd UiBackEnd;
-        public BattleWindow(UIBackEnd uiBackEnd)
+        private readonly BattleEngine _currentBattleEngine;
+        public BattleWindow(BattleEngine currentBattleEngine)
         {
             InitializeComponent();
-            UiBackEnd = uiBackEnd;
             SelectedCharacterIndex = -1;
+            this._currentBattleEngine = currentBattleEngine;
         }
 
         private void ScrollBar_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
@@ -46,31 +47,34 @@ namespace DDRemakeProject
         }
 
     
-        private string _message;
 
-        public void InitializeBattleUI(List<Character> allyCharacters, List<Character> enemyCharacters)
+        public void InitializeBattleUi(List<Character> characters)
         {
          
             #region foreach character
-            for (int i = 0; i < allyCharacters.Count; i++)
+            for (int i = 0; i < characters.Count; i++)
             {
-                CharacterSetup(allyCharacters[i],i,"");
+                if(characters[i].Type == CharacterTypes.Type.Ally)
+                characters[i].ImageGif = CharacterSetup(characters[i].CharacterStats,i,"");
             }
 
-            for (int i = 0; i < enemyCharacters.Count; i++)
+            for (int i = 0; i < characters.Count; i++)
             {
-                CharacterSetup(enemyCharacters[i],i,"e");
+                if (characters[i].Type == CharacterTypes.Type.Enemy)
+
+                    characters[i].ImageGif = CharacterSetup(characters[i].CharacterStats,(i-3),"e");
             }
             #endregion
 
 
         }
 
-        private void CharacterSetup(Character character, int i, string e)
+        private System.Windows.Controls.Image CharacterSetup(CharacterStats character, int i, string e)
         {
+            System.Windows.Controls.Image CharacterImage;
             string file = System.IO.Path.Combine(Environment.CurrentDirectory, character.CharacterPng);
-            ImageBehavior.SetAnimatedSource((this.FindName("B" + e + "Char" + (i + 1)) as System.Windows.Controls.Image),
-                new BitmapImage(new Uri(file)));
+            CharacterImage = (this.FindName("B" + e + "Char" + (i + 1)) as System.Windows.Controls.Image);
+            ImageBehavior.SetAnimatedSource(CharacterImage,new BitmapImage(new Uri(file)));
 
             //set icon image
             file = System.IO.Path.Combine(Environment.CurrentDirectory, character.CharacterIconPng);
@@ -78,6 +82,8 @@ namespace DDRemakeProject
             cc.Resources["Img"] = new BitmapImage(new Uri(file));
             cc.Resources["width"] = (double)(character.CurrentHp * 78f/character.Hp);
             cc.Resources["hpValue"] = character.CurrentHp.ToString() +"/"+ character.Hp.ToString();
+
+            return CharacterImage;
         }
 
 
@@ -87,34 +93,61 @@ namespace DDRemakeProject
         {
 
 
-            //Rectangle senderImage = sender as Rectangle;
+            Rectangle senderImage = sender as Rectangle;
             SelectChar((sender as Rectangle).Name,true);
-            //int enemy = (senderImage.Name.Contains("e") ? 1 : 0);
+            int enemy = (senderImage.Name.Contains("e") ? 1 : 0);
 
-            //SelectedCharacterIndex = senderImage.Name.Last() - '1' + enemy * 3;
+            SelectedCharacterIndex = senderImage.Name.Last() - '1' + enemy * 3;
         }
 
         private void ShowAvailableActions(object sender, MouseEventArgs e)
         {
+            System.Windows.Controls.Button button = sender as System.Windows.Controls.Button;
+            ActionTypes.ActionType action = (ActionTypes.ActionType) Enum.Parse(typeof(ActionTypes.ActionType), button.Name);
+            GenerateActionButtons(_currentBattleEngine.Characters[_currentBattleEngine.currentCharacterIndex].CharacterStats, action);
+        }
+
+        private void GenerateActionButtons(CharacterStats ch, ActionTypes.ActionType actionType)
+        {
+            ActionGrid.Children.Clear();
+            List<Action> actionsList = _currentBattleEngine.GetAvailableActions(actionType);
+
+            ActionGrid.Width = actionsList.Count * 40;
+            int left = 0;
+            foreach (Action action in actionsList)
+            {
+                Button bt = new Button();
+                string file = System.IO.Path.Combine(Environment.CurrentDirectory, action.Icon);
+                bt.Background = new ImageBrush(new BitmapImage(new Uri(file)));
+                string actionIndex = ch.Actions.IndexOf(action).ToString();
+                bt.Name = "Action"+ actionIndex;
+                bt.Width = 40;
+                bt.HorizontalAlignment = HorizontalAlignment.Left;
+                bt.Margin = new Thickness(left, 0,0,0);
+                left += 40;
+                bt.Click += Bt_Click;
+                ActionGrid.Children.Add(bt);
+            }
 
         }
+
+        private void Bt_Click(object sender, RoutedEventArgs e)
+        {
+            ActionPressed(sender);
+        }
+
+
 
         private void MouseEntered(object sender, MouseEventArgs e)
         {
             SelectChar((sender as Rectangle).Name,false);
-            //Rectangle senderImage = sender as Rectangle;
-            //string aux = senderImage.Name;
-            //int enemy = (aux.Contains("e") ? 1 : 0);
-            //aux = aux.Substring(0, 1 + enemy) + aux.Substring(2+enemy);
-            //System.Windows.Controls.Image charImage = FindName(aux) as System.Windows.Controls.Image;
-            ////PopOutWindow.Margin = new Thickness(charImage.Margin.Left, charImage.Margin.Top-25,0,0);
-            //int index = senderImage.Name.Last() - '1' + enemy*3;
-            //UiBackEnd.PopedChar(index);
+       
         }
 
 
         private System.Windows.Controls.Image _selectedCharacterImage;
         private System.Windows.Controls.Image _hoveredCharImage;
+        private System.Windows.Controls.Image _currentTurnCharImage;
 
         private void SelectChar(string name,bool selected)
         {
@@ -123,35 +156,51 @@ namespace DDRemakeProject
             int enemy = (aux.Contains("e") ? 1 : 0);
             aux = aux.Substring(0, 1 + enemy) + aux.Substring(2 + enemy);
             int index = name.Last() - '1' + enemy * 3;
-            UiBackEnd.PopedChar(index);
 
-            if (selected)
+            _currentBattleEngine.SelectChar(index);
+
+            if (_currentTurnCharImage==null || !_currentTurnCharImage.Equals(FindName(aux) as System.Windows.Controls.Image))
             {
-                if (_selectedCharacterImage != null)
+                if (selected)
                 {
-                    _selectedCharacterImage.Width = 100f;
-                    _selectedCharacterImage.Height = 100f;
+                    if (_selectedCharacterImage != null)
+                    {
+                        _selectedCharacterImage.Width = 100f;
+                        _selectedCharacterImage.Height = 100f;
+                    }
+
+                    _selectedCharacterImage = FindName(aux) as System.Windows.Controls.Image;
+                    _selectedCharacterImage.Width = 150f;
+                    _selectedCharacterImage.Height = 150f;
+                    SelectedCharacterIndex = index;
+
                 }
-
-                _selectedCharacterImage = FindName(aux) as System.Windows.Controls.Image;
-                _selectedCharacterImage.Width = 150f;
-                _selectedCharacterImage.Height = 150f;
-                SelectedCharacterIndex = index;
-
+                else
+                {
+                    _hoveredCharImage = FindName(aux) as System.Windows.Controls.Image;
+                    _hoveredCharImage.Width = 150f;
+                    _hoveredCharImage.Height = 150f;
+                }
             }
-            else
+
+        }
+
+        public void SelectTurnChar(System.Windows.Controls.Image image)
+        {
+
+            if (_currentTurnCharImage != null)
             {
-                _hoveredCharImage = FindName(aux) as System.Windows.Controls.Image;
-                _hoveredCharImage.Width = 150f;
-                _hoveredCharImage.Height = 150f;
+                _currentTurnCharImage.Width = 100f;
+                _currentTurnCharImage.Height = 100f;
             }
-      
-           
+            _currentTurnCharImage = image;
+            _currentTurnCharImage.Width = 150f;
+            _currentTurnCharImage.Height = 150f;
         }
 
         private void DeselectChar()
         {
-            UiBackEnd.PopOutQuit();
+            _currentBattleEngine.DeselectCHar();
             SelectedCharacterIndex = -1;
             if (_selectedCharacterImage != null)
             {
@@ -167,17 +216,14 @@ namespace DDRemakeProject
 
         private void MouseLeft(object sender, MouseEventArgs e)
         {
-            //PopOutWindow.IsEnabled = false;
             if (SelectedCharacterIndex == -1)
             {
                 DeselectChar();
-                //UiBackEnd.PopOutQuit();
-                //selectedCharacterImage.Width = 100f;
-                //selectedCharacterImage.Height = 100f;
             }
             else
             {
-                UiBackEnd.PopedChar(SelectedCharacterIndex);
+                _currentBattleEngine.SelectChar(SelectedCharacterIndex);
+
                 if (_hoveredCharImage != null && !_hoveredCharImage.Equals(_selectedCharacterImage))
                 {
                     _hoveredCharImage.Width = 100f;
@@ -190,5 +236,25 @@ namespace DDRemakeProject
         {
             DeselectChar();
         }
+
+        private void Button_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            ActionPressed(sender);
+        }
+
+        private void ActionPressed(object sender)
+        {
+            int actionIndex = int.Parse((sender as Button).Name.Last().ToString());
+            Action action = _currentBattleEngine.Characters[_currentBattleEngine.currentCharacterIndex].CharacterStats.Actions[actionIndex];
+            _currentBattleEngine.Fight(_currentBattleEngine.Characters[_currentBattleEngine.currentCharacterIndex], action);
+            _currentBattleEngine.SelectChar(SelectedCharacterIndex);
+            _currentBattleEngine.ReloadChar();
+        }
+
+        private void Attack_MouseLeave(object sender, MouseEventArgs e)
+        {
+            //ActionGrid.Children.Clear();
+        }
+
     }
 }
