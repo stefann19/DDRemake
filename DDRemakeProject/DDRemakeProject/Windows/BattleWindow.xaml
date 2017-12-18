@@ -6,29 +6,13 @@
         xmlns:gif="http://wpfanimatedgif.codeplex.com"
         xmlns:converters="clr-namespace:DDRemakeProject"
         xmlns:local="clr-namespace:DDRemakeProject"
+        xmlns:userControls="clr-namespace:DDRemakeProject.UserControls"
         mc:Ignorable="d"
         ResizeMode="NoResize"
         Title="BattleWindow" Width="648" Height="505" >
     <Window.Resources>
         <ImageBrush x:Key="AddButtonImageBrush" ImageSource="../Attack.png" Stretch="UniformToFill"/>
 
-
-        <ControlTemplate x:Key="Icons" TargetType="ContentControl">
-            <Grid Grid.Row="0" Grid.Column="0" >
-
-                <Grid.RowDefinitions>
-                    <RowDefinition ></RowDefinition>
-                    <RowDefinition Height="11"></RowDefinition>
-                </Grid.RowDefinitions>
-
-                <Image Grid.Row="0" Source="{DynamicResource ResourceKey=Img}" HorizontalAlignment="Center" VerticalAlignment="Center" />
-                <Grid Grid.Row="1" Margin="5,0">
-                    <Rectangle Fill="Gray" ></Rectangle>
-                    <Rectangle Width="{DynamicResource ResourceKey=width}" Fill="Red" HorizontalAlignment="Left"></Rectangle>
-                    <TextBlock Text="{DynamicResource ResourceKey=hpValue}"  Background="#00000000" FontSize="10" FontWeight="Bold" HorizontalAlignment="Center" FontFamily="MS Gothic"></TextBlock>
-                </Grid>
-            </Grid>
-        </ControlTemplate>
 
         <ControlTemplate x:Key="CharDetails" TargetType="ContentControl">
             <Grid Grid.Row="0" Grid.Column="5" Grid.RowSpan="2">
@@ -68,12 +52,32 @@
 
 
             </Grid>
+
         </ControlTemplate>
+
+        <Style x:Key="ToolButton" TargetType="Button">
+            <Setter Property="OverridesDefaultStyle" Value="True"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Image Name="rect"  Source="/DDRemakeProject;component/Assets/HUD/Attack.png"></Image>
+                        <ControlTemplate.Triggers>
+                            <!--<Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="rect" Property="Color" Value="Green" />
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter TargetName="rect" Property="Fill" Value="Yellow" />
+                            </Trigger>-->
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
 
 
     </Window.Resources>
 
-    <Grid>
+    <Grid Name="Grid">
         <Grid.RowDefinitions>
             <RowDefinition Height="52"/>
             <RowDefinition Height="4*"/>
@@ -81,7 +85,7 @@
         </Grid.RowDefinitions>
 
         <!--#region Background Image + Black Strips -->
-        <Image Source="../Assets/backgrounds/21.png" Stretch="None" Grid.Row="1" MouseDown="Image_MouseDown"/>
+        <Image Source="../Assets/backgrounds/21.png" Stretch="None" Grid.Row="1" MouseEnter="UIElement_OnMouseEnter" />
         <Rectangle Grid.Row="0" Fill="Black"></Rectangle>
         <Rectangle Grid.Row="2" Fill="Black"></Rectangle>
         <!--#endregion-->
@@ -89,86 +93,19 @@
 
 
 
-
-        <Image x:Name="BChar1" Grid.Row="1" Panel.ZIndex="1" HorizontalAlignment="Center" Height="100" VerticalAlignment="Center" Width="100"  gif:ImageBehavior.AutoStart="True" gif:ImageBehavior.AnimatedSource="../Assets/char/mage/idle.gif" Margin="125,166,417,44" RenderTransformOrigin="0.5,0.5">
-            <Image.RenderTransform>
-                <TransformGroup>
-                    <ScaleTransform ScaleX="-1"/>
-                    <SkewTransform/>
-                    <RotateTransform/>
-                    <TranslateTransform/>
-                </TransformGroup>
-            </Image.RenderTransform>
-        </Image>
-        <Image x:Name="BChar2" Grid.Row="1" Panel.ZIndex="1" HorizontalAlignment="Center" Height="100" VerticalAlignment="Center" Width="100"  gif:ImageBehavior.AutoStart="True" gif:ImageBehavior.AnimatedSource="../Assets/char/paladin/idle.gif" Margin="87,199,455,11" RenderTransformOrigin="0.5,0.5">
-            <Image.RenderTransform>
-                <TransformGroup>
-                    <ScaleTransform ScaleX="-1"/>
-                    <SkewTransform/>
-                    <RotateTransform/>
-                    <TranslateTransform/>
-                </TransformGroup>
-            </Image.RenderTransform>
-        </Image>
-        <Image x:Name="BChar3" Grid.Row="1" Panel.ZIndex="1" HorizontalAlignment="Center"  Height="100" VerticalAlignment="Center" Width="100" gif:ImageBehavior.AutoStart="True" gif:ImageBehavior.AnimatedSource="../Assets/char/warrior/idle.gif" Margin="25,218,517,107" RenderTransformOrigin="0.5,0.5" Grid.RowSpan="2">
-            <Image.RenderTransform>
-                <TransformGroup>
-                    <ScaleTransform ScaleX="-1"/>
-                    <SkewTransform/>
-                    <RotateTransform/>
-                    <TranslateTransform/>
-                </TransformGroup>
-            </Image.RenderTransform>
-        </Image>
+        <local:CharAvatar Panel.ZIndex="1" x:Name ="Position0"  Grid.Row="1" Margin="159,178,383,32" Height="100" Width="100" HorizontalAlignment="Center" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" VerticalAlignment="Center"    />
+        <local:CharAvatar Panel.ZIndex="1" x:Name ="Position1"  Grid.Row="1" Margin="119,194,423,16" Height="100" Width="100" HorizontalAlignment="Center" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" VerticalAlignment="Center"  />
+        <local:CharAvatar  Panel.ZIndex="1" x:Name ="Position2"  Grid.Row="1" Margin="80,210,462,0" Height="100" Width="100" HorizontalAlignment="Center" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" VerticalAlignment="Center"  />
+        <local:CharAvatar Panel.ZIndex="1" x:Name ="Position3"  Grid.Row="1" Margin="382,178,160,32" Height="100" Width="100" HorizontalAlignment="Center" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" VerticalAlignment="Center"  />
+        <local:CharAvatar Panel.ZIndex="1" x:Name ="Position4"  Grid.Row="1" Margin="423,194,119,16" Height="100" Width="100" HorizontalAlignment="Center" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" VerticalAlignment="Center"  />
+        <local:CharAvatar Panel.ZIndex="1" x:Name ="Position5"  Grid.Row="1" Margin="462,210,80,0" Height="100" Width="100" HorizontalAlignment="Center" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" VerticalAlignment="Center"  />
 
 
-        <Image x:Name="BeChar1" Grid.Row="1" Panel.ZIndex="1" HorizontalAlignment="Center" Height="100" VerticalAlignment="Center" Width="100"  gif:ImageBehavior.AutoStart="True" gif:ImageBehavior.AnimatedSource="../Assets/monster/bat/idle.gif" Margin="403,175,139,35" RenderTransformOrigin="0.5,0.5" >
-            <Image.RenderTransform>
-                <TransformGroup>
-                    <ScaleTransform ScaleY="1" ScaleX="-1"/>
-                    <SkewTransform AngleY="0" AngleX="0"/>
-                    <RotateTransform Angle="0"/>
-                    <TranslateTransform/>
-                </TransformGroup>
-            </Image.RenderTransform>
-        </Image>
-        <Image x:Name="BeChar2" Grid.Row="1" Panel.ZIndex="1" HorizontalAlignment="Center" Height="100" VerticalAlignment="Center" Width="100"  gif:ImageBehavior.AutoStart="True" gif:ImageBehavior.AnimatedSource="../Assets/monster/boar/idle.gif" Margin="452,182,90,28" RenderTransformOrigin="0.5,0.5">
-            <Image.RenderTransform>
-                <TransformGroup>
-                    <ScaleTransform ScaleY="1" ScaleX="-1"/>
-                    <SkewTransform AngleY="0" AngleX="0"/>
-                    <RotateTransform Angle="0"/>
-                    <TranslateTransform/>
-                </TransformGroup>
-            </Image.RenderTransform>
-        </Image>
-        <Image x:Name="BeChar3" Grid.Row="1" Panel.ZIndex="1" HorizontalAlignment="Center" Height="100" VerticalAlignment="Center" Width="100"  gif:ImageBehavior.AutoStart="True" gif:ImageBehavior.AnimatedSource="../Assets/monster/dino/idle.gif" Margin="521,201,21,9" RenderTransformOrigin="0.5,0.5" >
-            <Image.RenderTransform>
-                <TransformGroup>
-                    <ScaleTransform ScaleY="1" ScaleX="-1"/>
-                    <SkewTransform AngleY="0" AngleX="0"/>
-                    <RotateTransform Angle="0"/>
-                    <TranslateTransform/>
-                </TransformGroup>
-            </Image.RenderTransform>
-        </Image>
-
-
-        <Rectangle Fill="Transparent"  x:Name="BhChar1" Grid.Row="1" Panel.ZIndex="1" HorizontalAlignment="Left" Height="50" VerticalAlignment="Top" Width="50" Margin="150,192,0,0" RenderTransformOrigin="0.5,0.5" MouseDown="SelectChar" MouseEnter="MouseEntered" MouseLeave="MouseLeft"/>
-        <Rectangle Fill="Transparent"  x:Name="BhChar2" Grid.Row="1" Panel.ZIndex="1" HorizontalAlignment="Left" Height="50" VerticalAlignment="Top" Width="50"  Margin="100,221,0,0" RenderTransformOrigin="0.5,0.5" MouseDown="SelectChar" MouseEnter="MouseEntered" MouseLeave="MouseLeft"/>
-        <Rectangle Fill="Transparent"  x:Name="BhChar3" Grid.Row="1" Panel.ZIndex="1" HorizontalAlignment="Left" Height="50" VerticalAlignment="Top" Width="50"  Margin="50,245,0,0" RenderTransformOrigin="0.5,0.5" MouseDown="SelectChar" MouseEnter="MouseEntered" MouseLeave="MouseLeft" />
-
-
-
-
-        <Rectangle Fill="Transparent"  x:Name="BehChar1" Grid.Row="1" Panel.ZIndex="1" HorizontalAlignment="Left" Height="50" VerticalAlignment="Top" Width="50"  Margin="428,200,0,0" RenderTransformOrigin="0.5,0.5" MouseDown="SelectChar" MouseEnter="MouseEntered" MouseLeave="MouseLeft"/>
-        <Rectangle Fill="Transparent"  x:Name="BehChar2" Grid.Row="1" Panel.ZIndex="1" HorizontalAlignment="Left" Height="50" VerticalAlignment="Top" Width="50"  Margin="478,221,0,0" RenderTransformOrigin="0.5,0.5" MouseDown="SelectChar" MouseEnter="MouseEntered" MouseLeave="MouseLeft"/>
-        <Rectangle Fill="Transparent"  x:Name="BehChar3" Grid.Row="1" Panel.ZIndex="1" HorizontalAlignment="Left" Height="50" VerticalAlignment="Top" Width="50"  Margin="543,221,0,0" RenderTransformOrigin="0.5,0.5" MouseDown="SelectChar" MouseEnter="MouseEntered" MouseLeave="MouseLeft"/>
 
         <!--#endregion-->
-        
+
         <Grid Name="ActionGrid" Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Bottom" Width="80" Height="40" Margin="-56,0,0,0">
-            <Button HorizontalContentAlignment="Stretch" Width="40" Margin="0" HorizontalAlignment="Left" MouseDown="Button_MouseDown">
+            <Button HorizontalContentAlignment="Stretch" Width="40" Margin="0" HorizontalAlignment="Left">
                 <Button.Background>
                     <ImageBrush Stretch="Uniform" ImageSource="../Assets/HUD/MediumAttack.png"/>
                 </Button.Background>
@@ -178,12 +115,12 @@
                     <ImageBrush Stretch="Uniform" ImageSource="../Assets/HUD/LowAttack.png"/>
                 </Button.Background>
             </Button>
-            
+
         </Grid>
-        
+
 
         <!--#region Bottom Grid-->
-        <Grid Name="pleaseWork" Height="115" Width="640" Grid.Row="2" >
+        <Grid Height="115" Width="640" Grid.Row="2" >
             <!--#region rows and columns definitions-->
             <Grid.RowDefinitions>
 
@@ -204,15 +141,17 @@
             <!--#endregion-->
 
             <!--#region Characters Icons -->
+            
+            
 
+            <userControls:CharIcon x:Name="Icon0" Grid.Row="0" Grid.Column="0"/>
+            <userControls:CharIcon x:Name="Icon1" Grid.Row="0" Grid.Column="1"/>
+            <userControls:CharIcon x:Name="Icon2" Grid.Row="0" Grid.Column="2"/>
+            <userControls:CharIcon x:Name="Icon3" Grid.Row="1" Grid.Column="0"/>
+            <userControls:CharIcon x:Name="Icon4" Grid.Row="1" Grid.Column="1"/>
+            <userControls:CharIcon x:Name="Icon5" Grid.Row="1" Grid.Column="2"/>
 
-
-            <ContentControl x:Name="Icon0" Grid.Row="0" Grid.Column="0" Template="{StaticResource ResourceKey=Icons}">
-                <ContentControl.Resources>
-                    <ImageSource x:Key="Img">../Assets/char/mage/faceset.png</ImageSource>
-                </ContentControl.Resources>
-            </ContentControl>
-            <ContentControl x:Name="Icon1" Grid.Row="0" Grid.Column="1" Template="{StaticResource ResourceKey=Icons}">
+            <!--<ContentControl x:Name="Icon1" Grid.Row="0" Grid.Column="1" Template="{StaticResource ResourceKey=Icons}">
                 <ContentControl.Resources>
                     <ImageSource x:Key="Img">../Assets/char/mage/faceset.png</ImageSource>
                 </ContentControl.Resources>
@@ -237,18 +176,22 @@
                 <ContentControl.Resources>
                     <ImageSource x:Key="Img">../Assets/monster/dino/idle.gif</ImageSource>
                 </ContentControl.Resources>
-            </ContentControl>
+            </ContentControl>-->
             <!--#endregion-->
 
             <!--#region Actions-->
-            <Button x:Name="Attack" Grid.Row="0" Grid.Column="3" MouseEnter="ShowAvailableActions" MouseLeave="Attack_MouseLeave">
-                <Button.Background>
-                    <ImageBrush ImageSource="/DDRemakeProject;component/Assets/HUD/Attack.png"/>
-                </Button.Background>
+            <!--<Button x:Name="Attack" Grid.Row="0" Grid.Column="3" MouseEnter="ShowAvailableActions" MouseLeave="Attack_MouseLeave" Style="{StaticResource ToolButton}">
+                <ImageBrush ImageSource="/DDRemakeProject;component/Assets/HUD/Attack.png"/>
             </Button>
             <Image x:Name="Defence" Grid.Row="0" Grid.Column="4" Source="../Defend.png"/>
             <Image x:Name="Spell" Grid.Row="1" Grid.Column="3" Source="../Spells.png"/>
-            <Image x:Name="Item" Grid.Row="1" Grid.Column="4" Source="../Inventory.png"/>
+            <Image x:Name="Item" Grid.Row="1" Grid.Column="4" Source="../Inventory.png"/>-->
+            
+            <local:AnimatedButton x:Name="Attack" Grid.Row="0" Grid.Column="3"></local:AnimatedButton>
+            <local:AnimatedButton x:Name="Defend" Grid.Row="0" Grid.Column="4"></local:AnimatedButton>
+            <local:AnimatedButton x:Name="Spell" Grid.Row="1" Grid.Column="3"></local:AnimatedButton>
+            <local:AnimatedButton x:Name="Item" Grid.Row="1" Grid.Column="4"></local:AnimatedButton>
+
             <!--#endregion-->
 
             <!--#region Selected Character-->
@@ -266,8 +209,9 @@
 
         </Grid>
         <!--#endregion-->
-        
+
 
 
     </Grid>
 </Window>
+

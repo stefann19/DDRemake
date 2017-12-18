@@ -1,14 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Windows.Shapes;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Media.Imaging;
-using System.Drawing;
-using System.Threading;
 using System.Windows.Media;
 using DDRemakeProject.World;
 

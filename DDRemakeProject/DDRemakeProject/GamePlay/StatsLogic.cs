@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace DDRemakeProject.GamePlay
+﻿namespace DDRemakeProject.GamePlay
 {
     public class StatsLogic
     {
@@ -43,11 +37,11 @@ namespace DDRemakeProject.GamePlay
         #endregion
 
         #region AP
-        public const float LevelToAp = 0.33f;
-        public const float ConstitutionToAp = 0.1f;
-        public const float StrengthToAp = 0.1f;
-        public const float SpeedToAp = 0.5f;
-        public const float InteligenceToAp = 0.2f;
+        public const float LevelToAp = 3f;
+        public const float ConstitutionToAp = 1f;
+        public const float StrengthToAp = 2f;
+        public const float SpeedToAp = 4f;
+        public const float InteligenceToAp = 1f;
 
 
         public static int GetAp(CharacterStats ch)
@@ -86,10 +80,10 @@ namespace DDRemakeProject.GamePlay
         #region Actions
 
         //default Medium Attack
-        public static Action MediumAttack = new Action("../../Assets/HUD/MediumAttack.png","../../Assets/fx/5.gif",10,2,0,ActionTypes.ActionType.Attack);
+        public static Action MediumAttack = new Action(ButtonStatesList.MediumAttack,"../../Assets/fx/mediumAttack.gif",10,2,0,ActionTypes.ActionType.Attack);
         //default Low Attack
-        public static Action LowAttack = new Action("../../Assets/HUD/LowAttack.png", "../../Assets/fx/2.gif", 6, 1, 0, ActionTypes.ActionType.Attack);
-        public static Action FireSpell = new Action("../../Assets/HUD/Fire.png", "../../Assets/fx/9.gif", 15, 1, 5, ActionTypes.ActionType.Spell);
+        public static Action LowAttack = new Action(ButtonStatesList.LowAttack, "../../Assets/fx/lowAttack.gif", 6, 1, 0, ActionTypes.ActionType.Attack);
+        public static Action FireSpell = new Action(ButtonStatesList.Spell, "../../Assets/fx/9.gif", 15, 1, 5, ActionTypes.ActionType.Spell);
 
 
         #endregion

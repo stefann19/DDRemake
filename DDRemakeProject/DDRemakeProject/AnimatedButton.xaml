@@ -1,0 +1,66 @@
+﻿<UserControl x:Class="DDRemakeProject.AnimatedButton"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:DDRemakeProject"
+             mc:Ignorable="d" 
+             d:DesignHeight="58" d:DesignWidth="58">
+    <Grid>
+        <Button Name="Button" Height="58" HorizontalAlignment="Center" IsEnabled="True" IsHitTestVisible="True" Margin="0" VerticalAlignment="Center" Width="58">
+            <Button.Template>
+                <ControlTemplate x:Name="Template" TargetType="{x:Type Button}">
+                    <Grid Name="Gridd">
+                        <Image Name="Normal" Source="{DynamicResource ResourceKey=NImg}" />
+                        <Image Name="Hover" Source="{DynamicResource ResourceKey=HImg}" Opacity="0"/>
+                        <Image Name="Pressed" Source="{DynamicResource ResourceKey=PImg}" Opacity="0" />
+                    </Grid>
+                    <ControlTemplate.Resources>
+                        <ImageSource x:Key="NImg" >Assets/HUD/Air.png</ImageSource>
+                        <ImageSource x:Key="HImg" >Assets/HUD/Air.png</ImageSource>
+                        <ImageSource x:Key="PImg" >Assets/HUD/Air.png</ImageSource>
+
+                        <Storyboard x:Key="MouseDownTimeLine">
+                            <DoubleAnimationUsingKeyFrames BeginTime="00:00:00" Storyboard.TargetName="Pressed" Storyboard.TargetProperty="Opacity">
+                                <SplineDoubleKeyFrame KeyTime="00:00:00.05" Value="1"/>
+                            </DoubleAnimationUsingKeyFrames>
+                        </Storyboard>
+                        <Storyboard x:Key="MouseUpTimeLine">
+                            <DoubleAnimationUsingKeyFrames BeginTime="00:00:00" Storyboard.TargetName="Pressed" Storyboard.TargetProperty="Opacity">
+                                <SplineDoubleKeyFrame KeyTime="00:00:00.25" Value="0"/>
+                            </DoubleAnimationUsingKeyFrames>
+                        </Storyboard>
+                        <Storyboard x:Key="MouseEnterTimeLine">
+                            <DoubleAnimationUsingKeyFrames BeginTime="00:00:00" Storyboard.TargetName="Hover" Storyboard.TargetProperty="Opacity">
+                                <SplineDoubleKeyFrame KeyTime="00:00:00.25" Value="1"/>
+                            </DoubleAnimationUsingKeyFrames>
+                        </Storyboard>
+                        <Storyboard x:Key="MouseExitTimeLine">
+                            <DoubleAnimationUsingKeyFrames BeginTime="00:00:00" Storyboard.TargetName="Hover" Storyboard.TargetProperty="Opacity">
+                                <SplineDoubleKeyFrame KeyTime="00:00:00.25" Value="0"/>
+                            </DoubleAnimationUsingKeyFrames>
+                        </Storyboard>
+                    </ControlTemplate.Resources>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="ButtonBase.IsPressed" Value="True">
+                            <Trigger.EnterActions>
+                                <BeginStoryboard Storyboard="{StaticResource MouseDownTimeLine}"/>
+                            </Trigger.EnterActions>
+                            <Trigger.ExitActions>
+                                <BeginStoryboard Storyboard="{StaticResource MouseUpTimeLine}"/>
+                            </Trigger.ExitActions>
+                        </Trigger>
+                        <Trigger Property="UIElement.IsMouseOver" Value="True">
+                            <Trigger.EnterActions>
+                                <BeginStoryboard Storyboard="{StaticResource MouseEnterTimeLine}"/>
+                            </Trigger.EnterActions>
+                            <Trigger.ExitActions>
+                                <BeginStoryboard Storyboard="{StaticResource MouseExitTimeLine}"/>
+                            </Trigger.ExitActions>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Button.Template>
+        </Button>
+    </Grid>
+</UserControl>

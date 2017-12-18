@@ -1,16 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace DDRemakeProject.GamePlay
+﻿namespace DDRemakeProject.GamePlay
 {
     public class Action
     {
-        public Action(string actionIcon, string actionEffect, int damage,int apCost,int mpCost,ActionTypes.ActionType actionType)
+        public Action(ButtonStatesImages actionIcons, string actionEffect, int damage,int apCost,int mpCost,ActionTypes.ActionType actionType)
         {
-            Icon = actionIcon;
+            Icon = actionIcons;
             Effect = actionEffect;
             Damage = damage;
             ApCost = apCost;
@@ -18,7 +12,7 @@ namespace DDRemakeProject.GamePlay
             ActionType = actionType;
         }
 
-        public string Icon { get; }
+        public ButtonStatesImages Icon { get; }
         public string Effect { get; }
 
         public int Damage { get; private set; }

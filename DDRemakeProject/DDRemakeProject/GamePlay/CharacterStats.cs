@@ -1,26 +1,29 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using DDRemakeProject.GamePlay;
+﻿using System.Collections.Generic;
 
 namespace DDRemakeProject.GamePlay
 {
     public class CharacterStats
     {
-
+        public Character CharacterParent;
         #region Properties
-
 
         /// <summary>
         /// Max HP
         /// </summary>
-        public int Hp { get; private set; }
+        public int Hp { get; set; }
+
         /// <summary>
         /// Current Hp
         /// </summary>
-        public int CurrentHp { get; set; }
+        public int CurrentHp
+        {
+            get => _currentHp;
+            set
+            {
+                _currentHp = value;
+                CharacterParent?.UpdateHpUi();
+            }
+        }
 
         /// <summary>
         /// Max MP
@@ -56,6 +59,8 @@ namespace DDRemakeProject.GamePlay
         public string Name { get; private set; }
 
         public List<Action> Actions;
+        private int _currentHp;
+
         #endregion
 
         #region Constructors

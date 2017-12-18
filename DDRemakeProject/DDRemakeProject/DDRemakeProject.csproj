@@ -80,7 +80,22 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="AnimatedButton.xaml.cs">
+      <DependentUpon>AnimatedButton.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="GamePlay\ActionGridController.cs" />
+    <Compile Include="GamePlay\AnimatedButtonController.cs" />
+    <Compile Include="GamePlay\AnimatedButtonPopUp.cs" />
+    <Compile Include="GamePlay\ButtonStatesImages.cs" />
+    <Compile Include="GamePlay\ButtonStatesList.cs" />
+    <Compile Include="GamePlay\CharacterUi.cs" />
+    <Compile Include="GamePlay\SkillEffects.cs" />
+    <Compile Include="GamePlay\TurnSystem.cs" />
+    <Compile Include="UserControls\CharAvatar.xaml.cs">
+      <DependentUpon>CharAvatar.xaml</DependentUpon>
+    </Compile>
     <Compile Include="GamePlay\ActionTypes.cs" />
+    <Compile Include="GamePlay\AvatarSpotsManager.cs" />
     <Compile Include="GamePlay\BattleEngine.cs" />
     <Compile Include="GamePlay\Character.cs" />
     <Compile Include="GamePlay\CharacterStats.cs" />
@@ -90,6 +105,9 @@
     <Compile Include="GamePlay\Action.cs" />
     <Compile Include="GamePlay\StatsLogic.cs" />
     <Compile Include="GamePlay\UIBackEnd.cs" />
+    <Compile Include="UserControls\CharIcon.xaml.cs">
+      <DependentUpon>CharIcon.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Windows\BattleWindow.xaml.cs">
       <DependentUpon>BattleWindow.xaml</DependentUpon>
     </Compile>
@@ -115,6 +133,18 @@
     <Compile Include="WorldGeneration\GeneratorV1.cs" />
     <Compile Include="WorldGeneration\RoomModule.cs" />
     <Compile Include="XmlToFile.cs" />
+    <Page Include="AnimatedButton.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UserControls\CharAvatar.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UserControls\CharIcon.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Windows\BattleWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
