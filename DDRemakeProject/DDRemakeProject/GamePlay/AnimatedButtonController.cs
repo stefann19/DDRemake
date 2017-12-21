@@ -10,7 +10,7 @@ namespace DDRemakeProject.GamePlay
         public AnimatedButton AnimatedButton { get; set; }
 
         private ButtonStatesImages ButtonStatesImages { get; set; }
-        public BattleEngine _battleEngine;
+        public BattleEngine BattleEngine;
 
         public AnimatedButtonController(ButtonStatesImages buttonStatesImages,AnimatedButton animatedButton,ActionTypes.ActionType actionType,BattleEngine battleEngine)
         {
@@ -18,7 +18,7 @@ namespace DDRemakeProject.GamePlay
             this.AnimatedButton = animatedButton;
             this.ActionType = actionType;
             AnimatedButton.ActionType = actionType;
-            this._battleEngine = battleEngine;
+            this.BattleEngine = battleEngine;
             SetImageSourcesForAnimatedButton();
             
         }

@@ -13,9 +13,7 @@ namespace DDRemakeProject.GamePlay
                 CurrentCharIndex = CurrentCharIndex + 1 >= characters.Count ? 0 : CurrentCharIndex + 1;
 
                 if (characters[CurrentCharIndex].Status == CharacterTypes.Status.Dead)
-                {
                     continue;
-                }
                 break;
             }
         }

@@ -8,13 +8,13 @@ namespace DDRemakeProject.GamePlay
 
         static AvatarSpotsManager()
         {
-            _availableAllySpots = new List<Tuple<CharacterUi, bool>>
+            AvailableAllySpots = new List<Tuple<CharacterUi, bool>>
             {
                 new Tuple<CharacterUi, bool>(new CharacterUi(BattleEngine.BattleWindowUi.Position0,BattleEngine.BattleWindowUi.Icon0), true),
                 new Tuple<CharacterUi, bool>(new CharacterUi(BattleEngine.BattleWindowUi.Position1,BattleEngine.BattleWindowUi.Icon1), true),
                 new Tuple<CharacterUi, bool>(new CharacterUi(BattleEngine.BattleWindowUi.Position2,BattleEngine.BattleWindowUi.Icon2), true)
             };
-            _availableEnemySpots = new List<Tuple<CharacterUi, bool>>
+            AvailableEnemySpots = new List<Tuple<CharacterUi, bool>>
             {
                 new Tuple<CharacterUi, bool>(new CharacterUi(BattleEngine.BattleWindowUi.Position3,BattleEngine.BattleWindowUi.Icon3), true),
                 new Tuple<CharacterUi, bool>(new CharacterUi(BattleEngine.BattleWindowUi.Position4,BattleEngine.BattleWindowUi.Icon4), true),
@@ -23,24 +23,17 @@ namespace DDRemakeProject.GamePlay
 
         }
 
-        private static List<Tuple<CharacterUi,bool>> _availableAllySpots;
-        private static List<Tuple<CharacterUi, bool>> _availableEnemySpots;
+        private static readonly List<Tuple<CharacterUi,bool>> AvailableAllySpots;
+        private static readonly List<Tuple<CharacterUi, bool>> AvailableEnemySpots;
 
         public static CharacterUi GetSpot(CharacterTypes.Type type)
         {
-            if (type == CharacterTypes.Type.Ally)
-            {
-                return SearchForFreeSpotInList(_availableAllySpots);
-            }
-            else
-            {
-                return SearchForFreeSpotInList(_availableEnemySpots);
-            }
+            return SearchForFreeSpotInList(type == CharacterTypes.Type.Ally ? AvailableAllySpots : AvailableEnemySpots);
         }
 
         public static CharacterUi SearchForFreeSpotInList(List<Tuple<CharacterUi, bool>> list)
         {
-            for (var i = 0; i < list.Count; i++)
+            for (int i = 0; i < list.Count; i++)
             {
                 Tuple<CharacterUi, bool> t = list[i];
                 if (!t.Item2) continue;
@@ -55,11 +48,11 @@ namespace DDRemakeProject.GamePlay
         {
             if (type == CharacterTypes.Type.Ally)
             {
-                FreeSpotForList(charAvater, _availableAllySpots);
+                FreeSpotForList(charAvater, AvailableAllySpots);
             }
             else
             {
-                FreeSpotForList(charAvater, _availableAllySpots);
+                FreeSpotForList(charAvater, AvailableAllySpots);
             }
         }
 

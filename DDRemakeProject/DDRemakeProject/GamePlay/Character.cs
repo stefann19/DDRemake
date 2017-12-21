@@ -1,11 +1,12 @@
 ﻿using System;
+using System.IO;
 using System.Windows;
 using System.Windows.Media.Imaging;
 using WpfAnimatedGif;
 
 namespace DDRemakeProject.GamePlay
 {
-    public class Character : IComparable <Character>
+    public class Character : IComparable<Character>
     {
         public BattleEngine BattleEngine { get; }
         public CharacterStats CharacterStats { get; set; }
@@ -19,17 +20,16 @@ namespace DDRemakeProject.GamePlay
         {
             Status = CharacterTypes.Status.Dead;
             CharacterUiControl.CharAvatarControl.Visibility = Visibility.Hidden;
-
         }
 
-        public Character(CharacterStats characterStats,CharacterTypes.Type type, BattleEngine battleEngine)
+        public Character(CharacterStats characterStats, CharacterTypes.Type type, BattleEngine battleEngine)
         {
             CharacterStats = characterStats;
             CharacterStats.CharacterParent = this;
             Status = CharacterTypes.Status.Alive;
             Type = type;
-            this.BattleEngine = battleEngine;
-            CharacterUiControl = AvatarSpotsManager.GetSpot(Type) ;
+            BattleEngine = battleEngine;
+            CharacterUiControl = AvatarSpotsManager.GetSpot(Type);
             CharacterSetup();
             CharacterUiControl.AssignCharactersToUi(this);
         }
@@ -37,26 +37,26 @@ namespace DDRemakeProject.GamePlay
 
         private void CharacterSetup()
         {
+            string path = Path.Combine(Environment.CurrentDirectory, CharacterStats.CharacterPng);
 
-            string path = System.IO.Path.Combine(Environment.CurrentDirectory, CharacterStats.CharacterPng);
-
-            ImageBehavior.SetAnimatedSource(CharacterUiControl.CharAvatarControl.AvatarImage, new BitmapImage(new Uri(path)));
-            path = System.IO.Path.Combine(Environment.CurrentDirectory, CharacterStats.CharacterIconPng);  
+            ImageBehavior.SetAnimatedSource(CharacterUiControl.CharAvatarControl.AvatarImage,
+                new BitmapImage(new Uri(path)));
+            path = Path.Combine(Environment.CurrentDirectory, CharacterStats.CharacterIconPng);
             CharacterUiControl.CharIconControl.Icon.Source = new BitmapImage(new Uri(path));
             UpdateHpUi();
         }
 
         public void UpdateHpUi()
         {
-            CharacterUiControl.CharIconControl.HpValue.Text = $"{CharacterStats.CurrentHp.ToString()} / {CharacterStats.Hp.ToString()}";
-            CharacterUiControl.CharIconControl.HpValueRect.Width = Math.Max(0d,(double)(CharacterStats.CurrentHp * 78f / CharacterStats.Hp));
+            CharacterUiControl.CharIconControl.HpValue.Text = $"{CharacterStats.CurrentHp} / {CharacterStats.Hp}";
+            CharacterUiControl.CharIconControl.HpValueRect.Width =
+                Math.Max(0d, CharacterStats.CurrentHp * 78f / CharacterStats.Hp);
         }
 
 
         public int CompareTo(Character ch)
         {
-            return this.CharacterStats.Inteligence - ch.CharacterStats.Inteligence;
+            return CharacterStats.Inteligence - ch.CharacterStats.Inteligence;
         }
-
     }
 }

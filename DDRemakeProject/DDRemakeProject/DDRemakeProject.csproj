@@ -101,7 +101,6 @@
     <Compile Include="GamePlay\CharacterStats.cs" />
     <Compile Include="GamePlay\CharacterMiniWindow.cs" />
     <Compile Include="GamePlay\CharacterTypes.cs" />
-    <Compile Include="GamePlay\CharDetailsTemp.cs" />
     <Compile Include="GamePlay\Action.cs" />
     <Compile Include="GamePlay\StatsLogic.cs" />
     <Compile Include="GamePlay\UIBackEnd.cs" />

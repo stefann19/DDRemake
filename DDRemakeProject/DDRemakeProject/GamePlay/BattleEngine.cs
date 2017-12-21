@@ -18,10 +18,10 @@ namespace DDRemakeProject.GamePlay
 
         public HashSet<AnimatedButtonPopUp> AnimatedButtonPopUps { get; set; }
 
-        private ActionGridController actionGrid;
+        private ActionGridController _actionGrid;
 
         public static bool WaitForAnimation;
-        public static Character weakestCharacter;
+        public static Character WeakestCharacter;
 
         public Character SelectedCharacter
         {
@@ -36,11 +36,11 @@ namespace DDRemakeProject.GamePlay
 
 
 
-        public BattleEngine(List<CharacterStats> allyCharacters, List<CharacterStats> enemyCharacters)
+        public BattleEngine(IEnumerable<CharacterStats> allyCharacters, IEnumerable<CharacterStats> enemyCharacters)
         {
             WaitForAnimation = false;
             BattleWindowUi = new BattleWindow(this);
-            actionGrid = new ActionGridController(BattleWindowUi.ActionGrid);
+            _actionGrid = new ActionGridController(BattleWindowUi.ActionGrid);
             GenerateMap();
 
             Characters = new List<Character>();
@@ -96,7 +96,7 @@ namespace DDRemakeProject.GamePlay
 
             if (Characters[TurnSystem.CurrentCharIndex].Type == CharacterTypes.Type.Enemy)
             {
-                weakestCharacter = ChooseWeakestAllyTarget();
+                WeakestCharacter = ChooseWeakestAllyTarget();
                 Fight(ChooseWeakestAllyTarget(),Characters[TurnSystem.CurrentCharIndex].CharacterStats.Actions.First());
             }
 
@@ -127,14 +127,6 @@ namespace DDRemakeProject.GamePlay
         }
 
 
-        /// <summary>
-        /// Set every character ui and stats for current game
-        /// </summary>
-        private void GenerateMap()
-        {
-
-            //BWindow.InitializeBattleUi(Characters);
-        }
 
 
         private Character ChooseWeakestAllyTarget()
@@ -146,24 +138,9 @@ namespace DDRemakeProject.GamePlay
         public void AttackFromTrigger()
         {
             
-            Fight(weakestCharacter, Characters[TurnSystem.CurrentCharIndex].CharacterStats.Actions.First());
+            Fight(WeakestCharacter, Characters[TurnSystem.CurrentCharIndex].CharacterStats.Actions.First());
         }
-        //public void Fight( Action skill)
-        //{
-
-        //    // execute the attack animation in the UI
-        //    //skill.SkillEffect;
-
-
-        //    //execute the hp/ap drain animation in the UI
-
-
-        //    //Execute the stats changes of the fight\
-        //    if (SelectedCharacter == null) return;
-        //    if (skill.ApCost <= Characters[TurnSystem.CurrentCharIndex].CharacterStats.CurrentAp)
-        //        DoFightStatChanges(Characters[TurnSystem.CurrentCharIndex].CharacterStats, SelectedCharacter, skill);
-        //    SetNextTurn();
-        //}
+        
 
         public void Fight(Character defenderCharacter,Action skill)
         {
@@ -190,7 +167,7 @@ namespace DDRemakeProject.GamePlay
                 //Execute the stats changes of the fight\
                 DoFightStatChanges(Characters[TurnSystem.CurrentCharIndex].CharacterStats, defenderCharacter, skill);
             }
-            weakestCharacter = null;
+            WeakestCharacter = null;
             //SetNextTurn();
         }
 
@@ -229,17 +206,7 @@ namespace DDRemakeProject.GamePlay
 
         public List<Action> GetAvailableActions(ActionTypes.ActionType actionType)
         {
-            List<Action> availableActions = new List<Action>();
-
-            foreach (Action action in Characters[TurnSystem.CurrentCharIndex].CharacterStats.Actions)
-            {
-                if (action.ActionType == actionType)
-                {
-                    availableActions.Add(action);
-                }
-            }
-
-            return availableActions;
+            return Characters[TurnSystem.CurrentCharIndex].CharacterStats.Actions.Where(action => action.ActionType == actionType).ToList();
         }
 
     }
