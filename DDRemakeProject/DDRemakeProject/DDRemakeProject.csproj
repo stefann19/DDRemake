@@ -127,11 +127,13 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <Compile Include="World\Point.cs" />
+    <Compile Include="WorldGeneration\GeneratorV2.cs" />
+    <Compile Include="Deprecated\Point.cs" />
     <Compile Include="World\RoomSpace.cs" />
     <Compile Include="World\Tile.cs" />
     <Compile Include="WorldGeneration\GeneratorV1.cs" />
     <Compile Include="WorldGeneration\RoomModule.cs" />
+    <Compile Include="World\VectorExtensions.cs" />
     <Compile Include="XmlToFile.cs" />
     <Page Include="AnimatedButton.xaml">
       <SubType>Designer</SubType>

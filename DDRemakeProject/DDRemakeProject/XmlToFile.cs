@@ -20,9 +20,9 @@ namespace DDRemakeProject
             TextWriter writer = null;
             try
             {
-                var serializer = new System.Xml.Serialization.XmlSerializer(typeof(T));
-                writer = new StreamWriter(filePath, append);
-                serializer.Serialize(writer, objectToWrite);
+                //var serializer = new System.Xml.Serialization.XmlSerializer(typeof(T));
+                //writer = new StreamWriter(filePath, append);
+                //serializer.Serialize(writer, objectToWrite);
             }
             finally
             {

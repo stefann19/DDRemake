@@ -1,173 +1,30 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Windows;
 using System.Windows.Media;
 using DDRemakeProject.World;
+using Point = System.Windows.Point;
 
 namespace DDRemakeProject.WorldGeneration
 {
     public class RoomModule
     {
-        /// <summary>
-        ///  Room's size starting from the top right corner to the right
-        /// </summary>
-        public int SizeX { get; set; }
-        /// <summary>
-        ///  Room's size starting from the top right corner to the bottom
-        /// </summary>
-        public int SizeY { get; set; }
 
-        /// <summary>
-        ///  The x coordinate of the top right corner of the room
-        /// </summary>
-        public int X { get; set; }
-        /// <summary>
-        ///  The y coordinate of the top right corner of the room
-        /// </summary>
-        public int Y { get; set; }
+        public Rect RoomRect { get; set; }
+
         /// <summary>
         /// Matrix holding the Image(tiles) objects of the room
         /// </summary>
-        public Tile[][] Tiles { get; set; }
+        public Dictionary<Vector, Tile> Tiles { get; set; }
 
         /// <summary>
         /// List of Tiles containing all the wall tiles in the Room
         /// </summary>
-        public List<Tile> WallTiles { get; set; }
-        /// <summary>
-        ///  Contruct room by giving the top right corner coordinates and room size in tPixels
-        /// </summary>
-        /// 
-        public static RoomSpace CheckForSpace(World.Point coord,Tile[][] dungeon, World.Point size,int scanSize)
-        {
-            int lX=0, rX=0, tY=0, bY=0;
-            if(!(coord.X>=0 && coord.X< size.X && coord.Y>=0 && coord.Y < size.Y)) return new RoomSpace(lX, rX, tY, bY);
-            if (dungeon[coord.X][coord.Y] != null) return new RoomSpace(lX, rX, tY, bY);
-            bool breaked=false;
-            int k;
+        public HashSet<Tile> WallTiles { get; set; }
 
-            //Top
-            k = 1;
-            //int scanSize=6;
-            for (int j = coord.Y - 1; j >= coord.Y - scanSize; j--)
-            {
-                for(int i = coord.X -k; i <= coord.X +k; i++)
-                {
-                    if (j >= size.Y || j<0 || i >= size.X || i < 0 ) tY = j + 1;
-                    else if(dungeon[i][j] != null)tY = j+ 1;
-                    if (tY != 0)
-                    {
-                        breaked = true;
-                        break;
-                    }
-                    Tile.ShowTile(new World.Point(i,j), System.Windows.Media.Color.FromRgb(0, 0, 255));
-                }
-                if (breaked)
-                {
-                    break;
-                }
-                k++;
-
-            }
-            if (!breaked)
-            {
-                tY = coord.Y -scanSize;
-            }
-            breaked = false;
-
-            //bottom
-            k = 1;
-            for (int j = coord.Y +1 ; j <= coord.Y + scanSize; j++)
-            {
-                for (int i = coord.X - k; i <= coord.X + k; i++)
-                {
-                    if (j >= size.Y || j < 0 || i >= size.X || i < 0) bY = j - 1;
-                    else if (dungeon[i][j] != null) bY = j - 1;
-                    if (bY != 0)
-                    {
-                        breaked = true;
-                        break;
-                    }
-                    Tile.ShowTile(new World.Point(i,j), System.Windows.Media.Color.FromRgb(0, 255, 255));
-
-                }
-                k++;
-                if (breaked)
-                {
-                    break;
-                }
-            }
-            if (!breaked)
-            {
-                bY = coord.Y + scanSize;
-            }
-            breaked = false;
-
-            //right
-            k = 1;
-            for (int i = coord.X + 1; i <= coord.X + scanSize; i++)
-            {
-                for (int j = coord.Y - k; j <= coord.Y + k; j++)
-                {
-                    if (j >= size.Y || j < 0 || i >= size.X || i < 0) rX = i - 1;
-                    else if ( dungeon[i][j] != null) rX = i - 1;
-                    if (rX != 0)
-                    {
-                        breaked = true;
-                        break;
-                    }
-                    Tile.ShowTile(new World.Point(i, j), System.Windows.Media.Color.FromRgb(255, 0, 255));
-
-                }
-                k++;
-                if (breaked)
-                {
-                    break;
-                }
-            }
-            if (!breaked)
-            {
-                rX = coord.X + scanSize;
-            }
-            breaked = false;
-
-            // left
-            k = 1;
-            for (int i = coord.X -1; i >= coord.X - scanSize; i--)
-            {
-                for (int j = coord.Y - k; j <= coord.Y + k; j++)
-                {
-                    if (j >= size.Y || j < 0 || i >= size.X || i < 0) lX = i + 1;
-                    else if (dungeon[i][j] != null) lX = i + 1;
-                    if (lX != 0)
-                    {
-                        breaked = true;
-                        break;
-                    }
-                    Tile.ShowTile(new World.Point(i, j), System.Windows.Media.Color.FromRgb(120, 255, 255));
-
-                }
-                k++;
-                if (breaked)
-                {
-                    break;
-                }
-            }
-            if (!breaked)
-            {
-                lX = coord.X - scanSize;
-            }
-            breaked = false;
-            RoomSpace rm = new RoomSpace(lX, rX, tY, bY);
-            Tile.ShowTile(rm.GetTopLeft()               , System.Windows.Media.Color.FromRgb(0, 100, 0));
-            Tile.ShowTile(rm.GetSize()+rm.GetTopLeft()  , System.Windows.Media.Color.FromRgb(0, 100, 0));
-            Tile.ShowTile(rm.GetTopLeft(), System.Windows.Media.Color.FromRgb(0, 100, 0));
-            Tile.ShowTile(rm.GetSize() + rm.GetTopLeft(), System.Windows.Media.Color.FromRgb(0, 100, 0));
-            Tile.ShowTile(rm.GetTopLeft(), System.Windows.Media.Color.FromRgb(0, 100, 0));
-            Tile.ShowTile(rm.GetSize() + rm.GetTopLeft(), System.Windows.Media.Color.FromRgb(0, 100, 0));
-            Tile.ShowTile(rm.GetTopLeft(), System.Windows.Media.Color.FromRgb(0, 100, 0));
-            Tile.ShowTile(rm.GetSize() + rm.GetTopLeft(), System.Windows.Media.Color.FromRgb(0, 100, 0));
-            return rm;
-        }
+        public Dictionary<Vector,RoomModule> Neighbors { get; set; }
+        public List<Vector> AvailableAngles;
 
 
 
@@ -175,133 +32,132 @@ namespace DDRemakeProject.WorldGeneration
         {
 
         }
-        public RoomModule(int x, int y, int sizeX, int sizeY)
+        public RoomModule(Rect size)
         {
-            this.X = x;
-            this.Y = y;
-            this.SizeX = sizeX;
-            this.SizeY = sizeY;
-
-            //string floorPath = "pack://application:,,,/Textures/sand_";
-            //string wallImg = "pack://application:,,,/Textures/rect_gray_";
-
-            //tiles = new Image[((int)this.SizeX / 32)][((int)this.SizeY / 32)];
+            this.RoomRect = size;
+          
             Generate(false);
+            AvailableAngles = new List<Vector>{new Vector(-180,180)};
+            Neighbors = new Dictionary<Vector, RoomModule>();
+
+           
+        }
+
+        public void Generate(bool loadingFromFile)
+        {
+           
+            //if (!loadingFromFile)
+            //{
+            //    Tiles = new Dictionary<Vector, Tile>();
+            //    WallTiles = new HashSet<Tile>();
+            //}
+            Tiles = new Dictionary<Vector, Tile>();
+            WallTiles = new HashSet<Tile>();
+
+            
+            int area = (int) (RoomRect.Width * RoomRect.Height);
+            for (int i = area  - 1; i >= 0; i--)
+            {
+                Vector tilePosition = new Vector(Math.Floor(i % RoomRect.Size.Width),Math.Floor((i / RoomRect.Size.Width))) +(Vector) RoomRect.Location;
+                Tile.TypeEnum tileType;
+
+                if (i < RoomRect.Size.Width || i > area - RoomRect.Size.Width || Math.Abs(i % RoomRect.Size.Width) < 0.1f ||
+                    Math.Abs(i % RoomRect.Size.Width - (RoomRect.Size.Width- 1)) < 0.1f)
+                {
+                    tileType = Tile.TypeEnum.Wall;
+                }
+                else
+                {
+                    tileType = Tile.TypeEnum.Floor;
+                }
+
+                this.AddTile(tilePosition, tileType);   
+            }
 
         }
 
-        public void Generate(bool load)
+        public void AddTile( Vector Position, Tile.TypeEnum type)
         {
-            if (!load)
+            Tile t = new Tile(Position, this, type);
+            //t.InitialiseRect();
+            if (this.Tiles.ContainsKey(t.Position)) return;
+            this.Tiles.Add(t.Position, t);
+
+            if (t.Type == Tile.TypeEnum.Wall)
             {
-                Tiles = new Tile[SizeY + 1][];
-                WallTiles = new List<Tile>();
+                this.WallTiles.Add(t);
             }
-            //Random rnd = new Random();
-            RoomSpace rs = new RoomSpace(X, SizeX + X, Y, Y + SizeY);
-            for (int j = 0; j <= this.SizeY; j++)
+        }
+
+        public Vector CalculateAngle(RoomModule roomModule)
+        {
+
+            List<Vector> Positions = new List<Vector>
             {
-                if (!load)
+                new Vector(roomModule.RoomRect.X,roomModule.RoomRect.Y),
+                new Vector(roomModule.RoomRect.X+roomModule.RoomRect.Width,roomModule.RoomRect.Y),
+                new Vector(roomModule.RoomRect.X,roomModule.RoomRect.Y+roomModule.RoomRect.Height),
+                new Vector(roomModule.RoomRect.X+roomModule.RoomRect.Width,roomModule.RoomRect.Y+roomModule.RoomRect.Height)
+            };
+
+            List<double> Angles = new List<double>();
+            Positions.ForEach(pos =>
+            {
+                double angle = Vector.AngleBetween((Vector) this.RoomRect.Location, pos);
+                Angles.Add(angle);
+            });
+
+
+            return new Vector(Angles.Min(), Angles.Max());
+        }
+
+        public void CalculateRemainingAngles(Vector addedAngle)
+        {
+            List<Vector> AddAngles =new List<Vector>();
+
+
+            AvailableAngles.ForEach(angle =>
+            {
+                if (addedAngle.X > angle.X && addedAngle.Y < angle.Y)
                 {
-                    Tiles[j] = new Tile[SizeX + 1];
+                    AddAngles.Add(new Vector(addedAngle.Y, angle.Y));
+                    AddAngles.Add(new Vector(angle.X,addedAngle.X));
+                    //angle.Y = addedAngle.X;
                 }
-                for (int i = 0; i <= this.SizeX; i++)
+                else
                 {
-                    //t;
-                    Tile t;
-                    if (load)
+                    if (addedAngle.X > angle.X)
                     {
-                        t = Tiles[j][i];
-                        t.InitialiseRect();
-
-
+                        AddAngles.Add(new Vector(angle.X, addedAngle.X));
+                        //angle.Y = addedAngle.X;
                     }
                     else
                     {
-                        t = new Tile(this.X + i, this.Y + j, rs);
-                        Tiles[j][i] = (t);
-
-                        System.Windows.Media.Color c = Colors.Plum;
-                        if (t.Color != null)
-                        {
-                            c = t.Color;
-                        }
-                        bool top, bottom, left, right, corner;
-
-                        top = j == 0;
-                        bottom = j == this.SizeY;
-                        left = i == 0;
-                        right = i == this.SizeX;
-                        corner = ((top & (left || right)) || (bottom & (left || right)));
-                        if (!top && !bottom && !right && !left)
-                        {
-                            //it's a floor
-                            //t.Source = new BitmapImage(new Uri(floorPath + rnd.Next(1, 9) + ".png"));
-                            Application.Current.Dispatcher.Invoke((System.Action) delegate
-                            {
-                                t.Color = Colors.LightCyan;
-                                t.Rect.Fill = System.Windows.Media.Brushes.LightCyan;
-                            });
-                        }
-                        else
-                        {
-                            // it's a wall
-                            //t.Source = new BitmapImage(new Uri(wallImg + rnd.Next(0, 4) + "_new.png"));
-                            if (corner)
-                            {
-//it's a corner
-                                Application.Current.Dispatcher.Invoke((System.Action) delegate
-                                {
-                                    t.Color = Colors.Black;
-                                    t.Rect.Fill = System.Windows.Media.Brushes.Black;
-                                });
-                            }
-                            else
-                            {
-//just a wall
-                                Application.Current.Dispatcher.Invoke((System.Action) delegate
-                                {
-                                    t.Color = Colors.DarkCyan;
-
-                                    t.Rect.Fill = System.Windows.Media.Brushes.DarkCyan;
-                                });
-                                t.IsWall = true;
-                                if (top)
-                                {
-                                    t.OuterDirection = new World.Point(0, -1);
-                                }
-                                else if (bottom)
-                                {
-                                    t.OuterDirection = new World.Point(0, 1);
-                                }
-                                if (left)
-                                {
-                                    t.OuterDirection = new World.Point(-1, 0);
-                                }
-                                else if (right)
-                                {
-                                    t.OuterDirection = new World.Point(1, 0);
-                                }
-
-                                WallTiles.Add(t); //if not corner
-
-
-                            }
-                        }
-
-                        if (c != Colors.Plum)
-                        {
-                            Application.Current.Dispatcher.Invoke((System.Action) delegate
-                            {
-                                t.Rect.Fill = new System.Windows.Media.SolidColorBrush(c);
-                            });
-                        }
+                        //angle.X = addedAngle.Y;
+                        AddAngles.Add(new Vector(addedAngle.Y, angle.Y));
                     }
-
                 }
-            }
+            });
+
+            AvailableAngles = AddAngles;
         }
-
-
     }
+
+    public static class RoomExtensions
+    {
+        //public static void AddTile(this RoomModule r, Vector Position,Tile.TypeEnum type)
+        //{
+        //    Tile t = new Tile(Position,r,type);
+        //    //t.InitialiseRect();
+        //    if (r.Tiles.ContainsKey(t.Position)) return;
+        //    r.Tiles.Add(t.Position, t);
+
+        //    if (t.Type == Tile.TypeEnum.Wall)
+        //    {
+        //        r.WallTiles.Add(t);
+        //    }
+        //}
+    }
+
 }
+ 

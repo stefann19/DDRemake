@@ -14,7 +14,7 @@ namespace DDRemakeProject
     {
         public static Canvas CanvasS1;
         public static Canvas CanvasS2;
-
+        public static Rect Size;
         private readonly BackgroundWorker _worker = new BackgroundWorker();
         public string Titlee;
         private readonly bool _loadFromFile;
@@ -26,13 +26,27 @@ namespace DDRemakeProject
             this._loadFromFile = loadFromFile;            
             CanvasS1 = canvas3;
             CanvasS2 = canvas2;
+            Size = new Rect(new Point(),new Size(canvas3.Width/Constants.TilePx,canvas3.Height / Constants.TilePx));
             //canvas.Background = Brushes.Black;
             Titlee = this.Title;
             this._map = map;
 
-            _worker.DoWork += worker_DoWork;
-            _worker.RunWorkerCompleted += worker_RunWorkerCompleted;
-            _worker.RunWorkerAsync();
+
+            if (!_loadFromFile)
+            {
+
+                GenerateMap(_map);
+
+            }
+            else
+            {
+                LoadMap(_map.Name);
+                //DeleteCanvas();
+            }
+
+            //_worker.DoWork += worker_DoWork;
+            //_worker.RunWorkerCompleted += worker_RunWorkerCompleted;
+            //_worker.RunWorkerAsync();
 
             mainWindow.MouseWheel += new MouseWheelEventHandler(mainWindow_MouseWheel);
 
@@ -67,7 +81,7 @@ namespace DDRemakeProject
         }
         private void GenerateMap(MapBasicInfo map)
         {
-            _generator = new WorldGeneration.GeneratorV1(map.Width, map.Height);
+            _generator = new WorldGeneration.GeneratorV1(new Vector(map.Width,map.Height));
             _v1 = new EngineV1(ref _generator);
         }
         private void LoadMap(string mapName)
@@ -156,7 +170,7 @@ namespace DDRemakeProject
 
         private void mainWindow_KeyDown(object sender, KeyEventArgs e)
         {
-            _v1.MoveMethod2(sender,e);
+            //_v1.MoveMethod2(sender,e);
         }
     }
 }

@@ -6,310 +6,132 @@ using System.Windows;
 using System.Windows.Media;
 using System.Xml.Serialization;
 using DDRemakeProject.World;
-using Point = System.Windows.Point;
+using Point = DDRemakeProject.Deprecated.Point;
 
 namespace DDRemakeProject.WorldGeneration
 {
     public class GeneratorV1
     {
         private int _nrOfUsedtiles;
+       
 
         #region Constructors
+
         /// <summary>
         ///     Generate a map of tiles using own algorithm
         /// </summary>
         /// <param name="sizeX">Worlds width in number of tiles</param>
         /// <param name="sizeY">Worlds height in number of tiles</param>
-        public GeneratorV1(int sizeX, int sizeY)
+        public GeneratorV1(Vector size)
         {
-            SizeX = sizeX;
-            SizeY = sizeY;
-            Generate(sizeX, sizeY);
+            Size = size;
+            Generate(size);
         }
+
         /// <summary>
-        /// Needed for serialization
+        ///     Needed for serialization
         /// </summary>
         public GeneratorV1()
         {
         }
 
-
         #endregion
 
         #region Properties
 
-        /// <summary>
-        ///     Width of the map in tPixels
-        /// </summary>
-        public int SizeX { get; set; }
+        public Vector Size { get; set; }
 
-        /// <summary>
-        ///     Height of the map in tPixels
-        /// </summary>
-        public int SizeY { get; set; }
-        [XmlIgnore]
-        public List<Tile> GenerationTiles { get; set; }
+        //[XmlIgnore]
+        //public List<Tile> GenerationTiles { get; set; }
+
         public List<RoomModule> Rooms { get; set; }
-        public Tile[][] TilesMatrix { get; set; }
+        public List<RoomModule> GenerationRooms { get; set; }
 
+        public Dictionary<Vector, Tile> Tiles { get; set; }
 
         #endregion
 
         #region Methods
 
-        private RoomModule MakeRoom(World.Point coord, World.Point size)
+    
+        public void Generate(Vector Size)
         {
-            //check if room can exist
-            if (coord.X + size.X > SizeX) return null;
-            if (coord.Y + size.Y > SizeY) return null;
-            if (coord.X <0 || coord.Y<0) return null;
-            
-            //create Room
-            var rm = new RoomModule(coord.X, coord.Y, size.X, size.Y);
-
-            //Add it in the list of rooms 
-            Rooms.Add(rm);
-
-            //remove the generation tile (it served its purpose)
-            GenerationTiles.Remove(GenerationTiles.First());
-
-            //Add the generation tiles from the newly created room in to the list so they get used later on
-            foreach (var t in rm.WallTiles)
-            {
-                GenerationTiles.Add(t);
-            }
-
-            //Add each tile from the room in the World matrix for easier search
-            foreach (var columns in rm.Tiles)
-                foreach (var t in columns)
-                {
-                    _nrOfUsedtiles++;
-                    if (t.Coord.X < SizeX && t.Coord.Y < SizeY && t.Coord.X > 0 && t.Coord.Y > 0)
-                        TilesMatrix[t.Coord.X][t.Coord.Y] = t;
-                }
-            return rm;
-        }
-
-
-        public void MakeDoor(Tile t)
-        {
-            if (t.IsWall)
-            {
-                
-                World.Point otherDoorPoint = t.Coord + t.OuterDirection;
-                if (otherDoorPoint.X > 0 && otherDoorPoint.X < SizeX && otherDoorPoint.Y > 0 && otherDoorPoint.Y < SizeY)
-                    if (TilesMatrix[otherDoorPoint.X][otherDoorPoint.Y] != null)
-                    {
-                        if (TilesMatrix[otherDoorPoint.X][otherDoorPoint.Y].IsWall)
-                        {
-                            t.Color = Colors.LightCyan;
-                            TilesMatrix[otherDoorPoint.X][otherDoorPoint.Y].Color = Colors.LightCyan;
-                            Application.Current.Dispatcher.Invoke(delegate
-                            {
-                                t.Rect.Fill = Brushes.LightCyan;
-                                TilesMatrix[otherDoorPoint.X][otherDoorPoint.Y].Rect.Fill = Brushes.LightCyan;
-                            });
-                        }
-
-                        if (t.OuterDirection.IsTop() || t.OuterDirection.IsBottom() || t.OuterDirection.IsLeft() || t.OuterDirection.IsRight())
-                        {
-                            int k = 1;
-                            while (true)
-                            {
-                                int directionX = (otherDoorPoint.X + k < SizeX) ? 1 : -1;
-                                int directionY = (otherDoorPoint.Y + k < SizeY) ? 1 : -1;
-
-                                if (t.OuterDirection.IsLeft() || t.OuterDirection.IsRight()) directionX = 0;
-                                else directionY = 0;
-
-
-                                if (otherDoorPoint.X + k*directionX < SizeX || otherDoorPoint.X + k * directionX > 0 || otherDoorPoint.Y + k * directionY > 0 || otherDoorPoint.Y + k*directionX < SizeY)
-                                {
-                                    if (TilesMatrix[otherDoorPoint.X + k*directionX][otherDoorPoint.Y+k* directionY] != null &&
-                                        TilesMatrix[t.Coord.X + k* directionX][t.Coord.Y+k * directionY] != null)
-                                        if (TilesMatrix[otherDoorPoint.X + k*directionX][otherDoorPoint.Y+k * directionY].IsWall)
-                                        {
-                                            TilesMatrix[otherDoorPoint.X + k* directionX][otherDoorPoint.Y+ k * directionY].IsWall = false;
-                                            TilesMatrix[t.Coord.X + k* directionX][t.Coord.Y+ k * directionY].IsWall = false;
-                                        }
-                                        else
-                                        {
-                                            break;
-                                        }
-                                    k++;
-                                }
-                                else
-                                {
-                                    break;
-                                }
-                            }
-                        }
-                        //if (t.OuterDirection.IsLeft() || t.OuterDirection.IsRight())
-                        //{
-                        //    var k = 1;
-                        //    while (true)
-                        //        if (otherDoorPoint.Y + k < SizeY)
-                        //        {
-                        //            if (TilesMatrix[otherDoorPoint.X][otherDoorPoint.Y + k] != null &&
-                        //                TilesMatrix[t.Coord.X][t.Coord.Y + k] != null)
-                        //                if (TilesMatrix[otherDoorPoint.X][otherDoorPoint.Y + k].IsWall)
-                        //                {
-                        //                    TilesMatrix[otherDoorPoint.X][otherDoorPoint.Y + k].IsWall = false;
-                        //                    TilesMatrix[t.Coord.X][t.Coord.Y + k].IsWall = false;
-                        //                }
-                        //                else
-                        //                {
-                        //                    break;
-                        //                }
-                        //            k++;
-                        //        }
-                        //        else
-                        //        {
-                        //            break;
-                        //        }
-                        //    k = 1;
-                        //    while (true)
-                        //        if (otherDoorPoint.Y - k > 0)
-                        //        {
-                        //            if (TilesMatrix[otherDoorPoint.X][otherDoorPoint.Y - k] != null &&
-                        //                TilesMatrix[t.Coord.X][t.Coord.Y - k] != null)
-                        //                if (TilesMatrix[otherDoorPoint.X][otherDoorPoint.Y - k].IsWall)
-                        //                {
-                        //                    TilesMatrix[otherDoorPoint.X][otherDoorPoint.Y - k].IsWall = false;
-                        //                    TilesMatrix[t.Coord.X][t.Coord.Y - k].IsWall = false;
-                        //                }
-                        //                else
-                        //                {
-                        //                    break;
-                        //                }
-                        //            k++;
-                        //        }
-                        //        else
-                        //        {
-                        //            break;
-                        //        }
-                        //}
-                    }
-            }
-        }
-
-
-        public void MakeDoorBetter(RoomModule otherRoom, Tile callingRoomTile)
-        {
-            double x2, x1, x21;
-            x1 = (callingRoomTile.RoomDim.LeftX + callingRoomTile.RoomDim.RightX) / 2;
-            x2 = otherRoom.X + otherRoom.SizeX / 2;
-            x21 = (x2 + x1) / 2f;
-
-            double y2, y1, y21;
-            y1 = (callingRoomTile.RoomDim.TopY + callingRoomTile.RoomDim.BotY) / 2;
-            y2 = otherRoom.Y + otherRoom.SizeY / 2;
-            y21 = (y2 + y1) / 2f;
-            if ((callingRoomTile.OuterDirection.IsTop() || callingRoomTile.OuterDirection.IsBottom()) &&
-                (callingRoomTile.Coord.Y - (otherRoom.Y + otherRoom.SizeY) == 1 ||
-                 callingRoomTile.RoomDim.BotY - otherRoom.Y == -1))
-            {
-                if (x21 > otherRoom.X && x21 < callingRoomTile.RoomDim.RightX ||
-                    x21 < otherRoom.X + otherRoom.SizeX && x21 > callingRoomTile.RoomDim.LeftX)
-                    Application.Current.Dispatcher.Invoke(delegate
-                    {
-                        if (callingRoomTile.OuterDirection.IsTop())
-                        {
-                            TilesMatrix[(int)x21][callingRoomTile.Coord.Y].Rect.Fill = Brushes.ForestGreen;
-                            TilesMatrix[(int)x21][callingRoomTile.Coord.Y - 1].Rect.Fill = Brushes.ForestGreen;
-                        }
-                        else
-                        {
-                            TilesMatrix[(int)x21][callingRoomTile.Coord.Y].Rect.Fill = Brushes.ForestGreen;
-                            TilesMatrix[(int)x21][callingRoomTile.Coord.Y + 1].Rect.Fill = Brushes.ForestGreen;
-                        }
-                    });
-            }
-            else if ((callingRoomTile.OuterDirection.IsLeft() || callingRoomTile.OuterDirection.IsRight()) &&
-                     (callingRoomTile.Coord.X - (otherRoom.X + otherRoom.SizeX) == 1 ||
-                      callingRoomTile.RoomDim.RightX - otherRoom.X == -1))
-            {
-                if (y21 < otherRoom.Y + otherRoom.SizeY && y21 > callingRoomTile.RoomDim.TopY ||
-                    y21 > otherRoom.Y + otherRoom.SizeX && y21 < callingRoomTile.RoomDim.BotY)
-                    Application.Current.Dispatcher.Invoke(delegate
-                    {
-                        if (callingRoomTile.OuterDirection.IsLeft())
-                        {
-                            TilesMatrix[callingRoomTile.Coord.X][(int)y21].Rect.Fill = Brushes.ForestGreen;
-                            TilesMatrix[callingRoomTile.Coord.X - 1][(int)y21].Rect.Fill = Brushes.ForestGreen;
-                        }
-                        else
-                        {
-                            TilesMatrix[callingRoomTile.Coord.X][(int)y21].Rect.Fill = Brushes.ForestGreen;
-                            TilesMatrix[callingRoomTile.Coord.X + 1][(int)y21].Rect.Fill = Brushes.ForestGreen;
-                        }
-                    });
-            }
-        }
-
-        public void Generate(int sizeX, int sizeY)
-        {
-            GenerationTiles = new List<Tile>();
+            //GenerationTiles = new List<Tile>();
             Rooms = new List<RoomModule>();
-            TilesMatrix = new Tile[sizeX][];
-            for (var i = 0; i < sizeX; i++) TilesMatrix[i] = new Tile[sizeY];
-
+            GenerationRooms = new List<RoomModule>();
+            Tiles = new Dictionary<Vector, Tile>();
+            //for (int i = 0; i < sizeX; i++) TilesMatrix[i] = new Tile[sizeY];
 
             _nrOfUsedtiles = 0;
 
-            var rnd = new Random();
-            var startingPosX = sizeX / 2;
-            var startingPosy = sizeY / 2;
+            Random rnd = new Random();
+            //int startingPosX = (int) (Size.X / 2);
+            //int startingPosy = (int) (Size.Y / 2);
+            System.Windows.Point startingPos = new System.Windows.Point((int) (MainWindow.CanvasS1.Width / (2 *Constants.TilePx)), (int) (MainWindow.CanvasS1.Height / (2 * Constants.TilePx)));
 
-            GenerationTiles.Add(new Tile(startingPosX, startingPosy,
-                new RoomSpace(startingPosX, startingPosX + sizeX, startingPosy, startingPosy + sizeY))
-            {
-                OuterDirection = new Point(0, 0)
-            });
+            //GenerationTiles.Add(new Tile((Vector)startingPos));
+            bool firstRoom = true;
 
-            while (_nrOfUsedtiles <= sizeX * SizeY * 0.4f && GenerationTiles.Count > 0)
+
+            while ( (GenerationRooms.Count>0 || firstRoom ==true) && _nrOfUsedtiles < Size.X * Size.Y )
             {
-                var current = GenerationTiles.First();
-                Tile.ShowTile(current.Coord, Color.FromRgb(255, 0, 0));
+                //Tile current = GenerationTiles.First();
+                //Tile.ShowTile(current.Position, Color.FromRgb(255, 0, 0));
                 //MessageBox.Show(generationTiles.First().outerDirection.X.ToString());
-                if (GenerationTiles.First().OuterDirection.IsEmpty())
+                if (firstRoom)
                 {
                     // STARTING TILE
-                    var r = RoomModule.CheckForSpace(current.Coord, TilesMatrix, new Point(SizeX, SizeY), 5);
-                    MakeRoom(r.GetTopLeft(), r.GetSize());
+                    int size = (GeneratorExtensions.MaxRoomSize + GeneratorExtensions.MinRoomSize) / 2;
+                    RoomModule r = new RoomModule(new Rect(startingPos,new Size(size, size)));
+                    AddRoom(r);
+                    firstRoom = false;
+
+
+                    //RoomSpace r = RoomModule.CheckForSpace(current.Position, TilesMatrix,
+                    //    new System.Windows.Point(SizeX, SizeY), 5);
+                    //MakeRoom(r.GetTopLeft(), r.GetSize());
                 }
                 else
                 {
-                    World.Point derivedP;
-                    var aux = rnd.Next(4, 6);
-                    derivedP = current.Coord + current.OuterDirection * aux;
 
+                    Rect r= GenerationRooms[rnd.Next(0,GenerationRooms.Count)].CheckForSpace();
 
-
-
-
-
-                    Tile.ShowTile(derivedP, Color.FromRgb(0, 255, 0));
-
-                    var r = RoomModule.CheckForSpace(derivedP, TilesMatrix, new Point(SizeX, SizeY), aux);
-                    if (r.GetSize().X > aux + 1 && r.GetSize().Y > aux + 1)
+                    if (!r.IsEmpty)
                     {
-                        var rm = MakeRoom(r.GetTopLeft(), r.GetSize());
-                        //MakeDoorBetter(rm, current);
+                        AddRoom(new RoomModule(r));
                     }
                     else
                     {
-                        GenerationTiles.Remove(GenerationTiles.First());
+                        GenerationRooms.Remove(GenerationRooms.First());
                     }
+
+                    //Point derivedP;
+                    //int aux = rnd.Next(4, 6);
+                    //derivedP = current.Position + current.OuterDirection * aux;
+
+
+                    //Tile.ShowTile(derivedP, Color.FromRgb(0, 255, 0));
+
+                    //RoomSpace r = RoomModule.CheckForSpace(derivedP, TilesMatrix,
+                    //    new System.Windows.Point(SizeX, SizeY), aux);
+                    //if (r.GetSize().X > aux + 1 && r.GetSize().Y > aux + 1)
+                    //{
+                    //    RoomModule rm = MakeRoom(r.GetTopLeft(), r.GetSize());
+                    //    //MakeDoorBetter(rm, current);
+                    //}
+                    //else
+                    //{
+                    //    GenerationTiles.Remove(GenerationTiles.First());
+                    //}
                 }
-                MakeDoor(current);
+                //MakeDoor(current);
                 Thread.Sleep(10);
             }
         }
 
         public void Generate()
         {
-            foreach (var rm in Rooms)
+            foreach (RoomModule rm in Rooms)
             {
                 rm.Generate(true);
                 Thread.Sleep(10);
@@ -317,7 +139,108 @@ namespace DDRemakeProject.WorldGeneration
         }
 
 
-        #endregion
+        private void AddRoom(RoomModule r)
+        {
+            Rooms.Add(r);
+            GenerationRooms.Add(r);
+            Rooms.Where(room=> !r.Neighbors.ContainsKey((Vector)room.RoomRect.Location)).ToList().ForEach(room =>
+            {
+                double distance = Math.Abs(((Vector) (room.RoomRect.Location) - (Vector) (r.RoomRect.Location)).Length);
+                if (distance < GeneratorExtensions.MaxRoomSize*2f + GeneratorExtensions.SpaceBetweenRooms)
+                {
+                    if (!r.Neighbors.ContainsKey((Vector)room.RoomRect.Location) )
+                    {
+                        r.Neighbors.Add((Vector) room.RoomRect.Location, room);
+
+
+                        r.CalculateRemainingAngles(r.CalculateAngle(room));
+                    }
+                    if (!room.Neighbors.ContainsKey((Vector) r.RoomRect.Location))
+                    {
+                        room.Neighbors.Add((Vector)r.RoomRect.Location, r);
+                        room.CalculateRemainingAngles(room.CalculateAngle(r));
+
+                    }
+
+                }
+            });
+
+            //r.Tiles.ToList().ForEach(tile=> Tiles.Add(tile.Key,tile.Value));
+            _nrOfUsedtiles += r.Tiles.Count;
+            //Tiles.Add();
+        }
+
+
 
     }
+
+    #endregion
+
+
+    public static class GeneratorExtensions
+    {
+        public const int SpaceBetweenRooms =6;
+        public const int MinRoomSize =4;
+        public const int MaxRoomSize = 10;
+
+        public static Rect CheckForSpace(this RoomModule roomModule)
+        {
+            Vector pointer = new Vector(0, 1);
+            Random rnd = new Random(Guid.NewGuid().GetHashCode());
+            List<Rect> allRects = new List<Rect>();
+            
+            roomModule.AvailableAngles.ForEach(angle =>
+            {
+                if (angle.X > angle.Y)
+                {
+                    double angleY = angle.X;
+                    angle.X = angleY;
+                    angle.Y = angleY;
+                }
+                float rndAngle = rnd.Next((int)angle.X,(int) angle.Y);
+                Vector point = pointer.Rotate(rndAngle) * (MaxRoomSize/2f +roomModule.RoomRect.Width/2f + rnd.Next(2,SpaceBetweenRooms));
+                point = new Vector((int)point.X,(int)point.Y) + (Vector)roomModule.RoomRect.Location;
+                List<Rect> rects =new List<Rect>();
+                
+                if(!MainWindow.Size.Contains((System.Windows.Point)point))return;
+                
+
+                for (int i = MaxRoomSize; i >= MinRoomSize; i--)
+                {
+                    Rect r = new Rect((System.Windows.Point)point, new Size(MaxRoomSize, MaxRoomSize));
+
+                    if (!MainWindow.Size.Contains(r))continue;
+
+                    if (roomModule.Neighbors.Values.All(room => !room.RoomRect.IntersectsWith(r)))
+                    {
+                        rects.Add(r);
+                    }
+                    else
+                    {
+                        break;
+                    }
+                }
+
+                if (rects.Count > 0)
+                {
+                    allRects.AddRange(rects);
+                }
+
+            });
+            if (allRects.Count > 0)
+            {
+                return allRects[rnd.Next(0, allRects.Count)];
+            }
+            else
+            {
+                return Rect.Empty;
+            }
+        }
+
+
+        //room -> (room,connected rooms) Dictionary
+        // MakeDoorBetween(room1,room2);
+        //Dictionary.randomRoom , Dictionary.randomRoom2!= connected rooms -> randomroom.connectedROoms += randoomRoom2; randomRoom2 remove 
+    }
 }
+

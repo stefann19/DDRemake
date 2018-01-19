@@ -1,4 +1,7 @@
-﻿namespace DDRemakeProject.World
+﻿using System;
+using System.Windows;
+
+namespace DDRemakeProject.Deprecated
 {
     public class Point
     {
@@ -94,10 +97,26 @@
             return new Point((int)v.X, (int)v.Y);
         }
 
+        public static explicit operator Point(Vector v)
+        {
+            throw new NotImplementedException();
+        }
+
 
         #endregion
 
 
 
     }
+
+    public static class PointExtensions
+    {
+        public static System.Windows.Point Offset(this System.Windows.Point p, System.Windows.Point pOffset)
+        {
+            p.Offset(pOffset.X, pOffset.Y);
+            return p ;
+        }
+
+    }
+
 }

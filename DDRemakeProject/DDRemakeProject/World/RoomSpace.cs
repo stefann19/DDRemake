@@ -1,23 +1,33 @@
-﻿namespace DDRemakeProject.World
+﻿using System.Windows;
+using Point = DDRemakeProject.Deprecated.Point;
+
+namespace DDRemakeProject.World
 {
     public class RoomSpace
     {
         #region Properties
-        public int LeftX { get; set; }
-        public int RightX { get; set; }
-        public int TopY { get; set; }
-        public int BotY { get; set; }
+
+        public int LeftX => (int)(Position.X - Size.X / 2f);
+        public int RightX => (int)(Position.X + Size.X / 2f);
+        public int TopY => (int)(Position.Y + Size.Y / 2f);
+        public int BotY => (int)(Position.Y - Size.Y / 2f);
+
+        public int Area => (int) (Size.X * Size.Y);
+
+        /// <summary>
+        /// Middle Position
+        /// </summary>
+        public Vector Position { get; set; }
+        public Vector Size { get; set; }
 
         #endregion
 
         #region Constructors
 
-        public RoomSpace(int lX, int rX, int tY, int bY)
+        public RoomSpace(Vector position,Vector size)
         {
-            this.LeftX = lX;
-            this.RightX = rX;
-            this.TopY = tY;
-            this.BotY = bY;
+            this.Position = position;
+            this.Size = size;
         }
         public RoomSpace()
         {
