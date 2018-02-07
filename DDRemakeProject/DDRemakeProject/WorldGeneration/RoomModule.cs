@@ -24,8 +24,8 @@ namespace DDRemakeProject.WorldGeneration
         public HashSet<Tile> WallTiles { get; set; }
 
         public Dictionary<Vector,RoomModule> Neighbors { get; set; }
-        public List<Vector> AvailableAngles;
-
+        public List<Vector> AvailableAngles { get; set; }
+        public HashSet<RoomModule> LinkedRoomsList { get; set; }
 
 
         public RoomModule()
@@ -73,6 +73,7 @@ namespace DDRemakeProject.WorldGeneration
 
                 this.AddTile(tilePosition, tileType);   
             }
+            
 
         }
 

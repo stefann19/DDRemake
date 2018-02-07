@@ -47,7 +47,7 @@ namespace DDRemakeProject.WorldGeneration
 
         public List<RoomModule> Rooms { get; set; }
         public List<RoomModule> GenerationRooms { get; set; }
-
+        public List<RoomModule> Roads { get; set; }
         public Dictionary<Vector, Tile> Tiles { get; set; }
 
         #endregion
@@ -57,40 +57,30 @@ namespace DDRemakeProject.WorldGeneration
     
         public void Generate(Vector Size)
         {
-            //GenerationTiles = new List<Tile>();
             Rooms = new List<RoomModule>();
             GenerationRooms = new List<RoomModule>();
             Tiles = new Dictionary<Vector, Tile>();
-            //for (int i = 0; i < sizeX; i++) TilesMatrix[i] = new Tile[sizeY];
 
             _nrOfUsedtiles = 0;
 
             Random rnd = new Random();
-            //int startingPosX = (int) (Size.X / 2);
-            //int startingPosy = (int) (Size.Y / 2);
+
             System.Windows.Point startingPos = new System.Windows.Point((int) (MainWindow.CanvasS1.Width / (2 *Constants.TilePx)), (int) (MainWindow.CanvasS1.Height / (2 * Constants.TilePx)));
 
-            //GenerationTiles.Add(new Tile((Vector)startingPos));
             bool firstRoom = true;
 
 
             while ( (GenerationRooms.Count>0 || firstRoom ==true) && _nrOfUsedtiles < Size.X * Size.Y )
             {
-                //Tile current = GenerationTiles.First();
-                //Tile.ShowTile(current.Position, Color.FromRgb(255, 0, 0));
-                //MessageBox.Show(generationTiles.First().outerDirection.X.ToString());
+
                 if (firstRoom)
                 {
-                    // STARTING TILE
                     int size = (GeneratorExtensions.MaxRoomSize + GeneratorExtensions.MinRoomSize) / 2;
                     RoomModule r = new RoomModule(new Rect(startingPos,new Size(size, size)));
                     AddRoom(r);
                     firstRoom = false;
 
 
-                    //RoomSpace r = RoomModule.CheckForSpace(current.Position, TilesMatrix,
-                    //    new System.Windows.Point(SizeX, SizeY), 5);
-                    //MakeRoom(r.GetTopLeft(), r.GetSize());
                 }
                 else
                 {
@@ -106,28 +96,9 @@ namespace DDRemakeProject.WorldGeneration
                         GenerationRooms.Remove(GenerationRooms.First());
                     }
 
-                    //Point derivedP;
-                    //int aux = rnd.Next(4, 6);
-                    //derivedP = current.Position + current.OuterDirection * aux;
-
-
-                    //Tile.ShowTile(derivedP, Color.FromRgb(0, 255, 0));
-
-                    //RoomSpace r = RoomModule.CheckForSpace(derivedP, TilesMatrix,
-                    //    new System.Windows.Point(SizeX, SizeY), aux);
-                    //if (r.GetSize().X > aux + 1 && r.GetSize().Y > aux + 1)
-                    //{
-                    //    RoomModule rm = MakeRoom(r.GetTopLeft(), r.GetSize());
-                    //    //MakeDoorBetter(rm, current);
-                    //}
-                    //else
-                    //{
-                    //    GenerationTiles.Remove(GenerationTiles.First());
-                    //}
                 }
-                //MakeDoor(current);
-                Thread.Sleep(10);
             }
+            GenerateRoads();
         }
 
         public void Generate()
@@ -171,6 +142,33 @@ namespace DDRemakeProject.WorldGeneration
             //Tiles.Add();
         }
 
+        private void GenerateRoads()
+        {
+            Roads = new List<RoomModule>();
+            HashSet<HashSet<RoomModule>> LinkedRoomsListOfLists = new HashSet<HashSet<RoomModule>>(Rooms.Select(r =>
+            {
+                r.LinkedRoomsList = new HashSet<RoomModule> {r};
+                return r.LinkedRoomsList;
+            }));
+            outsideFor:
+            foreach (HashSet<RoomModule> linkedRoomsList in LinkedRoomsListOfLists)
+            {
+                
+                foreach (RoomModule roomModule in linkedRoomsList)
+                {
+                    foreach (KeyValuePair<Vector, RoomModule> keyValuePair in roomModule.Neighbors.AsEnumerable().Where(neighbor => neighbor.Value.LinkedRoomsList != roomModule.LinkedRoomsList))
+                    {
+                        Rect r = roomModule.GenerateRoad(keyValuePair.Value);
+                        Roads.Add(new RoomModule(r));
+                        //roomModule.LinkedRoomsList.UnionWith(keyValuePair.Value.LinkedRoomsList);
+                        //keyValuePair.Value.LinkedRoomsList = roomModule.LinkedRoomsList;
+                        break;
+                    }
+                    break;
+                }
+                break;
+            }
+        }
 
 
     }
@@ -244,6 +242,21 @@ namespace DDRemakeProject.WorldGeneration
             {
                 return Rect.Empty;
             }
+        }
+
+        public static Rect GenerateRoad(this RoomModule startingRoomModule, RoomModule endingRoomModule)
+        {
+            double angle = Vector.AngleBetween((Vector)startingRoomModule.RoomRect.Location, (Vector)endingRoomModule.RoomRect.Location);
+            System.Windows.Point middlePoint = (System.Windows.Point) (((Vector) startingRoomModule.RoomRect.Location +
+                                          (Vector) endingRoomModule.RoomRect.Location) / 2f);
+            double distance = Math.Abs(((Vector) startingRoomModule.RoomRect.Location - (Vector) endingRoomModule.RoomRect.Location)
+                .Length);
+            Rect road = new Rect(middlePoint,new Size(3, distance) );
+           
+            Matrix m =new Matrix();
+            m.Rotate(angle);
+            road.Transform(m);
+            return road;   
         }
 
 
