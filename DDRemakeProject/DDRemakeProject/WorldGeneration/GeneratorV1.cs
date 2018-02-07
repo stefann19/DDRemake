@@ -6,6 +6,7 @@ using System.Windows;
 using System.Windows.Media;
 using System.Xml.Serialization;
 using DDRemakeProject.World;
+using static System.Linq.Enumerable;
 using Point = DDRemakeProject.Deprecated.Point;
 
 namespace DDRemakeProject.WorldGeneration
@@ -198,29 +199,37 @@ namespace DDRemakeProject.WorldGeneration
                     angle.Y = angleY;
                 }
                 float rndAngle = rnd.Next((int)angle.X,(int) angle.Y);
-                Vector point = pointer.Rotate(rndAngle) * (MaxRoomSize/2f +roomModule.RoomRect.Width/2f + rnd.Next(2,SpaceBetweenRooms));
-                point = new Vector((int)point.X,(int)point.Y) + (Vector)roomModule.RoomRect.Location;
-                List<Rect> rects =new List<Rect>();
-                
-                if(!MainWindow.Size.Contains((System.Windows.Point)point))return;
-                
+                List<Rect> rects = new List<Rect>();
 
-                for (int i = MaxRoomSize; i >= MinRoomSize; i--)
+                Range((int)angle.X,(int)angle.Y - (int)angle.X).GroupBy(v=> v%20).SelectMany(v=>v).Where(v=> v> angle.X && v < angle.Y).ToList().ForEach(eachAngle =>
                 {
-                    Rect r = new Rect((System.Windows.Point)point, new Size(MaxRoomSize, MaxRoomSize));
+                    
+                    Vector point = pointer.Rotate(eachAngle) * (MaxRoomSize / 2f + roomModule.RoomRect.Width / 2f + rnd.Next(3, SpaceBetweenRooms));
+                    point = new Vector((int)point.X, (int)point.Y) + (Vector)roomModule.RoomRect.Location;
 
-                    if (!MainWindow.Size.Contains(r))continue;
+                    if (!MainWindow.Size.Contains((System.Windows.Point)point)) return;
 
-                    if (roomModule.Neighbors.Values.All(room => !room.RoomRect.IntersectsWith(r)))
+
+                    for (int i = MaxRoomSize; i >= MinRoomSize; i--)
                     {
-                        rects.Add(r);
-                    }
-                    else
-                    {
-                        break;
-                    }
-                }
+                        Rect r = new Rect((System.Windows.Point)point, new Size(MaxRoomSize, MaxRoomSize));
 
+                        if (!MainWindow.Size.Contains(r)) continue;
+
+                        if (roomModule.Neighbors.Values.All(room => !room.RoomRect.IntersectsWith(r)))
+                        {
+                            rects.Add(r);
+                        }
+                        else
+                        {
+                            break;
+                        }
+                    }
+
+
+                });
+             
+                
                 if (rects.Count > 0)
                 {
                     allRects.AddRange(rects);

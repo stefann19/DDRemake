@@ -26,7 +26,6 @@ namespace DDRemakeProject
             this._loadFromFile = loadFromFile;            
             CanvasS1 = canvas3;
             CanvasS2 = canvas2;
-            Size = new Rect(new Point(),new Size(canvas3.Width/Constants.TilePx,canvas3.Height / Constants.TilePx));
             //canvas.Background = Brushes.Black;
             Titlee = this.Title;
             this._map = map;
@@ -81,7 +80,21 @@ namespace DDRemakeProject
         }
         private void GenerateMap(MapBasicInfo map)
         {
-            _generator = new WorldGeneration.GeneratorV1(new Vector(map.Width,map.Height));
+
+            canvas.Width = map.Width * Constants.TilePx;
+            canvas.Height = map.Height * Constants.TilePx;
+
+            canvas2.Width = map.Width * Constants.TilePx;
+            canvas2.Height = map.Height * Constants.TilePx;
+
+            canvas3.Width = map.Width * Constants.TilePx;
+            canvas3.Height = map.Height * Constants.TilePx;
+
+            Size = new Rect(new Point(), new Size(canvas3.Width / Constants.TilePx, canvas3.Height / Constants.TilePx));
+
+
+            _generator = new WorldGeneration.GeneratorV1(new Vector(map.Width, map.Height));
+
             _v1 = new EngineV1(ref _generator);
         }
         private void LoadMap(string mapName)
