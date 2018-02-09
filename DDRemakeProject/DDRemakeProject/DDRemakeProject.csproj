@@ -83,6 +83,7 @@
     <Compile Include="AnimatedButton.xaml.cs">
       <DependentUpon>AnimatedButton.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Deprecated\RectExtension.cs" />
     <Compile Include="GamePlay\ActionGridController.cs" />
     <Compile Include="GamePlay\AnimatedButtonController.cs" />
     <Compile Include="GamePlay\AnimatedButtonPopUp.cs" />
@@ -128,7 +129,6 @@
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
     <Compile Include="WorldGeneration\GeneratorV2.cs" />
-    <Compile Include="Deprecated\Point.cs" />
     <Compile Include="World\RoomSpace.cs" />
     <Compile Include="World\Tile.cs" />
     <Compile Include="WorldGeneration\GeneratorV1.cs" />

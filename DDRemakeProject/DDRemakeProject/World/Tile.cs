@@ -6,7 +6,6 @@ using System.Windows.Media;
 using System.Xml.Serialization;
 using DDRemakeProject.GamePlay;
 using DDRemakeProject.WorldGeneration;
-using Point = DDRemakeProject.Deprecated.Point;
 
 namespace DDRemakeProject.World
 {

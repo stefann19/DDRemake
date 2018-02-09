@@ -1,5 +1,4 @@
 ﻿using System.Windows;
-using Point = DDRemakeProject.Deprecated.Point;
 
 namespace DDRemakeProject.World
 {
