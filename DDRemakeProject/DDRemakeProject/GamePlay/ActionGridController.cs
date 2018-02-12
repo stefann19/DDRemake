@@ -2,29 +2,30 @@
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Input;
 
 namespace DDRemakeProject.GamePlay
 {
     public class ActionGridController
     {
-        public static Grid ActionGrid { get; set; }
-
         public ActionGridController(Grid actionGrid)
         {
             ActionGrid = actionGrid;
             ActionGrid.Children.Clear();
-            
         }
 
-        public static void Activate(ActionTypes.ActionType actionType,BattleEngine battleEngine)
+        public static Grid ActionGrid { get; set; }
+
+        public static void Activate(ActionTypes.ActionType actionType, BattleEngine battleEngine)
         {
             Character currentCharacter = battleEngine.Characters[TurnSystem.CurrentCharIndex];
             ActionGrid.Children.Clear();
 
-            List<Action> actions = currentCharacter.CharacterStats.Actions.Where(action=> action.ActionType  == actionType).ToList();
-            List<AnimatedButtonController> animatedButtonControllers =new List<AnimatedButtonController>();
+            List<Action> actions = currentCharacter.CharacterStats.Actions
+                .Where(action => action.ActionType == actionType).ToList();
+            List<AnimatedButtonController> animatedButtonControllers = new List<AnimatedButtonController>();
 
-            ActionGrid.Width = actions.Count * 40 ;
+            ActionGrid.Width = actions.Count * 40;
             int left = 0;
             actions.ForEach(action =>
             {
@@ -38,23 +39,21 @@ namespace DDRemakeProject.GamePlay
                     BattleEngine = battleEngine
                 };
                 animatedButton.Button.PreviewMouseDown += InitiateFight;
-                animatedButtonControllers.Add(new AnimatedButtonController(action.Icon, animatedButton, action.ActionType,battleEngine ));
+                animatedButtonControllers.Add(new AnimatedButtonController(action.Icon, animatedButton,
+                    action.ActionType, battleEngine));
                 ActionGrid.Children.Add(animatedButton);
                 left += 40;
             });
         }
 
-        private static void InitiateFight(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        private static void InitiateFight(object sender, MouseButtonEventArgs e)
         {
-
             Button button = sender as Button;
             Grid grid = button?.Parent as Grid;
             AnimatedButton animatedButton = grid?.Parent as AnimatedButton;
 
-            animatedButton?.BattleEngine.Fight(null,animatedButton.Action);
+            animatedButton?.BattleEngine.Fight(null, animatedButton.Action);
             animatedButton?.BattleEngine.SelectChar(animatedButton.BattleEngine.SelectedCharacter);
         }
     }
-
-
 }

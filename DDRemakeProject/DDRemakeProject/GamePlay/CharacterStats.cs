@@ -5,15 +5,16 @@ namespace DDRemakeProject.GamePlay
     public class CharacterStats
     {
         public Character CharacterParent;
+
         #region Properties
 
         /// <summary>
-        /// Max HP
+        ///     Max HP
         /// </summary>
         public int Hp { get; set; }
 
         /// <summary>
-        /// Current Hp
+        ///     Current Hp
         /// </summary>
         public int CurrentHp
         {
@@ -26,37 +27,39 @@ namespace DDRemakeProject.GamePlay
         }
 
         /// <summary>
-        /// Max MP
+        ///     Max MP
         /// </summary>
         public int Mp { get; private set; }
+
         /// <summary>
-        /// Current MP
+        ///     Current MP
         /// </summary>
         public int CurrentMp { get; set; }
 
 
         /// <summary>
-        /// Max AP
+        ///     Max AP
         /// </summary>
         public int Ap { get; private set; }
+
         /// <summary>
-        /// Current AP
+        ///     Current AP
         /// </summary>
         public int CurrentAp { get; set; }
 
-        public float Armour { get;private set; }
+        public float Armour { get; private set; }
 
-        public int Strength { get; private set; }
-        public int Inteligence { get; private set; }
-        public int Constitution { get; private set; }
-        public int Speed { get; private set; }
+        public int Strength { get; }
+        public int Inteligence { get; }
+        public int Constitution { get; }
+        public int Speed { get; }
 
         public int Level { get; set; }
         public int CurrentXp { get; set; }
 
         public string CharacterPng { get; set; }
         public string CharacterIconPng { get; set; }
-        public string Name { get; private set; }
+        public string Name { get; }
 
         public List<Action> Actions;
         private int _currentHp;
@@ -64,11 +67,12 @@ namespace DDRemakeProject.GamePlay
         #endregion
 
         #region Constructors
-        public CharacterStats(string name,string characterPng,string characterIconPng, int level, int strength, int inteligence, int constitution, int speed)
+
+        public CharacterStats(string name, string characterPng, string characterIconPng, int level, int strength,
+            int inteligence, int constitution, int speed)
         {
             #region SetStats
 
-            
             CurrentXp = 0;
             CharacterIconPng = characterIconPng;
             CharacterPng = characterPng;
@@ -78,7 +82,9 @@ namespace DDRemakeProject.GamePlay
             Inteligence = inteligence;
             Constitution = constitution;
             Speed = speed;
+
             #endregion
+
             //get HP/MP/AP Values from the above stats
             Intialize();
 
@@ -87,8 +93,8 @@ namespace DDRemakeProject.GamePlay
             CurrentAp = Ap;
             IsEnemy = characterPng.Contains("monster");
         }
-        
-        public bool IsEnemy { get;private set; }
+
+        public bool IsEnemy { get; }
         public string UiImageName { get; set; }
 
         private void Intialize()
@@ -103,17 +109,13 @@ namespace DDRemakeProject.GamePlay
 
         private void GetDefaultActions()
         {
-            Actions = new List<Action> {StatsLogic.LowAttack, StatsLogic.MediumAttack, StatsLogic.FireSpell};
-
+            Actions = new List<Action> {StatsLogic.LowAttack, StatsLogic.MediumAttack, StatsLogic.FireSpell ,StatsLogic.HeavyAttack,StatsLogic.AirSpell,StatsLogic.EarthSpell,StatsLogic.WaterSpell,StatsLogic.BasicBlock};
         }
+
         #endregion
 
         #region private Methods
 
-
-
         #endregion
-
-        
     }
 }

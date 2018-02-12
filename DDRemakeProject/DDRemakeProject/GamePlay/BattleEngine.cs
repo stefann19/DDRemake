@@ -6,9 +6,7 @@ namespace DDRemakeProject.GamePlay
 {
     public class BattleEngine
     {
-        private Character _selectedCharacter;
-
-        public List<Character> Characters { get; private set; }
+        public List<Character> Characters { get; }
 
         public static BattleWindow BattleWindowUi { get; set; }
 
@@ -18,40 +16,36 @@ namespace DDRemakeProject.GamePlay
 
         public HashSet<AnimatedButtonPopUp> AnimatedButtonPopUps { get; set; }
 
-        private ActionGridController actionGrid;
-
-        public static bool WaitForAnimation;
-        public static Character weakestCharacter;
-
         public Character SelectedCharacter
         {
-            get => _selectedCharacter;
+            get => SelectedCharacter1;
             set
             {
-                _selectedCharacter = value;
-                SelectChar(_selectedCharacter);
+                SelectedCharacter1 = value;
+                SelectChar(SelectedCharacter1);
             }
         }
-        
 
+        public Character SelectedCharacter1 { get; set; }
 
+        public ActionGridController ActionGrid { get; set; }
 
-        public BattleEngine(List<CharacterStats> allyCharacters, List<CharacterStats> enemyCharacters)
+        public static bool WaitForAnimation { get; set; }
+
+        public static Character WeakestCharacter { get; set; }
+
+        public BattleEngine(IEnumerable<CharacterStats> allyCharacters, IEnumerable<CharacterStats> enemyCharacters)
         {
             WaitForAnimation = false;
             BattleWindowUi = new BattleWindow(this);
-            actionGrid = new ActionGridController(BattleWindowUi.ActionGrid);
-            GenerateMap();
+            ActionGrid = new ActionGridController(BattleWindowUi.ActionGrid);
+            //GenerateMap();
 
             Characters = new List<Character>();
             foreach (CharacterStats characterStats in allyCharacters)
-            {
-                Characters.Add(new Character(characterStats, CharacterTypes.Type.Ally,this));
-            }
+                Characters.Add(new Character(characterStats, CharacterTypes.Type.Ally, this));
             foreach (CharacterStats characterStats in enemyCharacters)
-            {
-                Characters.Add(new Character(characterStats, CharacterTypes.Type.Enemy,this));
-            }
+                Characters.Add(new Character(characterStats, CharacterTypes.Type.Enemy, this));
             InitialiseBottomRightMiniWindows();
             InitialiseButtons();
             //UiBackEndInstance.SetPopOutWindow(BWindow.PopOutWindow);
@@ -59,10 +53,9 @@ namespace DDRemakeProject.GamePlay
 
         private void InitialiseBottomRightMiniWindows()
         {
-
             CurrentCharacterMiniWindow = new CharacterMiniWindow(BattleWindowUi.CurrentChar);
             SelectedCharacterMiniWindow = new CharacterMiniWindow(BattleWindowUi.TargetChar);
-            
+
             SetNextTurn();
 
             // GenerateAttackOrder();
@@ -72,18 +65,22 @@ namespace DDRemakeProject.GamePlay
         {
             AnimatedButtonPopUps = new HashSet<AnimatedButtonPopUp>
             {
-                new AnimatedButtonPopUp(new AnimatedButtonController(ButtonStatesList.Attack, BattleWindowUi.Attack,ActionTypes.ActionType.Attack,this))
+                new AnimatedButtonPopUp(new AnimatedButtonController(ButtonStatesList.Attack, BattleWindowUi.Attack,
+                    ActionTypes.ActionType.Attack, this)),
+                new AnimatedButtonPopUp(new AnimatedButtonController(ButtonStatesList.Spell, BattleWindowUi.Spell,
+                    ActionTypes.ActionType.Spell, this)),
+                new AnimatedButtonPopUp(new AnimatedButtonController(ButtonStatesList.Defend, BattleWindowUi.Defend,
+                    ActionTypes.ActionType.Defence, this)),
+                new AnimatedButtonPopUp(new AnimatedButtonController(ButtonStatesList.Inventory, BattleWindowUi.Item,
+                    ActionTypes.ActionType.Item, this))
             };
             //AnimatedButtonControllers.Add(new AnimatedButtonController("", "", "", BattleWindowUi.Defend));
             //AnimatedButtonControllers.Add(new AnimatedButtonController("", "", "", BattleWindowUi.Spell));
             //AnimatedButtonControllers.Add(new AnimatedButtonController("", "", "", BattleWindowUi.Item));
-
-
         }
 
         public void SetNextTurn()
         {
-
             Characters[TurnSystem.CurrentCharIndex].CharacterUiControl.ScalingType = CharacterUi.ScaleType.NoScaling;
 
             TurnSystem.GetNextTurn(Characters);
@@ -96,12 +93,11 @@ namespace DDRemakeProject.GamePlay
 
             if (Characters[TurnSystem.CurrentCharIndex].Type == CharacterTypes.Type.Enemy)
             {
-                weakestCharacter = ChooseWeakestAllyTarget();
-                Fight(ChooseWeakestAllyTarget(),Characters[TurnSystem.CurrentCharIndex].CharacterStats.Actions.First());
+                WeakestCharacter = ChooseWeakestAllyTarget();
+                Fight(ChooseWeakestAllyTarget(),
+                    Characters[TurnSystem.CurrentCharIndex].CharacterStats.Actions.First());
             }
-
         }
-
 
 
         public void ReloadChar()
@@ -127,61 +123,38 @@ namespace DDRemakeProject.GamePlay
         }
 
 
-        /// <summary>
-        /// Set every character ui and stats for current game
-        /// </summary>
-        private void GenerateMap()
-        {
-
-            //BWindow.InitializeBattleUi(Characters);
-        }
-
-
         private Character ChooseWeakestAllyTarget()
         {
             return Characters.Count(ch =>
-                       ch.Type == CharacterTypes.Type.Ally && ch.Status == CharacterTypes.Status.Alive) == 0 ? null : Characters.Where(character => character.Type == CharacterTypes.Type.Ally && character.Status == CharacterTypes.Status.Alive).Aggregate((a,b)=> a.CharacterStats.CurrentHp< b.CharacterStats.CurrentHp ? a :b);
+                       ch.Type == CharacterTypes.Type.Ally && ch.Status == CharacterTypes.Status.Alive) == 0
+                ? null
+                : Characters
+                    .Where(character =>
+                        character.Type == CharacterTypes.Type.Ally && character.Status == CharacterTypes.Status.Alive)
+                    .Aggregate((a, b) => a.CharacterStats.CurrentHp < b.CharacterStats.CurrentHp ? a : b);
         }
 
         public void AttackFromTrigger()
         {
-            
-            Fight(weakestCharacter, Characters[TurnSystem.CurrentCharIndex].CharacterStats.Actions.First());
+            Fight(WeakestCharacter, Characters[TurnSystem.CurrentCharIndex].CharacterStats.Actions.First());
         }
-        //public void Fight( Action skill)
-        //{
-
-        //    // execute the attack animation in the UI
-        //    //skill.SkillEffect;
 
 
-        //    //execute the hp/ap drain animation in the UI
-
-
-        //    //Execute the stats changes of the fight\
-        //    if (SelectedCharacter == null) return;
-        //    if (skill.ApCost <= Characters[TurnSystem.CurrentCharIndex].CharacterStats.CurrentAp)
-        //        DoFightStatChanges(Characters[TurnSystem.CurrentCharIndex].CharacterStats, SelectedCharacter, skill);
-        //    SetNextTurn();
-        //}
-
-        public void Fight(Character defenderCharacter,Action skill)
+        public void Fight(Character defenderCharacter, Action skill)
         {
             if (defenderCharacter == null) defenderCharacter = SelectedCharacter;
 
-            if(defenderCharacter == null)return;
+            if (defenderCharacter == null) return;
 
             if (skill.ApCost <= Characters[TurnSystem.CurrentCharIndex].CharacterStats.CurrentAp)
             {
-
                 // execute the attack animation in the UI
                 //skill.SkillEffect;
-                
-                    SkillEffects skillEffect = new SkillEffects(skill.Effect, this)
-                    {
-                        GifImage = {Margin = defenderCharacter.CharacterUiControl.CharAvatarControl.Margin}
-                    };
-                
+
+                SkillEffects skillEffect = new SkillEffects(skill.Effect, this)
+                {
+                    GifImage = {Margin = defenderCharacter.CharacterUiControl.CharAvatarControl.Margin}
+                };
 
 
                 //execute the hp/ap drain animation in the UI
@@ -190,13 +163,14 @@ namespace DDRemakeProject.GamePlay
                 //Execute the stats changes of the fight\
                 DoFightStatChanges(Characters[TurnSystem.CurrentCharIndex].CharacterStats, defenderCharacter, skill);
             }
-            weakestCharacter = null;
+            WeakestCharacter = null;
             //SetNextTurn();
         }
 
         private void DoFightStatChanges(CharacterStats attackerCharacter, Character defenderCharacter, Action skill)
         {
-            int damageAfterReductions = (int)(StatsLogic.CalculateDamageAfterAr(defenderCharacter.CharacterStats.Armour, skill.Damage));
+            int damageAfterReductions =
+                (int) StatsLogic.CalculateDamageAfterAr(defenderCharacter.CharacterStats.Armour, skill.Damage);
             defenderCharacter.CharacterStats.CurrentHp -= damageAfterReductions;
             attackerCharacter.CurrentAp -= skill.ApCost;
             attackerCharacter.CurrentMp -= skill.MpCost;
@@ -212,35 +186,23 @@ namespace DDRemakeProject.GamePlay
 
                 return true;
             }
-            else return false;
+            return false;
         }
 
         private void DeadCleanup(Character ch)
         {
             // execute UI cleanup
-
+            
             //backend
             ch.CharacterDied();
             DeselectCHar();
             //ch.Status = CharacterTypes.Status.Dead;
-
-
         }
 
         public List<Action> GetAvailableActions(ActionTypes.ActionType actionType)
         {
-            List<Action> availableActions = new List<Action>();
-
-            foreach (Action action in Characters[TurnSystem.CurrentCharIndex].CharacterStats.Actions)
-            {
-                if (action.ActionType == actionType)
-                {
-                    availableActions.Add(action);
-                }
-            }
-
-            return availableActions;
+            return Characters[TurnSystem.CurrentCharIndex].CharacterStats.Actions
+                .Where(action => action.ActionType == actionType).ToList();
         }
-
     }
 }

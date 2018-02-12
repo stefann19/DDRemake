@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media.Imaging;
@@ -31,7 +32,7 @@ namespace DDRemakeProject.GamePlay
 
         public string SelectType
         {
-            get { return _selectType; }
+            get => _selectType;
             set
             {
                 _selectType = value;
@@ -41,7 +42,7 @@ namespace DDRemakeProject.GamePlay
 
         public string Hp
         {
-            get { return _hp; }
+            get => _hp;
             set
             {
                 _hp = value;
@@ -51,7 +52,7 @@ namespace DDRemakeProject.GamePlay
 
         public string Mp
         {
-            get { return _mp; }
+            get => _mp;
             set
             {
                 _mp = value;
@@ -61,7 +62,7 @@ namespace DDRemakeProject.GamePlay
 
         public string Ap
         {
-            get { return _ap; }
+            get => _ap;
             set
             {
                 _ap = value;
@@ -71,7 +72,7 @@ namespace DDRemakeProject.GamePlay
 
         public string Name
         {
-            get { return _name; }
+            get => _name;
             set
             {
                 _name = value;
@@ -85,9 +86,8 @@ namespace DDRemakeProject.GamePlay
             set
             {
                 _iconPath = value;
-                string file = System.IO.Path.Combine(Environment.CurrentDirectory, _iconPath);
-                _characterContentControl.Resources["icon"] = new BitmapImage(new Uri(file)); 
-
+                string file = Path.Combine(Environment.CurrentDirectory, _iconPath);
+                _characterContentControl.Resources["icon"] = new BitmapImage(new Uri(file));
             }
         }
 
@@ -96,13 +96,13 @@ namespace DDRemakeProject.GamePlay
         private float StringStatToPercentage(string stat)
         {
             string[] aux = stat.Split('/');
-            return (float)int.Parse(aux[0]) / int.Parse(aux[1]);
+            return (float) int.Parse(aux[0]) / int.Parse(aux[1]);
         }
 
         private void SetUi(string statString, string stat)
         {
-            
-            _characterContentControl.Resources[statString + "BarWidth"] = (double)(StringStatToPercentage(stat) * BarLength);
+            _characterContentControl.Resources[statString + "BarWidth"] =
+                (double) (StringStatToPercentage(stat) * BarLength);
             _characterContentControl.Resources[statString + "BarValue"] = stat;
         }
 
@@ -110,6 +110,5 @@ namespace DDRemakeProject.GamePlay
         {
             _characterContentControl.Visibility = visibility;
         }
-
     }
 }

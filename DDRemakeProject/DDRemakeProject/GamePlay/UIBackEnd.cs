@@ -5,14 +5,13 @@ namespace DDRemakeProject.GamePlay
 {
     public class UIBackEnd
     {
-        private CharacterMiniWindow pop;
         private BattleEngine _battleEngine;
-        public  Grid _popOutWindow;
+        public Grid _popOutWindow;
+        private CharacterMiniWindow pop;
 
         public UIBackEnd(BattleEngine battleEngine)
         {
             _battleEngine = battleEngine;
-            
         }
 
         public void SetPopOutWindow(Grid popOutWindow)
