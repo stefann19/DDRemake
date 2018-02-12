@@ -204,7 +204,7 @@ namespace DDRemakeProject
 
         private void UIElement_OnMouseEnter(object sender, MouseEventArgs e)
         {
-            if (ActionGrid.Children.Count > 0) ActionGrid.Children.Clear();
+            //if (ActionGrid.Children.Count > 0) ActionGrid.Children.Clear();
             
         }
     }

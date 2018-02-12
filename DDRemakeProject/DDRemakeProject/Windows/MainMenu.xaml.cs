@@ -31,7 +31,7 @@ namespace DDRemakeProject
             };
             for (int i = 0; i < allies.Count; i++)
             {
-                allies[i].UiImageName = "BChar" + (i+1);
+                allies[i].UiImageName = "BChar" + (i + 1);
                 enemies[i].UiImageName = "BeChar" + (i + 1);
             }
 

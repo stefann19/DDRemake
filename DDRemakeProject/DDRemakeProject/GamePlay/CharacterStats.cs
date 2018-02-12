@@ -109,7 +109,7 @@ namespace DDRemakeProject.GamePlay
 
         private void GetDefaultActions()
         {
-            Actions = new List<Action> {StatsLogic.LowAttack, StatsLogic.MediumAttack, StatsLogic.FireSpell};
+            Actions = new List<Action> {StatsLogic.LowAttack, StatsLogic.MediumAttack, StatsLogic.FireSpell ,StatsLogic.HeavyAttack,StatsLogic.AirSpell,StatsLogic.EarthSpell,StatsLogic.WaterSpell,StatsLogic.BasicBlock};
         }
 
         #endregion

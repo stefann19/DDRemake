@@ -9,12 +9,12 @@
         {
             AnimatedButtonController = animatedButtonController;
 
-            animatedButtonController.AnimatedButton.Button.MouseEnter += Button_MouseEnter; ;
+            animatedButtonController.AnimatedButton.Button.PreviewMouseDown += Button_MouseDown; 
         }
 
-        private void Button_MouseEnter(object sender, System.Windows.Input.MouseEventArgs e)
+        private void Button_MouseDown(object sender, System.Windows.Input.MouseEventArgs e)
         {
-            ActionTypes.ActionType actionType = ActionTypes.ActionType.Attack;
+            ActionTypes.ActionType actionType = AnimatedButtonController.ActionType;
             ActionGridController.Activate(actionType, AnimatedButtonController.BattleEngine);
         }
 
