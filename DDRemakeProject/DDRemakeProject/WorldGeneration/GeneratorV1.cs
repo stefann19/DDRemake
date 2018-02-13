@@ -114,139 +114,241 @@ namespace DDRemakeProject.WorldGeneration
         {
             Rooms.Add(r);
             GenerationRooms.Add(r);
-            Rooms.Where(room=> !r.Neighbors.ContainsKey((Vector)room.RoomRect.Location)).ToList().ForEach(room =>
-            {
-                double distance = Math.Abs(((Vector) (room.RoomRect.Location) - (Vector) (r.RoomRect.Location)).Length);
-                if (distance < GeneratorExtensions.MaxRoomSize*2f + GeneratorExtensions.SpaceBetweenRooms)
+            Rooms.Where(room => !r.Neighbors.ContainsKey((Vector) room.RoomRect.Location)).ToList()
+                .ForEach(room =>
                 {
-                    if (!r.Neighbors.ContainsKey((Vector)room.RoomRect.Location) )
+                    double distance = Math.Abs(Vector
+                        .Subtract((Vector) room.RoomRect.Location, (Vector) r.RoomRect.Location).Length);
+
+                    if (distance <= GeneratorExtensions.MaxRoomSize*1.75f + GeneratorExtensions.SpaceBetweenRooms)
                     {
-                        r.Neighbors.Add((Vector) room.RoomRect.Location, room);
+                       
+                            r.Neighbors.Add((Vector) room.RoomRect.Location, room);
 
 
-                        r.CalculateRemainingAngles(r.CalculateAngle(room));
+                            r.CalculateRemainingAngles(r.CalculateAngle(room));
+                        
+                        if (!room.Neighbors.ContainsKey((Vector) r.RoomRect.Location))
+                        {
+                            room.Neighbors.Add((Vector) r.RoomRect.Location, r);
+                            room.CalculateRemainingAngles(room.CalculateAngle(r));
+                        }
                     }
-                    if (!room.Neighbors.ContainsKey((Vector) r.RoomRect.Location))
-                    {
-                        room.Neighbors.Add((Vector)r.RoomRect.Location, r);
-                        room.CalculateRemainingAngles(room.CalculateAngle(r));
-
-                    }
-
-                }
-            });
-
-            r.Tiles.ToList().ForEach(tile=> Tiles.Add(tile.Key,tile.Value));
+                });
+            r.Tiles.Where(tile=> !Tiles.ContainsKey(tile.Key)).ToList().ForEach(tile => Tiles.Add(tile.Key, tile.Value));
             _nrOfUsedtiles += r.Tiles.Count;
-            //Tiles.Add();
         }
 
         private void GenerateRoads()
         {
             Roads = new List<RoomModule>();
-            HashSet<HashSet<RoomModule>> LinkedRoomsListOfLists = new HashSet<HashSet<RoomModule>>(Rooms.Select(r =>
+            List<List<RoomModule>> LinkedRoomsListOfLists = new List<List<RoomModule>>();
+            Rooms.ForEach(room =>
             {
-                r.LinkedRoomsList = new HashSet<RoomModule> {r};
-                return r.LinkedRoomsList;
-            }));
+                room.LinkedRoomsList = new List<RoomModule>{room};
+                LinkedRoomsListOfLists.Add(room.LinkedRoomsList);
+               
+            });
 
-            foreach (HashSet<RoomModule> linkedRoomsList in LinkedRoomsListOfLists)
-            {
-                
-                foreach (RoomModule roomModule in linkedRoomsList)
+
+            SortedDictionary < double, Tuple<RoomModule, RoomModule>> lowestRoad =new SortedDictionary<double, Tuple<RoomModule, RoomModule>>();
+            Rooms.ForEach(room =>
+                room.Neighbors.Values.Where(r=> !r.Equals(room)).ToList().ForEach(neighbor =>
                 {
-                    foreach (KeyValuePair<Vector, RoomModule> keyValuePair in roomModule.Neighbors.AsEnumerable().Where(neighbor => neighbor.Value.LinkedRoomsList != roomModule.LinkedRoomsList))
+                    double distance =
+                        Math.Abs((room.RoomRect.LocationCenter() - neighbor.RoomRect.LocationCenter()).Length);
+                    bool add = false;
+
+
+                    if (lowestRoad.Count <= 0)
                     {
-                        GenerateRoad(roomModule, keyValuePair.Value);
-
-                        //Rect r = roomModule.GenerateRoad(keyValuePair.Value);
-                        //Roads.Add(new RoomModule(r));
-                        //roomModule.LinkedRoomsList.UnionWith(keyValuePair.Value.LinkedRoomsList);
-                        //keyValuePair.Value.LinkedRoomsList = roomModule.LinkedRoomsList;
+                        lowestRoad.Add(distance, new Tuple<RoomModule, RoomModule>(neighbor, room));
+                        return;
+                        
                     }
-                    //break;
-                    
-                }
-                //break;
 
-            }
+                    KeyValuePair<double, Tuple<RoomModule, RoomModule>> a = lowestRoad.FirstOrDefault(value =>
+                        value.Value.Equals(new Tuple<RoomModule, RoomModule>(room, neighbor)));
+                    KeyValuePair<double, Tuple<RoomModule, RoomModule>> b = lowestRoad.FirstOrDefault(value =>
+                        value.Value.Equals(new Tuple<RoomModule, RoomModule>(neighbor, room)));
+                    if (a.Value != null)
+                    {
+                        if (a.Key > distance)
+                            add = true;
+                    }
+                    else if (b.Value != null)
+                    {
+                        if (b.Key > distance)
+                            add = true;
+                    }
+
+                    else
+                    {
+                        lowestRoad[distance] = new Tuple<RoomModule, RoomModule>(neighbor, room);
+                    }
+
+                    if (add)
+                        lowestRoad.Add(distance, new Tuple<RoomModule, RoomModule>(neighbor, room));
+                }));
+
+            int it = 0;
+            Random rnd = new Random();
+            lowestRoad.Values.TakeWhile(predicate=>LinkedRoomsListOfLists.Count!=1).ToList().ForEach(rooms =>
+            {
+
+                if (rooms.Item1.LinkedRoomsList != rooms.Item2.LinkedRoomsList)
+                {
+                    it++;
+                    GenerateRoad(rooms.Item1, rooms.Item2);
+
+
+                    //Rect r = roomModule.(neighbor.Value);
+                    //Roads.Add(new RoomModule(r));
+                    rooms.Item1.LinkedRoomsList.AddRange(rooms.Item2.LinkedRoomsList);
+                    LinkedRoomsListOfLists.Remove(rooms.Item2.LinkedRoomsList);
+                    //rooms.Item2.LinkedRoomsList = rooms.Item1.LinkedRoomsList;
+
+                    rooms.Item2.LinkedRoomsList.ForEach(r => r.LinkedRoomsList = rooms.Item1.LinkedRoomsList);
+                }
+                else
+                {
+                    if (rnd.Next(0, 100) < 10 && !rooms.Item1.Roads.Contains(rooms.Item2))
+                    {
+                        it++;
+                        GenerateRoad(rooms.Item1, rooms.Item2);
+                    }
+                }
+            });
+
+
+          
+         
         }
 
-        private bool GenerateRoad(RoomModule startingRoomModule,RoomModule endingRoomModule)
+
+        private bool GenerateRoad(RoomModule startingRoomModule, RoomModule endingRoomModule)
         {
-            //make vertical road
-            //if(startingRoomModule.RoomRect.Y < endingRoomModule.RoomRect.)
-            List<RoomModule> rooms = new List<RoomModule>{startingRoomModule,endingRoomModule};
-            Rect s = new Rect();
-            Rect e = new Rect();
-            //s.Y = startingRoomModule.RoomRect.Y;
-            //s.Size = startingRoomModule.RoomRect.Size;
 
-            //e.Y = endingRoomModule.RoomRect.Y;
-            //e.Size = endingRoomModule.RoomRect.Size;
-
-            //if (!s.IntersectsWith(e))
-            //{
-            //    //create vertical road
-            //    System.Windows.Point roadPosition = (System.Windows.Point)((startingRoomModule.RoomRect.LocationCenter() + endingRoomModule.RoomRect.LocationCenter())/2);
-            //    roadPosition = new System.Windows.Point((int) roadPosition.X, (int) roadPosition.Y);
-            //    Size roadSize = new Size(3, Math.Abs(startingRoomModule.RoomRect.Y - endingRoomModule.RoomRect.Y));
-            //    Rect roadRect = new Rect(roadPosition, roadSize);
-            //    RoomModule road = new RoomModule(roadRect);
-            //    AddRoad(road);
-            //}
-
-
-            s = new Rect();
-            e = new Rect();
-            s.X = startingRoomModule.RoomRect.X;
-            s.Size = startingRoomModule.RoomRect.Size;
-
-            e.X = endingRoomModule.RoomRect.X;
-            e.Size = endingRoomModule.RoomRect.Size;
-
-            if (!s.IntersectsWith(e))
+            if (!startingRoomModule.Roads.Contains(endingRoomModule))
             {
-                //create vertical road
-                System.Windows.Point roadPosition = (System.Windows.Point)((startingRoomModule.RoomRect.LocationCenter() + endingRoomModule.RoomRect.LocationCenter()) / 2);
-                Size roadSize = new Size(Math.Abs(startingRoomModule.RoomRect.X - endingRoomModule.RoomRect.X),3);
-                roadPosition = (Point)((Vector)roadPosition - (Vector)roadSize / 2);
-                roadPosition = new System.Windows.Point((int)roadPosition.X, (int)roadPosition.Y);
+                startingRoomModule.Roads.Add(endingRoomModule);
+            }
+            if (!endingRoomModule.Roads.Contains(startingRoomModule))
+            {
+                endingRoomModule.Roads.Add(startingRoomModule);
+            }
+
+
+            List<RoomModule> rooms = new List<RoomModule> {startingRoomModule, endingRoomModule};
+
+        
+            if(Math.Abs(startingRoomModule.RoomRect.LocationCenter().X -
+                        endingRoomModule.RoomRect.LocationCenter().X) <= 
+                        Math.Abs(startingRoomModule.RoomRect.LocationCenter().Y -
+                        endingRoomModule.RoomRect.LocationCenter().Y) )
+            { 
+                
+
+                Point roadPosition =
+                        (Point)((startingRoomModule.RoomRect.LocationCenter() +
+                                  endingRoomModule.RoomRect.LocationCenter()) /
+                                 2f);
+                Size roadSize = new Size(3,2 +Math.Abs(startingRoomModule.RoomRect.LocationCenter().Y -endingRoomModule.RoomRect.LocationCenter().Y));
+                roadSize = new Size((int)roadSize.Width, (int)roadSize.Height);
+                roadPosition = (Point)((Vector)roadPosition - (Vector)roadSize / 2f);
+                roadPosition = new Point((int)roadPosition.X, (int)roadPosition.Y);
 
                 Rect roadRect = new Rect(roadPosition, roadSize);
                 RoomModule road = new RoomModule(roadRect);
                 AddRoad(road);
                 //check edges for edginess
 
-                List<Vector> roadPoints = new List<Vector>{new Vector(roadRect.Location.X,roadRect.LocationCenter().Y), new Vector(roadRect.Location.X+roadRect.Width, roadRect.LocationCenter().Y) };
+                List<Vector> roadPoints = new List<Vector>
+                {
+                    new Vector( (int) roadRect.LocationCenter().X,(int) roadRect.Top+2),
+                    new Vector( (int) roadRect.LocationCenter().X,(int) roadRect.Bottom-1 )
+                };
 
                 roadPoints.ForEach(point =>
                 {
-                    RoomModule minRoomModule = rooms.First(room => Math.Abs((room.RoomRect.LocationCenter() - point).Length) == rooms.Min(v => Math.Abs((v.RoomRect.LocationCenter()-point).Length)));
-                    if (minRoomModule.Tiles.ContainsKey(point))
-                    {
-                        
-                       return;
-                        
-                    }
-                    Size roadSecondarySize = new Size(3,(int) Math.Abs(point.Y - minRoomModule.RoomRect.Y));
-                    Vector roadSecondaryPosition = point - (Vector)roadSecondarySize / 2f;
-                    roadSecondaryPosition = new Vector((int)roadSecondaryPosition.X,(int)roadSecondaryPosition.Y);
+                    RoomModule minRoomModule = rooms.First(room =>
+                        Math.Abs(Math.Abs((room.RoomRect.LocationCenter() - point).Length) -
+                                 rooms.Min(v => Math.Abs((v.RoomRect.LocationCenter() - point).Length))) < 0.1f);
+
+                    Vector roadSecondaryPosition = point;
+                    double xPos = (point.X + minRoomModule.RoomRect.LocationCenter().X) / 2f;
+                    Size roadSecondarySize =
+                        new Size( Math.Abs(point.X - minRoomModule.RoomRect.LocationCenter().X) +2,3);
+                    if (point.X >= minRoomModule.RoomRect.Right-1)
+                        roadSecondarySize.Width++;
+
+                    roadSecondarySize = new Size((int)roadSecondarySize.Width, (int)roadSecondarySize.Height);
+                    roadSecondaryPosition = new Vector(Math.Round(xPos), (int)roadSecondaryPosition.Y);
+                    roadSecondaryPosition = roadSecondaryPosition - (Vector)roadSecondarySize / 2f;
+                    roadSecondaryPosition = new Vector((int)roadSecondaryPosition.X, (int)roadSecondaryPosition.Y);
+                    roadSecondarySize = new Size((int)roadSecondarySize.Width, (int)roadSecondarySize.Height);
                     Rect roadSecondaryRect = new Rect((Point)roadSecondaryPosition, roadSecondarySize);
+
                     RoomModule roadSecondary = new RoomModule(roadSecondaryRect);
                     AddRoad(roadSecondary);
-
                 });
-                return true;
             }
+            else
+            {
+                //create vertical road
+                Point roadPosition =
+                    (Point) ((startingRoomModule.RoomRect.LocationCenter() +
+                              endingRoomModule.RoomRect.LocationCenter()) /
+                             2f);
+                Size roadSize =
+                    new Size(2+
+                        Math.Abs(startingRoomModule.RoomRect.LocationCenter().X -
+                                 endingRoomModule.RoomRect.LocationCenter().X), 3);
+                roadSize = new Size((int)roadSize.Width,(int)roadSize.Height);
+                roadPosition = (Point) ((Vector) roadPosition - (Vector) roadSize / 2f);
+                roadPosition = new Point((int) roadPosition.X, (int) roadPosition.Y);
 
-            return false;
+                Rect roadRect = new Rect(roadPosition, roadSize);
+                RoomModule road = new RoomModule(roadRect);
+                AddRoad(road);
+                //check edges for edginess
 
+                List<Vector> roadPoints = new List<Vector>
+                {
+                    new Vector((int) roadRect.Left+2, (int) roadRect.LocationCenter().Y),
+                    new Vector((int) (roadRect.Right - 1), (int) roadRect.LocationCenter().Y)
+                };
+
+                roadPoints.ForEach(point =>
+                {
+                    RoomModule minRoomModule = rooms.First(room =>
+                        Math.Abs(Math.Abs((room.RoomRect.LocationCenter() - point).Length) -
+                                 rooms.Min(v => Math.Abs((v.RoomRect.LocationCenter() - point).Length))) < 0.1f);
+                   
+                    Vector roadSecondaryPosition = point;
+                    double yPos = (point.Y + minRoomModule.RoomRect.LocationCenter().Y) / 2f;
+                    Size roadSecondarySize =
+                        new Size(3, Math.Abs(point.Y - minRoomModule.RoomRect.LocationCenter().Y) + 2);
+                    if (point.Y >= minRoomModule.RoomRect.Bottom - 1)
+                        roadSecondarySize.Height++;
+
+                    roadSecondarySize = new Size((int)roadSecondarySize.Width,(int)roadSecondarySize.Height);
+                    roadSecondaryPosition = new Vector((int)roadSecondaryPosition.X, Math.Round(yPos));
+                    roadSecondaryPosition = roadSecondaryPosition - (Vector) roadSecondarySize / 2f;
+                    roadSecondaryPosition = new Vector((int) roadSecondaryPosition.X, (int)roadSecondaryPosition.Y);
+                    
+                    Rect roadSecondaryRect = new Rect((Point) roadSecondaryPosition, roadSecondarySize);
+                    RoomModule roadSecondary = new RoomModule(roadSecondaryRect);
+                    AddRoad(roadSecondary);
+                });
+            }
+            return true;
         }
 
         private void AddRoad(RoomModule road)
         {
             Roads.Add(road);
+
             road.Tiles.Where(v=> Tiles.ContainsKey(v.Key)).ToList().ForEach(tile =>
             {
                 MainWindow.CanvasS1.Children.Remove(tile.Value.Rect);
@@ -267,6 +369,11 @@ namespace DDRemakeProject.WorldGeneration
             });
             
             road.Tiles.Where(v=>!Tiles.ContainsKey(v.Key)).ToList().ForEach(tile=>Tiles.Add(tile.Key,tile.Value));
+        }
+
+        public static int Clamp(double value, double min, double max)
+        {
+            return (int) (value < min ? min : value > max ? max : value);
         }
 
     }

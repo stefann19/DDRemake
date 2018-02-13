@@ -10,9 +10,9 @@ namespace DDRemakeProject
         public NewMapMenu()
         {
             InitializeComponent();
-            textBoxWidth.Text = "50";
-            textBoxHeight.Text = "50";
-            textBoxName.Text = "";
+            textBoxWidth.Text = "100";
+            textBoxHeight.Text = "100";
+            textBoxName.Text = "A";
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)

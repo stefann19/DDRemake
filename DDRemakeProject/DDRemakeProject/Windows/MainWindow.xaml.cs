@@ -95,13 +95,13 @@ namespace DDRemakeProject
 
             _generator = new WorldGeneration.GeneratorV1(new Vector(map.Width, map.Height));
 
-            _v1 = new EngineV1(ref _generator);
+            //_v1 = new EngineV1(ref _generator);
         }
         private void LoadMap(string mapName)
         {
             _generator= XmlToFile.ReadFromXmlFile<WorldGeneration.GeneratorV1>(@"C:\VisualStudioProjects\DDRemake\DDRemakeProject\DDRemakeProject\"+mapName+".xml");
             _generator.Generate();
-            _v1 = new EngineV1(ref _generator);
+            //_v1 = new EngineV1(ref _generator);
         }
 
          private void DeleteCanvas()
