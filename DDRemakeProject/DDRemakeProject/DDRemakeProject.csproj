@@ -90,6 +90,7 @@
     <Compile Include="GamePlay\ButtonStatesImages.cs" />
     <Compile Include="GamePlay\ButtonStatesList.cs" />
     <Compile Include="GamePlay\CharacterUi.cs" />
+    <Compile Include="GamePlay\Player.cs" />
     <Compile Include="GamePlay\SkillEffects.cs" />
     <Compile Include="GamePlay\TurnSystem.cs" />
     <Compile Include="UserControls\CharAvatar.xaml.cs">
@@ -128,7 +129,6 @@
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
     <Compile Include="WorldGeneration\GeneratorV2.cs" />
-    <Compile Include="World\RoomSpace.cs" />
     <Compile Include="World\Tile.cs" />
     <Compile Include="WorldGeneration\GeneratorV1.cs" />
     <Compile Include="WorldGeneration\RoomModule.cs" />
@@ -188,6 +188,7 @@
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <None Include="All.cd" />
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>

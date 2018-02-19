@@ -1,0 +1,67 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="DDRemakeProject.WorldGeneration.GeneratorV1">
+    <Position X="1.75" Y="2.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AIAAAAABAAAAgACAAAFAAAACAQAAAAIAQAAAIEAAAAA=</HashCode>
+      <FileName>WorldGeneration\GeneratorV1.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsCollectionAssociation>
+      <Property Name="Tiles" />
+      <Property Name="Rooms" />
+    </ShowAsCollectionAssociation>
+  </Class>
+  <Class Name="DDRemakeProject.WorldGeneration.GeneratorExtensions" Collapsed="true">
+    <Position X="0.5" Y="0.5" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAABBAAAAAAEAAAABAAAAAAAACAAAAA=</HashCode>
+      <FileName>WorldGeneration\GeneratorV1.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="DDRemakeProject.WorldGeneration.RoomModule">
+    <Position X="6.5" Y="1" Width="1.5" />
+    <Members>
+      <Property Name="Tiles" Hidden="true" />
+    </Members>
+    <TypeIdentifier>
+      <HashCode>CAAAAAAAAAAAAAAAAAAAAAAAAwgAAAIAYAAAAEAAJAA=</HashCode>
+      <FileName>WorldGeneration\RoomModule.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="Tiles" />
+    </ShowAsAssociation>
+    <ShowAsCollectionAssociation>
+      <Property Name="WallTiles" />
+    </ShowAsCollectionAssociation>
+  </Class>
+  <Class Name="DDRemakeProject.World.Tile" BaseTypeListCollapsed="true">
+    <Position X="11.25" Y="3" Width="1.5" />
+    <Members>
+      <Property Name="RoomModule" Hidden="true" />
+    </Members>
+    <Compartments>
+      <Compartment Name="Nested Types" Collapsed="false" />
+    </Compartments>
+    <NestedTypes>
+      <Enum Name="DDRemakeProject.World.Tile.TypeEnum" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>World\Tile.cs</NewMemberFileName>
+        </TypeIdentifier>
+      </Enum>
+    </NestedTypes>
+    <TypeIdentifier>
+      <HashCode>AAAAAAACCAAAAAQgAAgAAAAAACAQAAAAQQBAAAAAAAA=</HashCode>
+      <FileName>World\Tile.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="RoomModule" />
+      <Property Name="Rect" />
+    </ShowAsAssociation>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="System.Windows.Shapes.Rectangle" Collapsed="true">
+    <Position X="14.75" Y="3" Width="1.5" />
+    <TypeIdentifier />
+  </Class>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

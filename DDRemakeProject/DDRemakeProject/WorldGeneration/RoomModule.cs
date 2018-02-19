@@ -145,21 +145,6 @@ namespace DDRemakeProject.WorldGeneration
         }
     }
 
-    public static class RoomExtensions
-    {
-        //public static void AddTile(this RoomModule r, Vector Position,Tile.TypeEnum type)
-        //{
-        //    Tile t = new Tile(Position,r,type);
-        //    //t.InitialiseRect();
-        //    if (r.Tiles.ContainsKey(t.Position)) return;
-        //    r.Tiles.Add(t.Position, t);
-
-        //    if (t.Type == Tile.TypeEnum.Wall)
-        //    {
-        //        r.WallTiles.Add(t);
-        //    }
-        //}
-    }
-
+  
 }
  
