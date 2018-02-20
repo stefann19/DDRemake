@@ -4,131 +4,115 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
 using DDRemakeProject.GamePlay;
+using DDRemakeProject.World;
 
 namespace DDRemakeProject
 {
     /// <summary>
-    /// Interaction logic for MainWindow.xaml
+    /// Interaction logic for MapWindow.xaml
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class MapWindow : Window
     {
-        public static Canvas CanvasS1;
-        public static Canvas CanvasS2;
-        public static Rect Size;
+        public static Canvas BackgroundCanvas;
+        public static Canvas DynamicCanvas;
+
+/*
         private readonly BackgroundWorker _worker = new BackgroundWorker();
+*/
         public string Titlee;
         private readonly bool _loadFromFile;
-        private readonly MapBasicInfo _map;
-        private WorldGeneration.GeneratorV1 _generator;
-        public MainWindow(bool loadFromFile,MapBasicInfo map)
+        public static MapBasicInfo MapBasicInfo;
+        private WorldGeneration.Generator _generator;
+        public MapWindow(bool loadFromFile, MapBasicInfo map)
         {
             InitializeComponent();
-            this._loadFromFile = loadFromFile;            
-            CanvasS1 = canvas3;
-            CanvasS2 = canvas2;
+            this._loadFromFile = loadFromFile;
+            BackgroundCanvas = Canvas_Background;
+            DynamicCanvas = Canvas_Dynamic;
             //canvas.Background = Brushes.Black;
             Titlee = this.Title;
-            this._map = map;
+            MapBasicInfo = map;
+/*
+            _worker.DoWork += worker_DoWork;
+            _worker.RunWorkerCompleted += worker_RunWorkerCompleted;
+            _worker.RunWorkerAsync();*/
 
-
-            if (!_loadFromFile)
-            {
-
-                GenerateMap(_map);
-
-            }
-            else
-            {
-                LoadMap(_map.Name);
-                //DeleteCanvas();
-            }
-
-            //_worker.DoWork += worker_DoWork;
-            //_worker.RunWorkerCompleted += worker_RunWorkerCompleted;
-            //_worker.RunWorkerAsync();
-
-            mainWindow.MouseWheel += new MouseWheelEventHandler(mainWindow_MouseWheel);
+            Canvas.MouseWheel += new MouseWheelEventHandler(mainWindow_MouseWheel);
 
             Closing += OnWindowClosing;
-            
+            DoShit();
 
+            Canvas.Width = map.Size.Width * Constants.TilePx;
+            Canvas.Height = map.Size.Height * Constants.TilePx;
+
+            DynamicCanvas.Width = Canvas.Width;
+            DynamicCanvas.Height = Canvas.Height;
+
+            BackgroundCanvas.Width = Canvas.Width;
+            BackgroundCanvas.Height = Canvas.Height;
         }
         double _scale;
 
         public void OnWindowClosing(object sender, CancelEventArgs e)
         {
-            XmlToFile.WriteToXmlFile(@"C:\VisualStudioProjects\DDRemake\DDRemakeProject\DDRemakeProject\" + _map.Name + ".xml", _generator);
+            XmlToFile.WriteToXmlFile(@"C:\VisualStudioProjects\DDRemake\DDRemakeProject\DDRemakeProject\" + MapBasicInfo.Name + ".xml", _generator);
             // Handle closing logic, set e.Cancel as needed
         }
 
-        private EngineV1 _v1;
-        private void worker_DoWork(object sender, DoWorkEventArgs e)
+        private Engine _v1;
+        private void DoShit()
         {
             if (!_loadFromFile)
             {
-                
-                GenerateMap(_map);
-               
+
+                GenerateMap(MapBasicInfo);
+
             }
             else
             {
-                LoadMap(_map.Name);
+                LoadMap(MapBasicInfo.Name);
                 //DeleteCanvas();
             }
 
-            //v1.MoveMethod1();
+            //_v1.MoveMethod();
         }
         private void GenerateMap(MapBasicInfo map)
         {
-
-            canvas.Width = map.Width * Constants.TilePx;
-            canvas.Height = map.Height * Constants.TilePx;
-
-            canvas2.Width = map.Width * Constants.TilePx;
-            canvas2.Height = map.Height * Constants.TilePx;
-
-            canvas3.Width = map.Width * Constants.TilePx;
-            canvas3.Height = map.Height * Constants.TilePx;
-
-            Size = new Rect(new Point(), new Size(canvas3.Width / Constants.TilePx, canvas3.Height / Constants.TilePx));
-
-
-            _generator = new WorldGeneration.GeneratorV1(new Vector(map.Width, map.Height));
-
-            //_v1 = new EngineV1(ref _generator);
+            _generator = new WorldGeneration.Generator((Vector)map.Size);
+            _v1 = new Engine(_generator);
         }
         private void LoadMap(string mapName)
         {
-            _generator= XmlToFile.ReadFromXmlFile<WorldGeneration.GeneratorV1>(@"C:\VisualStudioProjects\DDRemake\DDRemakeProject\DDRemakeProject\"+mapName+".xml");
+            _generator = XmlToFile.ReadFromXmlFile<WorldGeneration.Generator>(@"C:\VisualStudioProjects\DDRemake\DDRemakeProject\DDRemakeProject\" + mapName + ".xml");
             _generator.Generate();
-            //_v1 = new EngineV1(ref _generator);
+            _v1 = new Engine( _generator);
         }
 
-         private void DeleteCanvas()
+        private void DeleteCanvas()
         {
             Application.Current.Dispatcher.Invoke((System.Action)delegate
             {
 
-                canvas.Children.Clear();
+                Canvas.Children.Clear();
 
-                
+
             });
         }
 
 
-        private void worker_RunWorkerCompleted(object sender,RunWorkerCompletedEventArgs e)
+        private void worker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
             //update ui once worker complete his work
         }
 
         private void mainWindow_MouseWheel(object sender, MouseWheelEventArgs e)
         {
-            ZoomOnCanvas(canvas,e);
+            ZoomOnCanvas(Canvas, e);
             //ZoomOnCanvas(canvas2, e);
 
         }
 
-        private void ZoomOnCanvas(Canvas c,MouseWheelEventArgs e)
+        private void ZoomOnCanvas(Canvas c, MouseWheelEventArgs e)
         {
             var element = c as UIElement;
 
@@ -146,12 +130,12 @@ namespace DDRemakeProject
         Point _lastMousePos;
         private void mainWindow_MouseMove(object sender, MouseEventArgs e)
         {
-            DragCanvas(canvas,e);
+            DragCanvas(Canvas, e);
             //DragCanvas(canvas2, e);
 
         }
 
-        private void DragCanvas(Canvas c,MouseEventArgs e)
+        private void DragCanvas(Canvas c, MouseEventArgs e)
         {
             var element = c as UIElement;
 
@@ -179,11 +163,6 @@ namespace DDRemakeProject
                 _lastMousePos = position;
                 _c1 = true;
             }
-        }
-
-        private void mainWindow_KeyDown(object sender, KeyEventArgs e)
-        {
-            //_v1.MoveMethod2(sender,e);
         }
     }
 }

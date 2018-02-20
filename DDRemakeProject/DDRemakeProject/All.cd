@@ -1,31 +1,31 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <ClassDiagram MajorVersion="1" MinorVersion="1">
-  <Class Name="DDRemakeProject.WorldGeneration.GeneratorV1">
+  <Class Name="DDRemakeProject.WorldGeneration.Generator">
     <Position X="1.75" Y="2.25" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AIAAAAABAAAAgACAAAFAAAACAQAAAAIAQAAAIEAAAAA=</HashCode>
-      <FileName>WorldGeneration\GeneratorV1.cs</FileName>
+      <FileName>WorldGeneration\Generator.cs</FileName>
     </TypeIdentifier>
     <ShowAsCollectionAssociation>
-      <Property Name="Tiles" />
       <Property Name="Rooms" />
+      <Property Name="Tiles" />
     </ShowAsCollectionAssociation>
   </Class>
   <Class Name="DDRemakeProject.WorldGeneration.GeneratorExtensions" Collapsed="true">
-    <Position X="0.5" Y="0.5" Width="1.75" />
+    <Position X="4.25" Y="1" Width="1.75" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAABBAAAAAAEAAAABAAAAAAAACAAAAA=</HashCode>
-      <FileName>WorldGeneration\GeneratorV1.cs</FileName>
+      <FileName>WorldGeneration\Generator.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="DDRemakeProject.WorldGeneration.RoomModule">
+  <Class Name="DDRemakeProject.World.RoomModule">
     <Position X="6.5" Y="1" Width="1.5" />
     <Members>
       <Property Name="Tiles" Hidden="true" />
     </Members>
     <TypeIdentifier>
       <HashCode>CAAAAAAAAAAAAAAAAAAAAAAAAwgAAAIAYAAAAEAAJAA=</HashCode>
-      <FileName>WorldGeneration\RoomModule.cs</FileName>
+      <FileName>World\RoomModule.cs</FileName>
     </TypeIdentifier>
     <ShowAsAssociation>
       <Property Name="Tiles" />
@@ -54,8 +54,8 @@
       <FileName>World\Tile.cs</FileName>
     </TypeIdentifier>
     <ShowAsAssociation>
-      <Property Name="RoomModule" />
       <Property Name="Rect" />
+      <Property Name="RoomModule" />
     </ShowAsAssociation>
     <Lollipop Position="0.2" Collapsed="true" />
   </Class>

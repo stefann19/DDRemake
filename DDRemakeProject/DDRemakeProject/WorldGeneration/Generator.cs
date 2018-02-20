@@ -5,13 +5,12 @@ using System.Threading;
 using System.Windows;
 using System.Windows.Media;
 using System.Xml.Serialization;
-using DDRemakeProject.Deprecated;
 using DDRemakeProject.World;
 using static System.Linq.Enumerable;
 
 namespace DDRemakeProject.WorldGeneration
 {
-    public class GeneratorV1
+    public class Generator
     {
         private int _nrOfUsedtiles;
        
@@ -23,7 +22,7 @@ namespace DDRemakeProject.WorldGeneration
         /// </summary>
         /// <param name="sizeX">Worlds width in number of tiles</param>
         /// <param name="sizeY">Worlds height in number of tiles</param>
-        public GeneratorV1(Vector size)
+        public Generator(Vector size)
         {
             Size = size;
             Generate(size);
@@ -32,7 +31,7 @@ namespace DDRemakeProject.WorldGeneration
         /// <summary>
         ///     Needed for serialization
         /// </summary>
-        public GeneratorV1()
+        public Generator()
         {
         }
 
@@ -64,7 +63,7 @@ namespace DDRemakeProject.WorldGeneration
 
             Random rnd = new Random();
 
-            System.Windows.Point startingPos = new System.Windows.Point((int) (MainWindow.CanvasS1.Width / (2 *Constants.TilePx)), (int) (MainWindow.CanvasS1.Height / (2 * Constants.TilePx)));
+            System.Windows.Point startingPos = new System.Windows.Point((int) (MapWindow.BackgroundCanvas.Width / (2 *Constants.TilePx)), (int) (MapWindow.BackgroundCanvas.Height / (2 * Constants.TilePx)));
 
             bool firstRoom = true;
 
@@ -98,6 +97,7 @@ namespace DDRemakeProject.WorldGeneration
                 }
             }
             GenerateRoads();
+
         }
 
         public void Generate()
@@ -351,7 +351,7 @@ namespace DDRemakeProject.WorldGeneration
 
             road.Tiles.Where(v=> Tiles.ContainsKey(v.Key)).ToList().ForEach(tile =>
             {
-                MainWindow.CanvasS1.Children.Remove(tile.Value.Rect);
+                MapWindow.BackgroundCanvas.Children.Remove(tile.Value.Rect);
                 if (Tiles[tile.Key].Type == Tile.TypeEnum.Floor)
                 {
                     //tile. = Tiles[tile.Key
@@ -375,10 +375,10 @@ namespace DDRemakeProject.WorldGeneration
         {
             return (int) (value < min ? min : value > max ? max : value);
         }
+        #endregion
 
     }
 
-    #endregion
 
 
     public static class GeneratorExtensions
@@ -414,14 +414,14 @@ namespace DDRemakeProject.WorldGeneration
                     Vector point = pointer.Rotate(eachAngle) * (MaxRoomSize / 2f + roomModule.RoomRect.Width / 2f + Random.Next(3, SpaceBetweenRooms));
                     point = new Vector((int)point.X, (int)point.Y) + (Vector)roomModule.RoomRect.Location;
 
-                    if (!MainWindow.Size.Contains((System.Windows.Point)point)) return;
+                    if (!MapWindow.MapBasicInfo.Rect.Contains((System.Windows.Point)point)) return;
 
 
                     for (int i = MaxRoomSize; i >= MinRoomSize; i-=2)
                     {
                         Rect r = new Rect((System.Windows.Point)point, new Size(i, i));
 
-                        if (!MainWindow.Size.Contains(r)) continue;
+                        if (!MapWindow.MapBasicInfo.Rect.Contains(r)) continue;
 
                         if (roomModule.Neighbors.Values.All(room => !room.RoomRect.IntersectsWith(r)))
                         {

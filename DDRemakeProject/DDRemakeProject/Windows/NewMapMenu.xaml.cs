@@ -1,4 +1,5 @@
 ﻿using System.Windows;
+using DDRemakeProject.World;
 
 namespace DDRemakeProject
 {
@@ -10,17 +11,16 @@ namespace DDRemakeProject
         public NewMapMenu()
         {
             InitializeComponent();
-            textBoxWidth.Text = "100";
-            textBoxHeight.Text = "100";
-            textBoxName.Text = "A";
+
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
             if (textBoxName.Text.Length > 0)
             {
-                MapBasicInfo map = new MapBasicInfo(int.Parse(textBoxWidth.Text), int.Parse(textBoxHeight.Text), textBoxName.Text);
-                MainWindow window = new MainWindow(false, map);
+                Size mapSize = new Size(int.Parse(textBoxWidth.Text), int.Parse(textBoxHeight.Text));
+                MapBasicInfo map = new MapBasicInfo(textBoxName.Text,mapSize);
+                MapWindow window = new MapWindow(false, map);
                 window.Show();
                 this.Close();
             }

@@ -9,5 +9,4 @@ namespace DDRemakeProject.GamePlay
     public class Player
     {
 
-    }
-}
+    }}
