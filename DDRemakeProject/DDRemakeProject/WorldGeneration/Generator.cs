@@ -46,7 +46,7 @@ namespace DDRemakeProject.WorldGeneration
 
         public List<RoomModule> Rooms { get; set; }
         public List<RoomModule> GenerationRooms { get; set; }
-        public List<RoomModule> Roads { get; set; }
+        public List<Road> Roads { get; set; }
         public Dictionary<Vector, Tile> Tiles { get; set; }
         #endregion
 
@@ -96,7 +96,7 @@ namespace DDRemakeProject.WorldGeneration
 
                 }
             }
-            GenerateRoads();
+            GenerateRoads(45);
 
         }
 
@@ -120,7 +120,7 @@ namespace DDRemakeProject.WorldGeneration
                     double distance = Math.Abs(Vector
                         .Subtract((Vector) room.RoomRect.Location, (Vector) r.RoomRect.Location).Length);
 
-                    if (distance <= GeneratorExtensions.MaxRoomSize*1.75f + GeneratorExtensions.SpaceBetweenRooms)
+                    if (distance <= GeneratorExtensions.MaxRoomSize*2f + GeneratorExtensions.SpaceBetweenRooms)
                     {
                        
                             r.Neighbors.Add((Vector) room.RoomRect.Location, room);
@@ -139,9 +139,9 @@ namespace DDRemakeProject.WorldGeneration
             _nrOfUsedtiles += r.Tiles.Count;
         }
 
-        private void GenerateRoads()
+        private void GenerateRoads(int additionalRoadChance)
         {
-            Roads = new List<RoomModule>();
+            Roads = new List<Road>();
             List<List<RoomModule>> LinkedRoomsListOfLists = new List<List<RoomModule>>();
             Rooms.ForEach(room =>
             {
@@ -158,48 +158,50 @@ namespace DDRemakeProject.WorldGeneration
                     double distance =
                         Math.Abs((room.RoomRect.LocationCenter() - neighbor.RoomRect.LocationCenter()).Length);
                     bool add = false;
+                    while (lowestRoad.ContainsKey(distance)) distance += 0.0001f;
+                    lowestRoad.Add(distance, new Tuple<RoomModule, RoomModule>(neighbor, room));
 
+                    //if (lowestRoad.Count <= 0)
+                    //{
+                    //    lowestRoad.Add(distance, new Tuple<RoomModule, RoomModule>(neighbor, room));
+                    //    return;
 
-                    if (lowestRoad.Count <= 0)
-                    {
-                        lowestRoad.Add(distance, new Tuple<RoomModule, RoomModule>(neighbor, room));
-                        return;
-                        
-                    }
+                    //}
 
-                    KeyValuePair<double, Tuple<RoomModule, RoomModule>> a = lowestRoad.FirstOrDefault(value =>
-                        value.Value.Equals(new Tuple<RoomModule, RoomModule>(room, neighbor)));
-                    KeyValuePair<double, Tuple<RoomModule, RoomModule>> b = lowestRoad.FirstOrDefault(value =>
-                        value.Value.Equals(new Tuple<RoomModule, RoomModule>(neighbor, room)));
-                    if (a.Value != null)
-                    {
-                        if (a.Key > distance)
-                            add = true;
-                    }
-                    else if (b.Value != null)
-                    {
-                        if (b.Key > distance)
-                            add = true;
-                    }
+                    //KeyValuePair<double, Tuple<RoomModule, RoomModule>> a = lowestRoad.FirstOrDefault(value =>
+                    //    value.Value.Equals(new Tuple<RoomModule, RoomModule>(room, neighbor)));
+                    //KeyValuePair<double, Tuple<RoomModule, RoomModule>> b = lowestRoad.FirstOrDefault(value =>
+                    //    value.Value.Equals(new Tuple<RoomModule, RoomModule>(neighbor, room)));
+                    //if (a.Value != null)
+                    //{
+                    //    if (a.Key > distance)
+                    //        add = true;
+                    //}
+                    //else if (b.Value != null)
+                    //{
+                    //    if (b.Key > distance)
+                    //        add = true;
+                    //}
 
-                    else
-                    {
-                        lowestRoad[distance] = new Tuple<RoomModule, RoomModule>(neighbor, room);
-                    }
+                    //else
+                    //{
+                    //    lowestRoad[distance] = new Tuple<RoomModule, RoomModule>(neighbor, room);
+                    //}
 
-                    if (add)
-                        lowestRoad.Add(distance, new Tuple<RoomModule, RoomModule>(neighbor, room));
+                    //if (add)
+                    //    lowestRoad.Add(distance, new Tuple<RoomModule, RoomModule>(neighbor, room));
                 }));
 
             int it = 0;
             Random rnd = new Random();
             lowestRoad.Values.TakeWhile(predicate=>LinkedRoomsListOfLists.Count!=1).ToList().ForEach(rooms =>
             {
+                if(rooms.Item1.Roads.Count > 5 || rooms.Item2.Roads.Count > 5) return;
 
                 if (rooms.Item1.LinkedRoomsList != rooms.Item2.LinkedRoomsList)
                 {
                     it++;
-                    GenerateRoad(rooms.Item1, rooms.Item2);
+                    if(!GenerateRoad(rooms.Item1, rooms.Item2))return;
 
 
                     //Rect r = roomModule.(neighbor.Value);
@@ -212,7 +214,7 @@ namespace DDRemakeProject.WorldGeneration
                 }
                 else
                 {
-                    if (rnd.Next(0, 100) < 10 && !rooms.Item1.Roads.Contains(rooms.Item2))
+                    if (rnd.Next(0, 100) < additionalRoadChance && !rooms.Item1.Roads.Contains(rooms.Item2))
                     {
                         it++;
                         GenerateRoad(rooms.Item1, rooms.Item2);
@@ -240,7 +242,7 @@ namespace DDRemakeProject.WorldGeneration
 
 
             List<RoomModule> rooms = new List<RoomModule> {startingRoomModule, endingRoomModule};
-
+            List<Rect> roadRects = new List<Rect>();
         
             if(Math.Abs(startingRoomModule.RoomRect.LocationCenter().X -
                         endingRoomModule.RoomRect.LocationCenter().X) <= 
@@ -259,8 +261,9 @@ namespace DDRemakeProject.WorldGeneration
                 roadPosition = new Point((int)roadPosition.X, (int)roadPosition.Y);
 
                 Rect roadRect = new Rect(roadPosition, roadSize);
-                RoomModule road = new RoomModule(roadRect);
-                AddRoad(road);
+                roadRects.Add(roadRect);
+                //RoomModule road = new RoomModule(roadRect);
+                //AddRoad(road);
                 //check edges for edginess
 
                 List<Vector> roadPoints = new List<Vector>
@@ -271,10 +274,10 @@ namespace DDRemakeProject.WorldGeneration
 
                 roadPoints.ForEach(point =>
                 {
-                    RoomModule minRoomModule = rooms.First(room =>
+                    RoomModule minRoomModule = rooms.Count==2 ? rooms.First(room =>
                         Math.Abs(Math.Abs((room.RoomRect.LocationCenter() - point).Length) -
-                                 rooms.Min(v => Math.Abs((v.RoomRect.LocationCenter() - point).Length))) < 0.1f);
-
+                                 rooms.Min(v => Math.Abs((v.RoomRect.LocationCenter() - point).Length))) < 0.1f) : Rooms.First();
+                    //rooms.Remove(minRoomModule);
                     Vector roadSecondaryPosition = point;
                     double xPos = (point.X + minRoomModule.RoomRect.LocationCenter().X) / 2f;
                     Size roadSecondarySize =
@@ -288,9 +291,9 @@ namespace DDRemakeProject.WorldGeneration
                     roadSecondaryPosition = new Vector((int)roadSecondaryPosition.X, (int)roadSecondaryPosition.Y);
                     roadSecondarySize = new Size((int)roadSecondarySize.Width, (int)roadSecondarySize.Height);
                     Rect roadSecondaryRect = new Rect((Point)roadSecondaryPosition, roadSecondarySize);
-
-                    RoomModule roadSecondary = new RoomModule(roadSecondaryRect);
-                    AddRoad(roadSecondary);
+                    roadRects.Add(roadSecondaryRect);
+                    //RoomModule roadSecondary = new RoomModule(roadSecondaryRect);
+                    //AddRoad(roadSecondary);
                 });
             }
             else
@@ -309,8 +312,11 @@ namespace DDRemakeProject.WorldGeneration
                 roadPosition = new Point((int) roadPosition.X, (int) roadPosition.Y);
 
                 Rect roadRect = new Rect(roadPosition, roadSize);
-                RoomModule road = new RoomModule(roadRect);
-                AddRoad(road);
+
+                roadRects.Add(roadRect);
+
+                //RoomModule road = new RoomModule(roadRect);
+                //AddRoad(road);
                 //check edges for edginess
 
                 List<Vector> roadPoints = new List<Vector>
@@ -338,12 +344,90 @@ namespace DDRemakeProject.WorldGeneration
                     roadSecondaryPosition = new Vector((int) roadSecondaryPosition.X, (int)roadSecondaryPosition.Y);
                     
                     Rect roadSecondaryRect = new Rect((Point) roadSecondaryPosition, roadSecondarySize);
-                    RoomModule roadSecondary = new RoomModule(roadSecondaryRect);
-                    AddRoad(roadSecondary);
+
+                    roadRects.Add(roadSecondaryRect);
+                    //RoomModule roadSecondary = new RoomModule(roadSecondaryRect);
+                    //AddRoad(roadSecondary);
                 });
             }
-            return true;
+            
+            
+            return AddRoads(roadRects, rooms) !=null;
         }
+
+        private List<Road> AddRoads(List<Rect> roadRects,List<RoomModule> rooms)
+        {
+            List<Road> newRoads = new List<Road>();
+            roadRects.ForEach(roadRect => newRoads.Add(new Road(roadRect)));
+
+            int roadIntersects = 0;
+            int wallIntersects = 0;
+            int floorIntersects = 0;
+            newRoads.ForEach(road =>
+            {
+
+                road.Tiles.Where(v => Tiles.ContainsKey(v.Key)).ToList().ForEach(tile =>
+                {
+                    if (Tiles[tile.Key].Type == Tile.TypeEnum.Road && tile.Value.Type == Tile.TypeEnum.Road)
+                        roadIntersects++;
+                    if(Tiles[tile.Key].Type == Tile.TypeEnum.Wall && tile.Value.Type == Tile.TypeEnum.Road)
+                        wallIntersects++;
+                    if (Tiles[tile.Key].Type == Tile.TypeEnum.Floor && tile.Value.Type == Tile.TypeEnum.Road)
+                    {
+                        if(rooms.All(room=> !room.Tiles.ContainsKey(tile.Key))) floorIntersects++;
+                    }
+                       
+                 
+
+                });
+
+            });
+            if (roadIntersects > 0 || wallIntersects >4 || floorIntersects>= GeneratorExtensions.MinRoomSize ) return null;
+
+            newRoads.ForEach(road =>
+            {
+
+                road.Tiles.Where(v => Tiles.ContainsKey(v.Key)).ToList().ForEach(tile =>
+                {
+                    MapWindow.BackgroundCanvas.Children.Remove(tile.Value.Rect);
+
+                    if (Tiles[tile.Key].Type == Tile.TypeEnum.Floor || Tiles[tile.Key].Type == Tile.TypeEnum.Road)
+                    {
+                        //tile. = Tiles[tile.Key
+                        road.Tiles[tile.Key] = Tiles[tile.Key];
+                        //Tiles[tile.Key].Type = Tile.TypeEnum.Door;
+                    }
+                    else
+                    {
+                        //if (Tiles[tile.Key].Type == Tile.TypeEnum.Wall && tile.Value.Type == Tile.TypeEnum.Floor)
+                        //{
+                        //    Tiles[tile.Key].Type = Tile.TypeEnum.Road;
+                        //    road.Tiles[tile.Key] = Tiles[tile.Key];
+                        //}
+                        if (Tiles[tile.Key].Type == Tile.TypeEnum.Wall && tile.Value.Type == Tile.TypeEnum.Road)
+                        {
+                            Tiles[tile.Key].Type = Tile.TypeEnum.Road;
+                            road.Tiles[tile.Key] = Tiles[tile.Key];
+                            //intersects++;
+                        }
+                        
+
+                    }
+                   
+                });
+
+                road.Tiles.Where(v => !Tiles.ContainsKey(v.Key)).ToList()
+                    .ForEach(tile => Tiles.Add(tile.Key, tile.Value));
+            });
+            rooms.First().Roads.Add(rooms.Last());
+            rooms.Last().Roads.Add(rooms.First());
+
+            newRoads.ForEach(road=> road.Tiles.Values.ToList().ForEach(tile=>tile.InitialiseRect()));
+                return newRoads;
+            
+        }
+
+/*
 
         private void AddRoad(RoomModule road)
         {
@@ -370,6 +454,7 @@ namespace DDRemakeProject.WorldGeneration
             
             road.Tiles.Where(v=>!Tiles.ContainsKey(v.Key)).ToList().ForEach(tile=>Tiles.Add(tile.Key,tile.Value));
         }
+*/
 
         public static int Clamp(double value, double min, double max)
         {

@@ -17,8 +17,8 @@ namespace DDRemakeProject.GamePlay
             generator = generatorV1;
             
 
-            _r = new Tile(generatorV1.Size, new RoomModule(), Tile.TypeEnum.Wall);
-            _r.Rect.Fill = Brushes.Green;
+            _r = new Tile(generatorV1.Size, Tile.TypeEnum.Wall);
+            _r.Rect.Fill = Brushes.DarkBlue;
             _r.Position = generatorV1.Rooms.First().RoomRect.LocationCenter();
 
             MapWindow.BackgroundCanvas.Children.Remove(_r.Rect);
@@ -40,7 +40,7 @@ namespace DDRemakeProject.GamePlay
                   + (e.Key == Key.D ? new Vector(1, 0) : new Vector(0, 0));
 
             //_r.Rect.Margin = new Thickness();
-            if (generator.Tiles[_r.Position+movingVector]?.Type == Tile.TypeEnum.Floor)
+            if (generator.Tiles[_r.Position+movingVector]?.Type == Tile.TypeEnum.Floor || generator.Tiles[_r.Position + movingVector]?.Type == Tile.TypeEnum.Road )
             {
                 _r.Position += movingVector;
                 //e.Handled = true;

@@ -15,17 +15,18 @@ namespace DDRemakeProject.World
         #region Properties
         public static Dictionary<TypeEnum, Brush> TypeBrushes = new Dictionary<TypeEnum, Brush>
         {
-            {TypeEnum.Door,Brushes.ForestGreen },
+            {TypeEnum.Door,Brushes.Crimson },
             {TypeEnum.Floor,Brushes.Cyan },
             {TypeEnum.Wall,Brushes.Black },
-
+            {TypeEnum.Road,Brushes.Chocolate }
         };
 
         public enum TypeEnum
         {
             Wall,
             Door,
-            Floor
+            Floor,
+            Road
         }
 
 
@@ -48,7 +49,7 @@ namespace DDRemakeProject.World
         {
             get
             {
-                if (Rect == null) return VectorExtensions.Empty;
+                if (Rect == null) return PositionWhileNotIntialised;
                 return new Vector((int)Rect.Margin.Left,(int) Rect.Margin.Top)/Constants.TilePx;
             }
             set => Rect?.SetPosition(value);
@@ -63,10 +64,10 @@ namespace DDRemakeProject.World
             }    
         }
 */
+        private Vector PositionWhileNotIntialised;
 
 
-
-        public RoomModule RoomModule { get; set; }
+        //public RoomModule RoomModule { get; set; }
         
         #endregion
 
@@ -82,22 +83,41 @@ namespace DDRemakeProject.World
         /// </summary>
         /// <param name="x"> x coordinate of the Tile in tPixels</param>
         /// <param name="y"> y coordinate of the Tile in tPixels</param>
-        public Tile(Vector position,RoomModule roomModule,TypeEnum type)
-        {
+        //public Tile(Vector position,TypeEnum type)
+        //{
 
-            this.Type = type;
-            this.RoomModule =roomModule;
-            InitialiseRect(position);
-        }
+        //    this.Type = type;
+        //    //this.RoomModule =roomModule;
+        //    InitialiseRect(position);
+        //}
 
         public Tile(Vector position)
         {
 
             this.Type = TypeEnum.Floor;
-           
-            InitialiseRect(position);
+            PositionWhileNotIntialised = position;
+
+            InitialiseRect();
         }
 
+        public Tile(Vector position, TypeEnum type,bool initialise)
+        {
+
+            this.Type = type;
+            PositionWhileNotIntialised = position;
+
+            if (initialise) InitialiseRect();
+            //InitialiseRect(position);
+        }
+        public Tile(Vector position, TypeEnum type)
+        {
+            PositionWhileNotIntialised = position;
+
+            this.Type = type;
+            InitialiseRect();
+
+            //InitialiseRect(position);
+        }
         #endregion
 
 
@@ -141,12 +161,12 @@ namespace DDRemakeProject.World
 
         #region Methods
 
-        public void InitialiseRect(Vector position)
+        public void InitialiseRect()
         {
             Application.Current.Dispatcher.Invoke((System.Action)delegate
             {
                 Rect = new System.Windows.Shapes.Rectangle();
-                this.Rect.SetPosition(position);
+                this.Rect.SetPosition(PositionWhileNotIntialised);
                 this.Rect.Width = Constants.TilePx;
                 this.Rect.Height = Constants.TilePx;
                 this.Rect.Fill = TypeBrushes[_type];

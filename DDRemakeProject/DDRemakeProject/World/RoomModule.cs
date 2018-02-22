@@ -30,10 +30,12 @@ namespace DDRemakeProject.World
         {
 
         }
+
+        private bool isRoad;
         public RoomModule(Rect size)
         {
             this.RoomRect = size;
-          
+            if (RoomRect.Width == 3 || RoomRect.Height == 3) isRoad = true;
             Generate(false);
             AvailableAngles = new List<Vector>{new Vector(-180,180)};
             Neighbors = new Dictionary<Vector, RoomModule>();
@@ -67,7 +69,8 @@ namespace DDRemakeProject.World
                 }
                 else
                 {
-                    tileType = Tile.TypeEnum.Floor;
+                    
+                    tileType = isRoad ? Tile.TypeEnum.Road : Tile.TypeEnum.Floor;
                 }
 
                 this.AddTile(tilePosition, tileType);   
@@ -78,7 +81,7 @@ namespace DDRemakeProject.World
 
         public void AddTile( Vector Position, Tile.TypeEnum type)
         {
-            Tile t = new Tile(Position, this, type);
+            Tile t = new Tile(Position, type);
             //t.InitialiseRect();
             if (this.Tiles.ContainsKey(t.Position)) return;
             this.Tiles.Add(t.Position, t);
@@ -141,6 +144,7 @@ namespace DDRemakeProject.World
 
             AvailableAngles = AddAngles;
         }
+
     }
 
   
