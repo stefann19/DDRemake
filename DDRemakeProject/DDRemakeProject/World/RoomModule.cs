@@ -6,10 +6,10 @@ using Point = System.Windows.Point;
 
 namespace DDRemakeProject.World
 {
-    public class RoomModule
+    public class RoomModule : IMultiTileShape
     {
 
-        public Rect RoomRect { get; set; }
+        public Rect Rect { get; set; }
 
         /// <summary>
         /// Matrix holding the Image(tiles) objects of the room
@@ -34,8 +34,8 @@ namespace DDRemakeProject.World
         private bool isRoad;
         public RoomModule(Rect size)
         {
-            this.RoomRect = size;
-            if (RoomRect.Width == 3 || RoomRect.Height == 3) isRoad = true;
+            this.Rect = size;
+            if (Rect.Width == 3 || Rect.Height == 3) isRoad = true;
             Generate(false);
             AvailableAngles = new List<Vector>{new Vector(-180,180)};
             Neighbors = new Dictionary<Vector, RoomModule>();
@@ -56,14 +56,14 @@ namespace DDRemakeProject.World
             WallTiles = new HashSet<Tile>();
 
             
-            int area = (int) (RoomRect.Width * RoomRect.Height);
+            int area = (int) (Rect.Width * Rect.Height);
             for (int i = area  - 1; i >= 0; i--)
             {
-                Vector tilePosition = new Vector(Math.Floor(i % RoomRect.Size.Width),Math.Floor((i / RoomRect.Size.Width))) +(Vector) RoomRect.Location;
+                Vector tilePosition = new Vector(Math.Floor(i % Rect.Size.Width),Math.Floor((i / Rect.Size.Width))) +(Vector) Rect.Location;
                 Tile.TypeEnum tileType;
 
-                if (i < RoomRect.Size.Width || i > area - RoomRect.Size.Width || Math.Abs(i % RoomRect.Size.Width) < 0.1f ||
-                    Math.Abs(i % RoomRect.Size.Width - (RoomRect.Size.Width- 1)) < 0.1f)
+                if (i < Rect.Size.Width || i > area - Rect.Size.Width || Math.Abs(i % Rect.Size.Width) < 0.1f ||
+                    Math.Abs(i % Rect.Size.Width - (Rect.Size.Width- 1)) < 0.1f)
                 {
                     tileType = Tile.TypeEnum.Wall;
                 }
@@ -79,34 +79,35 @@ namespace DDRemakeProject.World
 
         }
 
-        public void AddTile( Vector Position, Tile.TypeEnum type)
+        /*public void AddTile( Vector Position, Tile.TypeEnum type,MultiTileShape multiTileShape)
         {
-            Tile t = new Tile(Position, type);
+            Tile t = new Tile(Position,multiTileShape, type);
             //t.InitialiseRect();
             if (this.Tiles.ContainsKey(t.Position)) return;
+
             this.Tiles.Add(t.Position, t);
 
             if (t.Type == Tile.TypeEnum.Wall)
             {
                 this.WallTiles.Add(t);
             }
-        }
+        }*/
 
         public Vector CalculateAngle(RoomModule roomModule)
         {
 
             List<Vector> Positions = new List<Vector>
             {
-                new Vector(roomModule.RoomRect.X,roomModule.RoomRect.Y),
-                new Vector(roomModule.RoomRect.X+roomModule.RoomRect.Width,roomModule.RoomRect.Y),
-                new Vector(roomModule.RoomRect.X,roomModule.RoomRect.Y+roomModule.RoomRect.Height),
-                new Vector(roomModule.RoomRect.X+roomModule.RoomRect.Width,roomModule.RoomRect.Y+roomModule.RoomRect.Height)
+                new Vector(roomModule.Rect.X,roomModule.Rect.Y),
+                new Vector(roomModule.Rect.X+roomModule.Rect.Width,roomModule.Rect.Y),
+                new Vector(roomModule.Rect.X,roomModule.Rect.Y+roomModule.Rect.Height),
+                new Vector(roomModule.Rect.X+roomModule.Rect.Width,roomModule.Rect.Y+roomModule.Rect.Height)
             };
 
             List<double> Angles = new List<double>();
             Positions.ForEach(pos =>
             {
-                double angle = Vector.AngleBetween((Vector) this.RoomRect.Location, pos);
+                double angle = Vector.AngleBetween((Vector) this.Rect.Location, pos);
                 Angles.Add(angle);
             });
 

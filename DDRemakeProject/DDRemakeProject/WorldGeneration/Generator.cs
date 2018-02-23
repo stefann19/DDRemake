@@ -114,23 +114,23 @@ namespace DDRemakeProject.WorldGeneration
         {
             Rooms.Add(r);
             GenerationRooms.Add(r);
-            Rooms.Where(room => !r.Neighbors.ContainsKey((Vector) room.RoomRect.Location)).ToList()
+            Rooms.Where(room => !r.Neighbors.ContainsKey((Vector) room.Rect.Location)).ToList()
                 .ForEach(room =>
                 {
                     double distance = Math.Abs(Vector
-                        .Subtract((Vector) room.RoomRect.Location, (Vector) r.RoomRect.Location).Length);
+                        .Subtract((Vector) room.Rect.Location, (Vector) r.Rect.Location).Length);
 
                     if (distance <= GeneratorExtensions.MaxRoomSize*2f + GeneratorExtensions.SpaceBetweenRooms)
                     {
                        
-                            r.Neighbors.Add((Vector) room.RoomRect.Location, room);
+                            r.Neighbors.Add((Vector) room.Rect.Location, room);
 
 
                             r.CalculateRemainingAngles(r.CalculateAngle(room));
                         
-                        if (!room.Neighbors.ContainsKey((Vector) r.RoomRect.Location))
+                        if (!room.Neighbors.ContainsKey((Vector) r.Rect.Location))
                         {
-                            room.Neighbors.Add((Vector) r.RoomRect.Location, r);
+                            room.Neighbors.Add((Vector) r.Rect.Location, r);
                             room.CalculateRemainingAngles(room.CalculateAngle(r));
                         }
                     }
@@ -156,7 +156,7 @@ namespace DDRemakeProject.WorldGeneration
                 room.Neighbors.Values.Where(r=> !r.Equals(room)).ToList().ForEach(neighbor =>
                 {
                     double distance =
-                        Math.Abs((room.RoomRect.LocationCenter() - neighbor.RoomRect.LocationCenter()).Length);
+                        Math.Abs((room.Rect.LocationCenter() - neighbor.Rect.LocationCenter()).Length);
                     bool add = false;
                     while (lowestRoad.ContainsKey(distance)) distance += 0.0001f;
                     lowestRoad.Add(distance, new Tuple<RoomModule, RoomModule>(neighbor, room));
@@ -244,18 +244,18 @@ namespace DDRemakeProject.WorldGeneration
             List<RoomModule> rooms = new List<RoomModule> {startingRoomModule, endingRoomModule};
             List<Rect> roadRects = new List<Rect>();
         
-            if(Math.Abs(startingRoomModule.RoomRect.LocationCenter().X -
-                        endingRoomModule.RoomRect.LocationCenter().X) <= 
-                        Math.Abs(startingRoomModule.RoomRect.LocationCenter().Y -
-                        endingRoomModule.RoomRect.LocationCenter().Y) )
+            if(Math.Abs(startingRoomModule.Rect.LocationCenter().X -
+                        endingRoomModule.Rect.LocationCenter().X) <= 
+                        Math.Abs(startingRoomModule.Rect.LocationCenter().Y -
+                        endingRoomModule.Rect.LocationCenter().Y) )
             { 
                 
 
                 Point roadPosition =
-                        (Point)((startingRoomModule.RoomRect.LocationCenter() +
-                                  endingRoomModule.RoomRect.LocationCenter()) /
+                        (Point)((startingRoomModule.Rect.LocationCenter() +
+                                  endingRoomModule.Rect.LocationCenter()) /
                                  2f);
-                Size roadSize = new Size(3,2 +Math.Abs(startingRoomModule.RoomRect.LocationCenter().Y -endingRoomModule.RoomRect.LocationCenter().Y));
+                Size roadSize = new Size(3,2 +Math.Abs(startingRoomModule.Rect.LocationCenter().Y -endingRoomModule.Rect.LocationCenter().Y));
                 roadSize = new Size((int)roadSize.Width, (int)roadSize.Height);
                 roadPosition = (Point)((Vector)roadPosition - (Vector)roadSize / 2f);
                 roadPosition = new Point((int)roadPosition.X, (int)roadPosition.Y);
@@ -275,14 +275,14 @@ namespace DDRemakeProject.WorldGeneration
                 roadPoints.ForEach(point =>
                 {
                     RoomModule minRoomModule = rooms.Count==2 ? rooms.First(room =>
-                        Math.Abs(Math.Abs((room.RoomRect.LocationCenter() - point).Length) -
-                                 rooms.Min(v => Math.Abs((v.RoomRect.LocationCenter() - point).Length))) < 0.1f) : Rooms.First();
+                        Math.Abs(Math.Abs((room.Rect.LocationCenter() - point).Length) -
+                                 rooms.Min(v => Math.Abs((v.Rect.LocationCenter() - point).Length))) < 0.1f) : Rooms.First();
                     //rooms.Remove(minRoomModule);
                     Vector roadSecondaryPosition = point;
-                    double xPos = (point.X + minRoomModule.RoomRect.LocationCenter().X) / 2f;
+                    double xPos = (point.X + minRoomModule.Rect.LocationCenter().X) / 2f;
                     Size roadSecondarySize =
-                        new Size( Math.Abs(point.X - minRoomModule.RoomRect.LocationCenter().X) +2,3);
-                    if (point.X >= minRoomModule.RoomRect.Right-1)
+                        new Size( Math.Abs(point.X - minRoomModule.Rect.LocationCenter().X) +2,3);
+                    if (point.X >= minRoomModule.Rect.Right-1)
                         roadSecondarySize.Width++;
 
                     roadSecondarySize = new Size((int)roadSecondarySize.Width, (int)roadSecondarySize.Height);
@@ -300,13 +300,13 @@ namespace DDRemakeProject.WorldGeneration
             {
                 //create vertical road
                 Point roadPosition =
-                    (Point) ((startingRoomModule.RoomRect.LocationCenter() +
-                              endingRoomModule.RoomRect.LocationCenter()) /
+                    (Point) ((startingRoomModule.Rect.LocationCenter() +
+                              endingRoomModule.Rect.LocationCenter()) /
                              2f);
                 Size roadSize =
                     new Size(2+
-                        Math.Abs(startingRoomModule.RoomRect.LocationCenter().X -
-                                 endingRoomModule.RoomRect.LocationCenter().X), 3);
+                        Math.Abs(startingRoomModule.Rect.LocationCenter().X -
+                                 endingRoomModule.Rect.LocationCenter().X), 3);
                 roadSize = new Size((int)roadSize.Width,(int)roadSize.Height);
                 roadPosition = (Point) ((Vector) roadPosition - (Vector) roadSize / 2f);
                 roadPosition = new Point((int) roadPosition.X, (int) roadPosition.Y);
@@ -328,14 +328,14 @@ namespace DDRemakeProject.WorldGeneration
                 roadPoints.ForEach(point =>
                 {
                     RoomModule minRoomModule = rooms.First(room =>
-                        Math.Abs(Math.Abs((room.RoomRect.LocationCenter() - point).Length) -
-                                 rooms.Min(v => Math.Abs((v.RoomRect.LocationCenter() - point).Length))) < 0.1f);
+                        Math.Abs(Math.Abs((room.Rect.LocationCenter() - point).Length) -
+                                 rooms.Min(v => Math.Abs((v.Rect.LocationCenter() - point).Length))) < 0.1f);
                    
                     Vector roadSecondaryPosition = point;
-                    double yPos = (point.Y + minRoomModule.RoomRect.LocationCenter().Y) / 2f;
+                    double yPos = (point.Y + minRoomModule.Rect.LocationCenter().Y) / 2f;
                     Size roadSecondarySize =
-                        new Size(3, Math.Abs(point.Y - minRoomModule.RoomRect.LocationCenter().Y) + 2);
-                    if (point.Y >= minRoomModule.RoomRect.Bottom - 1)
+                        new Size(3, Math.Abs(point.Y - minRoomModule.Rect.LocationCenter().Y) + 2);
+                    if (point.Y >= minRoomModule.Rect.Bottom - 1)
                         roadSecondarySize.Height++;
 
                     roadSecondarySize = new Size((int)roadSecondarySize.Width,(int)roadSecondarySize.Height);
@@ -355,7 +355,7 @@ namespace DDRemakeProject.WorldGeneration
             return AddRoads(roadRects, rooms) !=null;
         }
 
-        private List<Road> AddRoads(List<Rect> roadRects,List<RoomModule> rooms)
+        private List<Road> AddRoads(List<Rect> roadRects, List<RoomModule> rooms)
         {
             List<Road> newRoads = new List<Road>();
             roadRects.ForEach(roadRect => newRoads.Add(new Road(roadRect)));
@@ -365,55 +365,36 @@ namespace DDRemakeProject.WorldGeneration
             int floorIntersects = 0;
             newRoads.ForEach(road =>
             {
-
                 road.Tiles.Where(v => Tiles.ContainsKey(v.Key)).ToList().ForEach(tile =>
                 {
                     if (Tiles[tile.Key].Type == Tile.TypeEnum.Road && tile.Value.Type == Tile.TypeEnum.Road)
                         roadIntersects++;
-                    if(Tiles[tile.Key].Type == Tile.TypeEnum.Wall && tile.Value.Type == Tile.TypeEnum.Road)
+                    if (Tiles[tile.Key].Type == Tile.TypeEnum.Wall && tile.Value.Type == Tile.TypeEnum.Road)
                         wallIntersects++;
                     if (Tiles[tile.Key].Type == Tile.TypeEnum.Floor && tile.Value.Type == Tile.TypeEnum.Road)
-                    {
-                        if(rooms.All(room=> !room.Tiles.ContainsKey(tile.Key))) floorIntersects++;
-                    }
-                       
-                 
-
+                        if (rooms.All(room => !room.Tiles.ContainsKey(tile.Key))) floorIntersects++;
                 });
-
             });
-            if (roadIntersects > 0 || wallIntersects >4 || floorIntersects>= GeneratorExtensions.MinRoomSize ) return null;
+            if (roadIntersects > 0 || wallIntersects > 2 || floorIntersects >= GeneratorExtensions.MinRoomSize)
+                return null;
 
             newRoads.ForEach(road =>
             {
-
                 road.Tiles.Where(v => Tiles.ContainsKey(v.Key)).ToList().ForEach(tile =>
                 {
                     MapWindow.BackgroundCanvas.Children.Remove(tile.Value.Rect);
 
-                    if (Tiles[tile.Key].Type == Tile.TypeEnum.Floor || Tiles[tile.Key].Type == Tile.TypeEnum.Road)
+                    if (Tiles[tile.Key].Type != Tile.TypeEnum.Wall)
                     {
-                        //tile. = Tiles[tile.Key
                         road.Tiles[tile.Key] = Tiles[tile.Key];
-                        //Tiles[tile.Key].Type = Tile.TypeEnum.Door;
                     }
-                    else
+                    else if (tile.Value.Type == Tile.TypeEnum.Road )
                     {
-                        //if (Tiles[tile.Key].Type == Tile.TypeEnum.Wall && tile.Value.Type == Tile.TypeEnum.Floor)
-                        //{
-                        //    Tiles[tile.Key].Type = Tile.TypeEnum.Road;
-                        //    road.Tiles[tile.Key] = Tiles[tile.Key];
-                        //}
-                        if (Tiles[tile.Key].Type == Tile.TypeEnum.Wall && tile.Value.Type == Tile.TypeEnum.Road)
-                        {
-                            Tiles[tile.Key].Type = Tile.TypeEnum.Road;
-                            road.Tiles[tile.Key] = Tiles[tile.Key];
-                            //intersects++;
-                        }
-                        
-
+                        Tiles[tile.Key].Type = Tiles[tile.Key].MultiTileShape is RoomModule ? Tile.TypeEnum.Door : Tile.TypeEnum.Road;
+                        road.Tiles[tile.Key] = Tiles[tile.Key];
+                       /* road.Tiles[tile.Key].Type = Tiles[tile.Key].MultiTileShape is RoomModule ? Tile.TypeEnum.Door : Tile.TypeEnum.Road;
+                        Tiles[tile.Key] = road.Tiles[tile.Key];*/
                     }
-                   
                 });
 
                 road.Tiles.Where(v => !Tiles.ContainsKey(v.Key)).ToList()
@@ -422,9 +403,8 @@ namespace DDRemakeProject.WorldGeneration
             rooms.First().Roads.Add(rooms.Last());
             rooms.Last().Roads.Add(rooms.First());
 
-            newRoads.ForEach(road=> road.Tiles.Values.ToList().ForEach(tile=>tile.InitialiseRect()));
-                return newRoads;
-            
+            newRoads.ForEach(road => road.Tiles.Values.ToList().ForEach(tile => tile.InitialiseRect()));
+            return newRoads;
         }
 
 /*
@@ -496,8 +476,8 @@ namespace DDRemakeProject.WorldGeneration
                 angles.ForEach(eachAngle =>
                 {
                     
-                    Vector point = pointer.Rotate(eachAngle) * (MaxRoomSize / 2f + roomModule.RoomRect.Width / 2f + Random.Next(3, SpaceBetweenRooms));
-                    point = new Vector((int)point.X, (int)point.Y) + (Vector)roomModule.RoomRect.Location;
+                    Vector point = pointer.Rotate(eachAngle) * (MaxRoomSize / 2f + roomModule.Rect.Width / 2f + Random.Next(3, SpaceBetweenRooms));
+                    point = new Vector((int)point.X, (int)point.Y) + (Vector)roomModule.Rect.Location;
 
                     if (!MapWindow.MapBasicInfo.Rect.Contains((System.Windows.Point)point)) return;
 
@@ -508,7 +488,7 @@ namespace DDRemakeProject.WorldGeneration
 
                         if (!MapWindow.MapBasicInfo.Rect.Contains(r)) continue;
 
-                        if (roomModule.Neighbors.Values.All(room => !room.RoomRect.IntersectsWith(r)))
+                        if (roomModule.Neighbors.Values.All(room => !room.Rect.IntersectsWith(r)))
                         {
                             rects.Add(r);
                             if(i>MinRoomSize)

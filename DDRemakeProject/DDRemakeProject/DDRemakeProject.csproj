@@ -86,6 +86,10 @@
     <Compile Include="Windows\MapWindow.xaml.cs">
       <DependentUpon>MapWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="World\Camera.cs" />
+    <Compile Include="World\KeyboardInput.cs" />
+    <Compile Include="World\MultiTileShape.cs" />
+    <Compile Include="World\Player.cs" />
     <Compile Include="World\RectExtension.cs" />
     <Compile Include="GamePlay\ActionGridController.cs" />
     <Compile Include="GamePlay\AnimatedButtonController.cs" />

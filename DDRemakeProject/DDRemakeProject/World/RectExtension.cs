@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿using System;
+using System.Windows;
 
 namespace DDRemakeProject.World
 {
@@ -8,6 +9,16 @@ namespace DDRemakeProject.World
         {
             return new Vector(rect.Left + rect.Width / 2,
                 rect.Top + rect.Height / 2);
+        }
+
+        public static double Area(this Rect rect)
+        {
+            return rect.Width * rect.Height;
+        }
+
+        public static double MinWH(this Rect rect)
+        {
+            return Math.Min(rect.Width, rect.Height);
         }
     }
 

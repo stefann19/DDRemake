@@ -3,7 +3,7 @@
   <Class Name="DDRemakeProject.WorldGeneration.Generator">
     <Position X="1.75" Y="2.25" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AIAAAAABAAAAgACAAAFAAAACAQAAAAIAQAAAIEAAAAA=</HashCode>
+      <HashCode>AIAAAAABAAAAgACgAABAAAACAQAAAAIAQAAAIEAAAAA=</HashCode>
       <FileName>WorldGeneration\Generator.cs</FileName>
     </TypeIdentifier>
     <ShowAsCollectionAssociation>
@@ -24,7 +24,7 @@
       <Property Name="Tiles" Hidden="true" />
     </Members>
     <TypeIdentifier>
-      <HashCode>CAAAAAAAAAAAAAAAAAAAAAAAAwgAAAIAYAAAAEAAJAA=</HashCode>
+      <HashCode>CAAAAAAAAAAAAAAAAAAAAAAAQwgAAAIAYAAAAEAAJAA=</HashCode>
       <FileName>World\RoomModule.cs</FileName>
     </TypeIdentifier>
     <ShowAsAssociation>
@@ -33,11 +33,12 @@
     <ShowAsCollectionAssociation>
       <Property Name="WallTiles" />
     </ShowAsCollectionAssociation>
+    <Lollipop Position="0.2" />
   </Class>
   <Class Name="DDRemakeProject.World.Tile" BaseTypeListCollapsed="true">
     <Position X="11.25" Y="3" Width="1.5" />
     <Members>
-      <Property Name="RoomModule" Hidden="true" />
+      <Property Name="MultiTileShape" Hidden="true" />
     </Members>
     <Compartments>
       <Compartment Name="Nested Types" Collapsed="false" />
@@ -50,12 +51,12 @@
       </Enum>
     </NestedTypes>
     <TypeIdentifier>
-      <HashCode>AAAAAAACCAAAAAQgAAgAAAAAACAQAAAAQQBAAAAAAAA=</HashCode>
+      <HashCode>gAAAAAAACAAAAAQgAAAAAAAAACAAAAAAQQBAAAAABAA=</HashCode>
       <FileName>World\Tile.cs</FileName>
     </TypeIdentifier>
     <ShowAsAssociation>
       <Property Name="Rect" />
-      <Property Name="RoomModule" />
+      <Property Name="MultiTileShape" />
     </ShowAsAssociation>
     <Lollipop Position="0.2" Collapsed="true" />
   </Class>

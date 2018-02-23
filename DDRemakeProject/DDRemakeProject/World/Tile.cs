@@ -67,7 +67,7 @@ namespace DDRemakeProject.World
         private Vector PositionWhileNotIntialised;
 
 
-        //public RoomModule RoomModule { get; set; }
+        public IMultiTileShape MultiTileShape { get; set; }
         
         #endregion
 
@@ -100,24 +100,17 @@ namespace DDRemakeProject.World
             InitialiseRect();
         }
 
-        public Tile(Vector position, TypeEnum type,bool initialise)
+        public Tile(Vector position,IMultiTileShape multiTileShape ,TypeEnum type,bool initialise = true)
         {
 
             this.Type = type;
+            this.MultiTileShape = multiTileShape;
             PositionWhileNotIntialised = position;
 
             if (initialise) InitialiseRect();
             //InitialiseRect(position);
         }
-        public Tile(Vector position, TypeEnum type)
-        {
-            PositionWhileNotIntialised = position;
 
-            this.Type = type;
-            InitialiseRect();
-
-            //InitialiseRect(position);
-        }
         #endregion
 
 

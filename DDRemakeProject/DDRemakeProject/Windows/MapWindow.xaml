@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:DDRemakeProject"
         mc:Ignorable="d"
-        Title="MainWindow" Width="1366" Height="766" MouseMove="mainWindow_MouseMove" >
+        Title="MainWindow" Width="1366" Height="766">
     <Canvas Name="Canvas" Margin="0,20,0,0.4" Width="3000" Height="3000">
         <Canvas.LayoutTransform>
             <ScaleTransform 

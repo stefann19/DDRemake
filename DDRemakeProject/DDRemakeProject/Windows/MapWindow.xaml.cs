@@ -22,7 +22,7 @@ namespace DDRemakeProject
         public string Titlee;
         private readonly bool _loadFromFile;
         public static MapBasicInfo MapBasicInfo;
-        private WorldGeneration.Generator _generator;
+        public WorldGeneration.Generator Generator { get; set; }
         public MapWindow(bool loadFromFile, MapBasicInfo map)
         {
             InitializeComponent();
@@ -37,7 +37,7 @@ namespace DDRemakeProject
             _worker.RunWorkerCompleted += worker_RunWorkerCompleted;
             _worker.RunWorkerAsync();*/
 
-            Canvas.MouseWheel += new MouseWheelEventHandler(mainWindow_MouseWheel);
+            //Canvas.MouseWheel += new MouseWheelEventHandler(mainWindow_MouseWheel);
 
             Closing += OnWindowClosing;
             DoShit();
@@ -55,7 +55,7 @@ namespace DDRemakeProject
 
         public void OnWindowClosing(object sender, CancelEventArgs e)
         {
-            XmlToFile.WriteToXmlFile(@"C:\VisualStudioProjects\DDRemake\DDRemakeProject\DDRemakeProject\" + MapBasicInfo.Name + ".xml", _generator);
+            XmlToFile.WriteToXmlFile(@"C:\VisualStudioProjects\DDRemake\DDRemakeProject\DDRemakeProject\" + MapBasicInfo.Name + ".xml", Generator);
             // Handle closing logic, set e.Cancel as needed
         }
 
@@ -78,14 +78,14 @@ namespace DDRemakeProject
         }
         private void GenerateMap(MapBasicInfo map)
         {
-            _generator = new WorldGeneration.Generator((Vector)map.Size);
-            _v1 = new Engine(_generator);
+            Generator = new WorldGeneration.Generator((Vector)map.Size);
+            _v1 = new Engine(this);
         }
         private void LoadMap(string mapName)
         {
-            _generator = XmlToFile.ReadFromXmlFile<WorldGeneration.Generator>(@"C:\VisualStudioProjects\DDRemake\DDRemakeProject\DDRemakeProject\" + mapName + ".xml");
-            _generator.Generate();
-            _v1 = new Engine( _generator);
+            Generator = XmlToFile.ReadFromXmlFile<WorldGeneration.Generator>(@"C:\VisualStudioProjects\DDRemake\DDRemakeProject\DDRemakeProject\" + mapName + ".xml");
+            Generator.Generate();
+            _v1 = new Engine( this);
         }
 
         private void DeleteCanvas()
@@ -104,7 +104,7 @@ namespace DDRemakeProject
         {
             //update ui once worker complete his work
         }
-
+/*
         private void mainWindow_MouseWheel(object sender, MouseWheelEventArgs e)
         {
             ZoomOnCanvas(Canvas, e);
@@ -164,5 +164,6 @@ namespace DDRemakeProject
                 _c1 = true;
             }
         }
+        */
     }
 }

@@ -7,10 +7,10 @@ using System.Windows;
 
 namespace DDRemakeProject.World
 {
-    public class Road
+    public class Road : IMultiTileShape
     {
 
-        public Rect RoadRect { get; set; }
+        public Rect Rect { get; set; }
 
         /// <summary>
         /// Matrix holding the Image(tiles) objects of the room
@@ -31,7 +31,7 @@ namespace DDRemakeProject.World
 
         public Road(Rect size)
         {
-            this.RoadRect = size;
+            this.Rect = size;
             Generate(false);
 
 
@@ -50,14 +50,14 @@ namespace DDRemakeProject.World
             WallTiles = new HashSet<Tile>();
 
 
-            int area = (int)(RoadRect.Width * RoadRect.Height);
+            int area = (int)(Rect.Width * Rect.Height);
             for (int i = area - 1; i >= 0; i--)
             {
-                Vector tilePosition = new Vector(Math.Floor(i % RoadRect.Size.Width), Math.Floor((i / RoadRect.Size.Width))) + (Vector)RoadRect.Location;
+                Vector tilePosition = new Vector(Math.Floor(i % Rect.Size.Width), Math.Floor((i / Rect.Size.Width))) + (Vector)Rect.Location;
                 Tile.TypeEnum tileType;
 
-                if (i < RoadRect.Size.Width || i > area - RoadRect.Size.Width || Math.Abs(i % RoadRect.Size.Width) < 0.1f ||
-                    Math.Abs(i % RoadRect.Size.Width - (RoadRect.Size.Width - 1)) < 0.1f)
+                if (i < Rect.Size.Width || i > area - Rect.Size.Width || Math.Abs(i % Rect.Size.Width) < 0.1f ||
+                    Math.Abs(i % Rect.Size.Width - (Rect.Size.Width - 1)) < 0.1f)
                 {
                     tileType = Tile.TypeEnum.Wall;
                 }
@@ -73,18 +73,18 @@ namespace DDRemakeProject.World
 
         }
 
-        public void AddTile(Vector Position, Tile.TypeEnum type)
+        /*public static void AddTile(this MultiTileShape multiTileShape,Vector Position, Tile.TypeEnum type)
         {
-            Tile t = new Tile(Position, type,false);
+            Tile t = new Tile(Position,multiTileShape ,type,false);
             //t.InitialiseRect();
-            if (this.Tiles.ContainsKey(t.Position)) return;
-            this.Tiles.Add(t.Position, t);
+            if (multiTileShape.Tiles.ContainsKey(t.Position)) return;
+            multiTileShape.Tiles.Add(t.Position, t);
 
             if (t.Type == Tile.TypeEnum.Wall)
             {
-                this.WallTiles.Add(t);
+                multiTileShape.WallTiles.Add(t);
             }
-        }
+        }*/
 
 
 
