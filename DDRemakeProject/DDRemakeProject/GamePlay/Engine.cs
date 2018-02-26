@@ -16,6 +16,8 @@ namespace DDRemakeProject.GamePlay
         public World.Player Player { get; set; }
         public KeyboardInput KeyboardInput { get; set; }
         public Camera Camera { get; set; }
+        public MiniMap MiniMap { get; set; }
+
         public Engine(MapWindow mapWindow)
         {
             MapWindow = mapWindow;
@@ -24,7 +26,7 @@ namespace DDRemakeProject.GamePlay
             Player = new World.Player(this);
             KeyboardInput = new KeyboardInput(this);
             Camera = new Camera(this);
-
+            MiniMap = new MiniMap(new Vector(mapWindow.Width/mapWindow.Canvas_MiniMap.Width,mapWindow.Height/mapWindow.Canvas_MiniMap.Height));
         }
 
       

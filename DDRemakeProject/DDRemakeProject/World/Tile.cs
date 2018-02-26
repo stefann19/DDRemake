@@ -91,13 +91,13 @@ namespace DDRemakeProject.World
         //    InitialiseRect(position);
         //}
 
-        public Tile(Vector position)
+        public Tile(Vector position,Size size)
         {
 
-            this.Type = TypeEnum.Floor;
+            this.Type = TypeEnum.Door;
             PositionWhileNotIntialised = position;
 
-            InitialiseRect();
+            InitialiseRect(size);
         }
 
         public Tile(Vector position,IMultiTileShape multiTileShape ,TypeEnum type,bool initialise = true)
@@ -107,7 +107,7 @@ namespace DDRemakeProject.World
             this.MultiTileShape = multiTileShape;
             PositionWhileNotIntialised = position;
 
-            if (initialise) InitialiseRect();
+            if (initialise) InitialiseRect(new Size(Constants.TilePx,Constants.TilePx));
             //InitialiseRect(position);
         }
 
@@ -154,17 +154,24 @@ namespace DDRemakeProject.World
 
         #region Methods
 
-        public void InitialiseRect()
+        public void InitialiseRect(Size size)
         {
             Application.Current.Dispatcher.Invoke((System.Action)delegate
             {
                 Rect = new System.Windows.Shapes.Rectangle();
                 this.Rect.SetPosition(PositionWhileNotIntialised);
-                this.Rect.Width = Constants.TilePx;
-                this.Rect.Height = Constants.TilePx;
+                this.Rect.Width = size.Width;
+                this.Rect.Height = size.Height;
                 this.Rect.Fill = TypeBrushes[_type];
                 this.Rect.StrokeThickness = 0;
-                MapWindow.BackgroundCanvas.Children.Add(this.Rect);
+                if (size.Width != Constants.TilePx)
+                {
+                    MapWindow.MapCanvas.Children.Add(this.Rect);
+                }
+                else
+                {
+                    MapWindow.BackgroundCanvas.Children.Add(this.Rect);
+                }
 
             });
         }

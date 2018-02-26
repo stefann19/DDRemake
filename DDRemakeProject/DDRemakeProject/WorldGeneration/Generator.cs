@@ -403,7 +403,7 @@ namespace DDRemakeProject.WorldGeneration
             rooms.First().Roads.Add(rooms.Last());
             rooms.Last().Roads.Add(rooms.First());
 
-            newRoads.ForEach(road => road.Tiles.Values.ToList().ForEach(tile => tile.InitialiseRect()));
+            newRoads.ForEach(road => road.Tiles.Values.ToList().ForEach(tile => tile.InitialiseRect( new Size(Constants.TilePx,Constants.TilePx))));
             return newRoads;
         }
 

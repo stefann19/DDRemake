@@ -15,10 +15,11 @@ namespace DDRemakeProject
     {
         public static Canvas BackgroundCanvas;
         public static Canvas DynamicCanvas;
+        public static Canvas MapCanvas;
 
-/*
-        private readonly BackgroundWorker _worker = new BackgroundWorker();
-*/
+        /*
+                private readonly BackgroundWorker _worker = new BackgroundWorker();
+        */
         public string Titlee;
         private readonly bool _loadFromFile;
         public static MapBasicInfo MapBasicInfo;
@@ -29,6 +30,7 @@ namespace DDRemakeProject
             this._loadFromFile = loadFromFile;
             BackgroundCanvas = Canvas_Background;
             DynamicCanvas = Canvas_Dynamic;
+            MapCanvas = Canvas_MiniMap;
             //canvas.Background = Brushes.Black;
             Titlee = this.Title;
             MapBasicInfo = map;

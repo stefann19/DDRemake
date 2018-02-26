@@ -53,6 +53,7 @@ namespace DDRemakeProject.World
                     if (lastType == Tile.TypeEnum.Door)
                     {
                         Engine.Camera.Zoom();
+                        Engine.MiniMap.AddVisitedItem(CurrentMultiTileShape);
                     }
                 }
             }

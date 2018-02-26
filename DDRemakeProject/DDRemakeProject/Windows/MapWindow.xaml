@@ -5,17 +5,30 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:DDRemakeProject"
         mc:Ignorable="d"
-        Title="MainWindow" Width="1366" Height="766">
-    <Canvas Name="Canvas" Margin="0,20,0,0.4" Width="3000" Height="3000">
-        <Canvas.LayoutTransform>
+        Title="MainWindow" Width="1366" Height="766" ResizeMode="CanMinimize">
+    <Canvas Margin="0,20,0,0.4" Width="1366" Height="766">
+
+        <Canvas Name="Canvas" Margin="0,20,0,0.4" Width="1366" Height="766" >
+        
+            <Canvas.LayoutTransform>
             <ScaleTransform 
                 
             />
 
-        </Canvas.LayoutTransform>
-        <Canvas Name="Canvas_Background" Margin="0,0,0,0" Width="3000" Height="3000" Background="Brown"></Canvas>
+        
+            </Canvas.LayoutTransform>
+        
+            <Canvas Name="Canvas_Background" Margin="0,0,0,0" Width="1360" Height="766" Background="Brown"></Canvas>
 
-        <Canvas Name="Canvas_Dynamic" Margin="0,0,0,0" Width="3000" Height="3000"></Canvas>
+        
+            <Canvas Name="Canvas_Dynamic" Margin="0,0,0,0" Width="1360" Height="766"></Canvas>
+        
+        </Canvas>
+        
+        <Canvas Name ="Canvas_MiniMap" Margin="1130,0" Width="210" Height="210" HorizontalAlignment="Right" VerticalAlignment="Top" Background="White">
+            <Border BorderThickness="10" Width="210" Height="210" BorderBrush="Black"/>
+        </Canvas>
+        
     </Canvas>
 
 </Window>
