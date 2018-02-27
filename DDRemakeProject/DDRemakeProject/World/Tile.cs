@@ -161,7 +161,7 @@ namespace DDRemakeProject.World
                 Rect = new System.Windows.Shapes.Rectangle();
                 this.Rect.SetPosition(PositionWhileNotIntialised);
                 this.Rect.Width = size.Width;
-                this.Rect.Height = size.Height;
+                this.Rect.Height = size.Height ;
                 this.Rect.Fill = TypeBrushes[_type];
                 this.Rect.StrokeThickness = 0;
                 if (size.Width != Constants.TilePx)

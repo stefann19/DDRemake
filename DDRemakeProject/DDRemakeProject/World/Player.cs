@@ -43,6 +43,7 @@ namespace DDRemakeProject.World
 
             //_r.Rect.Margin = new Thickness();
             Tile.TypeEnum lastType = CurrentTile.Type;
+            Engine.MiniMap.MovePlayer();
             if (Engine.Generator.Tiles[Tile.Position + movingVector]?.Type != Tile.TypeEnum.Wall)
             {
                 Tile.Position += movingVector;

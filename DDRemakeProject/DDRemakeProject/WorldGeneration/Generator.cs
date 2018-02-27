@@ -196,7 +196,7 @@ namespace DDRemakeProject.WorldGeneration
             Random rnd = new Random();
             lowestRoad.Values.TakeWhile(predicate=>LinkedRoomsListOfLists.Count!=1).ToList().ForEach(rooms =>
             {
-                if(rooms.Item1.Roads.Count > 5 || rooms.Item2.Roads.Count > 5) return;
+                if(rooms.Item1.ConnectedRoomModules.Count > 5 || rooms.Item2.ConnectedRoomModules.Count > 5) return;
 
                 if (rooms.Item1.LinkedRoomsList != rooms.Item2.LinkedRoomsList)
                 {
@@ -214,7 +214,7 @@ namespace DDRemakeProject.WorldGeneration
                 }
                 else
                 {
-                    if (rnd.Next(0, 100) < additionalRoadChance && !rooms.Item1.Roads.Contains(rooms.Item2))
+                    if (rnd.Next(0, 100) < additionalRoadChance && !rooms.Item1.ConnectedRoomModules.Contains(rooms.Item2))
                     {
                         it++;
                         GenerateRoad(rooms.Item1, rooms.Item2);
@@ -231,13 +231,13 @@ namespace DDRemakeProject.WorldGeneration
         private bool GenerateRoad(RoomModule startingRoomModule, RoomModule endingRoomModule)
         {
 
-            if (!startingRoomModule.Roads.Contains(endingRoomModule))
+            if (!startingRoomModule.ConnectedRoomModules.Contains(endingRoomModule))
             {
-                startingRoomModule.Roads.Add(endingRoomModule);
+                startingRoomModule.ConnectedRoomModules.Add(endingRoomModule);
             }
-            if (!endingRoomModule.Roads.Contains(startingRoomModule))
+            if (!endingRoomModule.ConnectedRoomModules.Contains(startingRoomModule))
             {
-                endingRoomModule.Roads.Add(startingRoomModule);
+                endingRoomModule.ConnectedRoomModules.Add(startingRoomModule);
             }
 
 
@@ -350,9 +350,12 @@ namespace DDRemakeProject.WorldGeneration
                     //AddRoad(roadSecondary);
                 });
             }
-            
-            
-            return AddRoads(roadRects, rooms) !=null;
+
+            List<Road> newRoads = AddRoads(roadRects, rooms);
+            if (newRoads == null) return false;
+            startingRoomModule.Roads.AddRange(newRoads);
+            endingRoomModule.Roads.AddRange(newRoads);
+            return true;
         }
 
         private List<Road> AddRoads(List<Rect> roadRects, List<RoomModule> rooms)
@@ -390,7 +393,7 @@ namespace DDRemakeProject.WorldGeneration
                     }
                     else if (tile.Value.Type == Tile.TypeEnum.Road )
                     {
-                        Tiles[tile.Key].Type = Tiles[tile.Key].MultiTileShape is RoomModule ? Tile.TypeEnum.Door : Tile.TypeEnum.Road;
+                        Tiles[tile.Key].Type = /*Tiles[tile.Key].MultiTileShape is RoomModule ? */Tile.TypeEnum.Door /*: Tile.TypeEnum.Road*/;
                         road.Tiles[tile.Key] = Tiles[tile.Key];
                        /* road.Tiles[tile.Key].Type = Tiles[tile.Key].MultiTileShape is RoomModule ? Tile.TypeEnum.Door : Tile.TypeEnum.Road;
                         Tiles[tile.Key] = road.Tiles[tile.Key];*/
@@ -400,8 +403,8 @@ namespace DDRemakeProject.WorldGeneration
                 road.Tiles.Where(v => !Tiles.ContainsKey(v.Key)).ToList()
                     .ForEach(tile => Tiles.Add(tile.Key, tile.Value));
             });
-            rooms.First().Roads.Add(rooms.Last());
-            rooms.Last().Roads.Add(rooms.First());
+            rooms.First().ConnectedRoomModules.Add(rooms.Last());
+            rooms.Last().ConnectedRoomModules.Add(rooms.First());
 
             newRoads.ForEach(road => road.Tiles.Values.ToList().ForEach(tile => tile.InitialiseRect( new Size(Constants.TilePx,Constants.TilePx))));
             return newRoads;

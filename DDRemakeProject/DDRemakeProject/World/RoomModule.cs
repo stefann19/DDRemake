@@ -24,7 +24,8 @@ namespace DDRemakeProject.World
         public Dictionary<Vector,RoomModule> Neighbors { get; set; }
         public List<Vector> AvailableAngles { get; set; }
         public List<RoomModule> LinkedRoomsList { get; set; }
-        public List<RoomModule> Roads { get; set; }
+        public List<RoomModule> ConnectedRoomModules { get; set; }
+        public List<Road> Roads { get; set; }
 
         public RoomModule()
         {
@@ -39,8 +40,8 @@ namespace DDRemakeProject.World
             Generate(false);
             AvailableAngles = new List<Vector>{new Vector(-180,180)};
             Neighbors = new Dictionary<Vector, RoomModule>();
-            Roads = new List<RoomModule>();
-
+            ConnectedRoomModules = new List<RoomModule>();
+            Roads = new List<Road>();
 
         }
 

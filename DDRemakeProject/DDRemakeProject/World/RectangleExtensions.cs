@@ -16,5 +16,9 @@ namespace DDRemakeProject.World
             int y = (int)(Math.Round(positionVector.Y) * Constants.TilePx);
             rect.Margin = new Thickness(x,y,0,0);
         }
+        public static void SetMinimapPosition(this Rectangle rect, Vector positionVector)
+        {
+            rect.Margin = new Thickness(positionVector.X, positionVector.Y, 0, 0);
+        }
     }
 }

@@ -22,6 +22,13 @@ namespace DDRemakeProject.World
             return v;
         }
 
+        public static Vector Normalized(this Vector v)
+        {
+            v.Normalize();
+            return v;
+        }
+
+
         private const double DegToRad = Math.PI / 180f;
 
         public static Vector Rotate(this Vector v, double degrees)

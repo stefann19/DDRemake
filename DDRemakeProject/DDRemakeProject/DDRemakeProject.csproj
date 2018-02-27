@@ -88,6 +88,7 @@
     </Compile>
     <Compile Include="World\Camera.cs" />
     <Compile Include="World\KeyboardInput.cs" />
+    <Compile Include="World\MapShape.cs" />
     <Compile Include="World\MiniMap.cs" />
     <Compile Include="World\MultiTileShape.cs" />
     <Compile Include="World\Player.cs" />
