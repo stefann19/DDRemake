@@ -1,4 +1,4 @@
-﻿namespace DDRemakeProject.GamePlay
+﻿namespace DDRemakeProject.GamePlay.Old
 {
     public static class CharacterTypes
     {

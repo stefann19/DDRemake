@@ -4,7 +4,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 
-namespace DDRemakeProject.GamePlay
+namespace DDRemakeProject.GamePlay.Old
 {
     public class ActionGridController
     {

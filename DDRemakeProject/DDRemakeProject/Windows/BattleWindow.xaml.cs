@@ -3,8 +3,8 @@ using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
-using DDRemakeProject.GamePlay;
-using Action = DDRemakeProject.GamePlay.Action;
+using DDRemakeProject.GamePlay.Old;
+using Action = DDRemakeProject.GamePlay.Old.Action;
 
 
 namespace DDRemakeProject

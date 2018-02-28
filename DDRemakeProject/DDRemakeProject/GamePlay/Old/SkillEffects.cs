@@ -7,7 +7,7 @@ using System.Windows.Media.Animation;
 using System.Windows.Media.Imaging;
 using WpfAnimatedGif;
 
-namespace DDRemakeProject.GamePlay
+namespace DDRemakeProject.GamePlay.Old
 {
     public class SkillEffects
     {

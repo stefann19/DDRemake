@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using DDRemakeProject.GamePlay;
+using DDRemakeProject.GamePlay.Old;
 using Point = System.Windows.Point;
 using Size = System.Windows.Size;
 

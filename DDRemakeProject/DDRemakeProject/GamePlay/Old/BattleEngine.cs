@@ -2,7 +2,7 @@
 using System.Linq;
 using System.Windows;
 
-namespace DDRemakeProject.GamePlay
+namespace DDRemakeProject.GamePlay.Old
 {
     public class BattleEngine
     {

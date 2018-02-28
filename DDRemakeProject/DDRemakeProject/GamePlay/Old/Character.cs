@@ -4,7 +4,7 @@ using System.Windows;
 using System.Windows.Media.Imaging;
 using WpfAnimatedGif;
 
-namespace DDRemakeProject.GamePlay
+namespace DDRemakeProject.GamePlay.Old
 {
     public class Character : IComparable<Character>
     {

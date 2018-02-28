@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DDRemakeProject.GamePlay
+namespace DDRemakeProject.GamePlay.New
 {
-    public class Player
+    class Trait
     {
-
-    }}
+    }
+}

@@ -1,7 +1,7 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
 
-namespace DDRemakeProject.GamePlay
+namespace DDRemakeProject.GamePlay.Old
 {
     public class UIBackEnd
     {

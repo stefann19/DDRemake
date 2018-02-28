@@ -1,6 +1,6 @@
 ﻿using System.Windows.Controls;
-using DDRemakeProject.GamePlay;
-using Action = DDRemakeProject.GamePlay.Action;
+using DDRemakeProject.GamePlay.Old;
+using Action = DDRemakeProject.GamePlay.Old.Action;
 
 namespace DDRemakeProject
 {

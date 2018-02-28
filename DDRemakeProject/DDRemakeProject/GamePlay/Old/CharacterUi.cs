@@ -3,7 +3,7 @@ using System.Windows.Input;
 using System.Windows.Shapes;
 using DDRemakeProject.UserControls;
 
-namespace DDRemakeProject.GamePlay
+namespace DDRemakeProject.GamePlay.Old
 {
     public class CharacterUi
     {

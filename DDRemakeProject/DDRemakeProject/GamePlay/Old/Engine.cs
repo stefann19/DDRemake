@@ -1,11 +1,8 @@
-﻿using System.Linq;
-using System.Windows;
-using System.Windows.Input;
-using System.Windows.Media;
+﻿using System.Windows;
 using DDRemakeProject.World;
 using DDRemakeProject.WorldGeneration;
 
-namespace DDRemakeProject.GamePlay
+namespace DDRemakeProject.GamePlay.Old
 {
     public class Engine
     {

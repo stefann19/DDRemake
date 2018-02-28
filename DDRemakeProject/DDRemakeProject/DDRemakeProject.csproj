@@ -83,6 +83,12 @@
     <Compile Include="AnimatedButton.xaml.cs">
       <DependentUpon>AnimatedButton.xaml</DependentUpon>
     </Compile>
+    <Compile Include="GamePlay\New\Attribute.cs" />
+    <Compile Include="GamePlay\New\Character.cs" />
+    <Compile Include="GamePlay\New\IAttribute.cs" />
+    <Compile Include="GamePlay\New\Stat.cs" />
+    <Compile Include="GamePlay\New\Stats.cs" />
+    <Compile Include="GamePlay\New\Trait.cs" />
     <Compile Include="Windows\MapWindow.xaml.cs">
       <DependentUpon>MapWindow.xaml</DependentUpon>
     </Compile>
@@ -93,35 +99,35 @@
     <Compile Include="World\MultiTileShape.cs" />
     <Compile Include="World\Player.cs" />
     <Compile Include="World\RectExtension.cs" />
-    <Compile Include="GamePlay\ActionGridController.cs" />
-    <Compile Include="GamePlay\AnimatedButtonController.cs" />
-    <Compile Include="GamePlay\AnimatedButtonPopUp.cs" />
-    <Compile Include="GamePlay\ButtonStatesImages.cs" />
-    <Compile Include="GamePlay\ButtonStatesList.cs" />
-    <Compile Include="GamePlay\CharacterUi.cs" />
-    <Compile Include="GamePlay\Player.cs" />
-    <Compile Include="GamePlay\SkillEffects.cs" />
-    <Compile Include="GamePlay\TurnSystem.cs" />
+    <Compile Include="GamePlay\Old\ActionGridController.cs" />
+    <Compile Include="GamePlay\Old\AnimatedButtonController.cs" />
+    <Compile Include="GamePlay\Old\AnimatedButtonPopUp.cs" />
+    <Compile Include="GamePlay\Old\ButtonStatesImages.cs" />
+    <Compile Include="GamePlay\Old\ButtonStatesList.cs" />
+    <Compile Include="GamePlay\Old\CharacterUi.cs" />
+    <Compile Include="GamePlay\Old\Player.cs" />
+    <Compile Include="GamePlay\Old\SkillEffects.cs" />
+    <Compile Include="GamePlay\Old\TurnSystem.cs" />
     <Compile Include="UserControls\CharAvatar.xaml.cs">
       <DependentUpon>CharAvatar.xaml</DependentUpon>
     </Compile>
-    <Compile Include="GamePlay\ActionTypes.cs" />
-    <Compile Include="GamePlay\AvatarSpotsManager.cs" />
-    <Compile Include="GamePlay\BattleEngine.cs" />
-    <Compile Include="GamePlay\Character.cs" />
-    <Compile Include="GamePlay\CharacterStats.cs" />
-    <Compile Include="GamePlay\CharacterMiniWindow.cs" />
-    <Compile Include="GamePlay\CharacterTypes.cs" />
-    <Compile Include="GamePlay\Action.cs" />
-    <Compile Include="GamePlay\StatsLogic.cs" />
-    <Compile Include="GamePlay\UIBackEnd.cs" />
+    <Compile Include="GamePlay\Old\ActionTypes.cs" />
+    <Compile Include="GamePlay\Old\AvatarSpotsManager.cs" />
+    <Compile Include="GamePlay\Old\BattleEngine.cs" />
+    <Compile Include="GamePlay\Old\Character.cs" />
+    <Compile Include="GamePlay\Old\CharacterStats.cs" />
+    <Compile Include="GamePlay\Old\CharacterMiniWindow.cs" />
+    <Compile Include="GamePlay\Old\CharacterTypes.cs" />
+    <Compile Include="GamePlay\Old\Action.cs" />
+    <Compile Include="GamePlay\Old\StatsLogic.cs" />
+    <Compile Include="GamePlay\Old\UIBackEnd.cs" />
     <Compile Include="UserControls\CharIcon.xaml.cs">
       <DependentUpon>CharIcon.xaml</DependentUpon>
     </Compile>
     <Compile Include="Windows\BattleWindow.xaml.cs">
       <DependentUpon>BattleWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="GamePlay\Engine.cs" />
+    <Compile Include="GamePlay\Old\Engine.cs" />
     <Compile Include="Windows\LoadMapMenu.xaml.cs">
       <DependentUpon>LoadMapMenu.xaml</DependentUpon>
     </Compile>

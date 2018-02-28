@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
-using DDRemakeProject.GamePlay;
+using DDRemakeProject.GamePlay.Old;
 
 namespace DDRemakeProject.World
 {

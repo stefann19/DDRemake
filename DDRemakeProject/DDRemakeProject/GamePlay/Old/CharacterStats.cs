@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace DDRemakeProject.GamePlay
+namespace DDRemakeProject.GamePlay.Old
 {
     public class CharacterStats
     {
@@ -48,6 +48,8 @@ namespace DDRemakeProject.GamePlay
         public int CurrentAp { get; set; }
 
         public float Armour { get; private set; }
+
+        
 
         public int Strength { get; }
         public int Inteligence { get; }
