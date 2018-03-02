@@ -6,9 +6,9 @@
         mc:Ignorable="d"
         Title="NewMapMenu" Height="400" Width="400">
     <Grid>
-        <TextBox x:Name="textBoxWidth" HorizontalAlignment="Left" Height="23" Margin="27,52,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="120"/>
-        <TextBox x:Name="textBoxHeight" HorizontalAlignment="Left" Height="23" Margin="180,52,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="120" RenderTransformOrigin="0.046,-0.649"/>
-        <TextBox x:Name="textBoxName" HorizontalAlignment="Left" Height="23" Margin="27,136,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="120"/>
+        <TextBox x:Name="textBoxWidth" HorizontalAlignment="Left" Height="23" Margin="27,52,0,0" TextWrapping="Wrap" Text="100" VerticalAlignment="Top" Width="120"/>
+        <TextBox x:Name="textBoxHeight" HorizontalAlignment="Left" Height="23" Margin="180,52,0,0" TextWrapping="Wrap" Text="100" VerticalAlignment="Top" Width="120" RenderTransformOrigin="0.046,-0.649"/>
+        <TextBox x:Name="textBoxName" HorizontalAlignment="Left" Height="23" Margin="27,136,0,0" TextWrapping="Wrap" Text="Insert Some suggestive name" VerticalAlignment="Top" Width="120"/>
         <Label Content="Map Width" HorizontalAlignment="Left" Margin="27,26,0,0" VerticalAlignment="Top"/>
         <Label Content="Map Height" HorizontalAlignment="Left" Margin="180,26,0,0" VerticalAlignment="Top"/>
         <Label Content="Map name" HorizontalAlignment="Left" Margin="27,110,0,0" VerticalAlignment="Top"/>

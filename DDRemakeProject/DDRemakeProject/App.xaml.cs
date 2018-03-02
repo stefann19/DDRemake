@@ -11,7 +11,7 @@ namespace DDRemakeProject
 
     static class Constants
     {
-        public const double TilePx =16;
+        public const double TilePx =64;
 
     }
 }

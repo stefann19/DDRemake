@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
+using DDRemakeProject.World;
 
 namespace DDRemakeProject
 {
@@ -28,7 +29,7 @@ namespace DDRemakeProject
             foreach (string s in files)
             {
                 string namePlusDotXml = s.Split('\\').Last();
-                list.Add(new MapBasicInfo(0, 0, namePlusDotXml.Substring(0, namePlusDotXml.Length - 4)));
+                //list.Add(new MapBasicInfo(0, 0, namePlusDotXml.Substring(0, namePlusDotXml.Length - 4)));
             }
             return list;
         }
@@ -57,7 +58,7 @@ namespace DDRemakeProject
         private void LoadMap(object sender, RoutedEventArgs e)
         {
             Button b = (Button)sender;
-            MainWindow window = new MainWindow(true, new MapBasicInfo(0, 0, b.Content.ToString()));
+            MapWindow window = new MapWindow(true, new MapBasicInfo(b.Content.ToString(),new Size()));
             window.Show();
             this.Close();
         }

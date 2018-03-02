@@ -93,12 +93,12 @@
 
 
 
-        <local:CharAvatar Panel.ZIndex="1" x:Name ="Position0"  Grid.Row="1" Margin="159,178,383,32" Height="100" Width="100" HorizontalAlignment="Center" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" VerticalAlignment="Center"    />
-        <local:CharAvatar Panel.ZIndex="1" x:Name ="Position1"  Grid.Row="1" Margin="119,194,423,16" Height="100" Width="100" HorizontalAlignment="Center" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" VerticalAlignment="Center"  />
-        <local:CharAvatar  Panel.ZIndex="1" x:Name ="Position2"  Grid.Row="1" Margin="80,210,462,0" Height="100" Width="100" HorizontalAlignment="Center" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" VerticalAlignment="Center"  />
-        <local:CharAvatar Panel.ZIndex="1" x:Name ="Position3"  Grid.Row="1" Margin="382,178,160,32" Height="100" Width="100" HorizontalAlignment="Center" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" VerticalAlignment="Center"  />
-        <local:CharAvatar Panel.ZIndex="1" x:Name ="Position4"  Grid.Row="1" Margin="423,194,119,16" Height="100" Width="100" HorizontalAlignment="Center" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" VerticalAlignment="Center"  />
-        <local:CharAvatar Panel.ZIndex="1" x:Name ="Position5"  Grid.Row="1" Margin="462,210,80,0" Height="100" Width="100" HorizontalAlignment="Center" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" VerticalAlignment="Center"  />
+        <local:CharAvatar Panel.ZIndex="1" x:Name ="Position0"  Grid.Row="1" Margin="159,178,383,32" Height="60" Width="60" HorizontalAlignment="Center" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" VerticalAlignment="Center"    />
+        <local:CharAvatar Panel.ZIndex="1" x:Name ="Position1"  Grid.Row="1" Margin="119,194,423,16" Height="60" Width="60" HorizontalAlignment="Center" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" VerticalAlignment="Center"  />
+        <local:CharAvatar  Panel.ZIndex="1" x:Name ="Position2"  Grid.Row="1" Margin="80,210,462,0" Height="60" Width="60" HorizontalAlignment="Center" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" VerticalAlignment="Center"  />
+        <local:CharAvatar Panel.ZIndex="1" x:Name ="Position3"  Grid.Row="1" Margin="382,178,160,32" Height="60" Width="60" HorizontalAlignment="Center" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" VerticalAlignment="Center"  />
+        <local:CharAvatar Panel.ZIndex="1" x:Name ="Position4"  Grid.Row="1" Margin="423,194,119,16" Height="60" Width="60" HorizontalAlignment="Center" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" VerticalAlignment="Center"  />
+        <local:CharAvatar Panel.ZIndex="1" x:Name ="Position5"  Grid.Row="1" Margin="462,210,80,0" Height="60" Width="60" HorizontalAlignment="Center" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" VerticalAlignment="Center"  />
 
 
 

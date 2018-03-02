@@ -4,30 +4,30 @@ using System.Diagnostics;
 using System.Windows;
 using System.Windows.Media;
 using System.Xml.Serialization;
-using DDRemakeProject.GamePlay;
 using DDRemakeProject.WorldGeneration;
-using Point = DDRemakeProject.Deprecated.Point;
 
 namespace DDRemakeProject.World
 {
     public class Tile : IComparable<Tile>
-    {   
+    {
+
+        #region Properties
         public static Dictionary<TypeEnum, Brush> TypeBrushes = new Dictionary<TypeEnum, Brush>
         {
-            {TypeEnum.Door,Brushes.ForestGreen },
+            {TypeEnum.Door,Brushes.Crimson },
             {TypeEnum.Floor,Brushes.Cyan },
             {TypeEnum.Wall,Brushes.Black },
-
+            {TypeEnum.Road,Brushes.Chocolate }
         };
-        
+
         public enum TypeEnum
         {
             Wall,
             Door,
-            Floor
+            Floor,
+            Road
         }
 
-        #region Properties
 
         private TypeEnum _type;
         [XmlIgnore]
@@ -48,10 +48,12 @@ namespace DDRemakeProject.World
         {
             get
             {
-                if (Rect == null) return VectorExtensions.Empty;
+                if (Rect == null) return PositionWhileNotIntialised;
                 return new Vector((int)Rect.Margin.Left,(int) Rect.Margin.Top)/Constants.TilePx;
             }
+            set => Rect?.SetPosition(value);
         }
+/*
         public Vector LocalPosition 
         {
             get
@@ -60,18 +62,11 @@ namespace DDRemakeProject.World
                 return new Vector((int)Rect.Margin.Left, (int)Rect.Margin.Top) -(Vector)RoomModule.RoomRect.Location;
             }    
         }
+*/
+        private Vector PositionWhileNotIntialised;
 
 
-    /// <summary>
-    /// The direction of the wall.
-    /// (0,0) if it's not a wall
-    /// </summary>
-    public Vector OuterDirection => ((Vector)RoomModule.RoomRect.Location - Position).NormalizeRet();
-
-        public RoomModule RoomModule { get; set; }
-
-
-        //public System.Windows.Media.Color Color { get; set; }
+        public IMultiTileShape MultiTileShape { get; set; }
         
         #endregion
 
@@ -87,20 +82,32 @@ namespace DDRemakeProject.World
         /// </summary>
         /// <param name="x"> x coordinate of the Tile in tPixels</param>
         /// <param name="y"> y coordinate of the Tile in tPixels</param>
-        public Tile(Vector position,RoomModule roomModule,TypeEnum type)
+        //public Tile(Vector position,TypeEnum type)
+        //{
+
+        //    this.Type = type;
+        //    //this.RoomModule =roomModule;
+        //    InitialiseRect(position);
+        //}
+
+        public Tile(Vector position,Size size)
+        {
+
+            this.Type = TypeEnum.Door;
+            PositionWhileNotIntialised = position;
+
+            InitialiseRect(size);
+        }
+
+        public Tile(Vector position,IMultiTileShape multiTileShape ,TypeEnum type,bool initialise = true)
         {
 
             this.Type = type;
-            this.RoomModule =roomModule;
-            InitialiseRect(position);
-        }
+            this.MultiTileShape = multiTileShape;
+            PositionWhileNotIntialised = position;
 
-        public Tile(Vector position)
-        {
-
-            this.Type = TypeEnum.Floor;
-           
-            InitialiseRect(position);
+            if (initialise) InitialiseRect(new Size(Constants.TilePx,Constants.TilePx));
+            //InitialiseRect(position);
         }
 
         #endregion
@@ -146,24 +153,24 @@ namespace DDRemakeProject.World
 
         #region Methods
 
-        public void InitialiseRect(Vector position)
+        public void InitialiseRect(Size size)
         {
             Application.Current.Dispatcher.Invoke((System.Action)delegate
             {
                 Rect = new System.Windows.Shapes.Rectangle();
-
-                this.Rect.Margin = new Thickness(position.X * Constants.TilePx, position.Y * Constants.TilePx, 0, 0);
-                this.Rect.Width = Constants.TilePx;
-                this.Rect.Height = Constants.TilePx;
+                this.Rect.SetPosition(PositionWhileNotIntialised);
+                this.Rect.Width = size.Width;
+                this.Rect.Height = size.Height ;
                 this.Rect.Fill = TypeBrushes[_type];
-                //this.Rect.Fill = new System.Windows.Media.SolidColorBrush(Color);
-                //this.Rect.Fill = System.Windows.Media.Color.FromRgb();
-                //this.Rect.Fill = new SolidColorBrush(System.Windows.Media.Color.FromRgb(220, 220, 220));
                 this.Rect.StrokeThickness = 0;
-                // MainWindow.CanvasS1.Children.Add()
-                //MainWindow.CanvasS1.Children.Add(this.Rect);
-                //MainWindow.CanvasS1.
-                MainWindow.CanvasS1.Children.Add(this.Rect);
+                if (size.Width != Constants.TilePx)
+                {
+                    MapWindow.MapCanvas.Children.Add(this.Rect);
+                }
+                else
+                {
+                    MapWindow.BackgroundCanvas.Children.Add(this.Rect);
+                }
 
             });
         }
@@ -198,4 +205,8 @@ namespace DDRemakeProject.World
         #endregion
 
     }
+
+
+  
+
 }

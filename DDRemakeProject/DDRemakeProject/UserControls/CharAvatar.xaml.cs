@@ -1,5 +1,5 @@
 ﻿using System.Windows.Controls;
-using DDRemakeProject.GamePlay;
+using DDRemakeProject.GamePlay.Old;
 
 namespace DDRemakeProject
 {
