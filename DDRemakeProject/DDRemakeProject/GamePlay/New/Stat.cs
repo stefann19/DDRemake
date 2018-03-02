@@ -6,33 +6,19 @@ using System.Threading.Tasks;
 
 namespace DDRemakeProject.GamePlay.New
 {
-    public class Stat : IAttribute
+
+    public class Stat
     {
-        public Stat(string name)
+        public Stat(double maxValue)
         {
-            Name = name;
-            AttributeModifiers = new Dictionary<string, double>();
+            MaxValue = maxValue;
+            CurrentValue = maxValue;
         }
-        public Stat(string name, Func<Character,double> value):this(name)
+        public Stat(double maxValue,double currentValue):this(maxValue)
         {
-            FuncValue = value;
+            CurrentValue = currentValue;
         }
-        public Stat(string name, Func<Character, double> value,Character character):this(name,value)
-        {
-            Character = character;
-        }
-        public Stat(string name, Func<Character, double> value, Character character, Dictionary<string, double> attributeModifiers) : this(name, value,character)
-        {
-            AttributeModifiers = attributeModifiers;
-        }
-
-        public string Name { get; set; }
-
-        public double Value => FuncValue(Character);
-
-        public Func<Character,double> FuncValue { get; set; }
-        public Character Character { get; set; }
-
-        public Dictionary<string,double> AttributeModifiers { get; set; }
+        public double MaxValue { get; set; }
+        public double CurrentValue { get; set; }
     }
 }
