@@ -1,6 +1,7 @@
 ﻿using System.Windows;
 using DDRemakeProject.World;
 using DDRemakeProject.WorldGeneration;
+using Newtonsoft.Json;
 
 namespace DDRemakeProject.GamePlay.Old
 {
@@ -8,15 +9,21 @@ namespace DDRemakeProject.GamePlay.Old
     {
         //private readonly Generator generator;
 
+        [JsonIgnore]
         public MapWindow MapWindow { get; set; }
+        [JsonIgnore]
         public Generator Generator { get; set; }
         public World.Player Player { get; set; }
+        [JsonIgnore]
         public KeyboardInput KeyboardInput { get; set; }
+        [JsonIgnore]
         public Camera Camera { get; set; }
         public MiniMap MiniMap { get; set; }
 
         public Engine(MapWindow mapWindow)
         {
+            if(mapWindow==null)return;
+            
             MapWindow = mapWindow;
 
             Generator = mapWindow.Generator;

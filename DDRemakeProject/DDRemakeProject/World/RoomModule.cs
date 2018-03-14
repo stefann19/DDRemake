@@ -2,13 +2,17 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
+using System.Xml.Serialization;
+using DDRemakeProject.WorldGeneration;
+using Newtonsoft.Json;
 using Point = System.Windows.Point;
 
 namespace DDRemakeProject.World
 {
     public class RoomModule : IMultiTileShape
     {
-
+        [JsonIgnore]
+        public Generator Generator { get; set; }
         public Rect Rect { get; set; }
 
         /// <summary>
@@ -19,12 +23,19 @@ namespace DDRemakeProject.World
         /// <summary>
         /// List of Tiles containing all the wall tiles in the Room
         /// </summary>
+        /// 
+        [JsonIgnore]
         public HashSet<Tile> WallTiles { get; set; }
 
+        [JsonIgnore]
         public Dictionary<Vector,RoomModule> Neighbors { get; set; }
+        [JsonIgnore]
         public List<Vector> AvailableAngles { get; set; }
+        [JsonIgnore]
         public List<RoomModule> LinkedRoomsList { get; set; }
+        [JsonIgnore]
         public List<RoomModule> ConnectedRoomModules { get; set; }
+        [JsonIgnore]
         public List<Road> Roads { get; set; }
 
         public RoomModule()
@@ -33,11 +44,11 @@ namespace DDRemakeProject.World
         }
 
         private bool isRoad;
-        public RoomModule(Rect size)
+        public RoomModule(Rect size,Generator generator)
         {
             this.Rect = size;
             if (Rect.Width == 3 || Rect.Height == 3) isRoad = true;
-            Generate(false);
+            Generate(false,generator);
             AvailableAngles = new List<Vector>{new Vector(-180,180)};
             Neighbors = new Dictionary<Vector, RoomModule>();
             ConnectedRoomModules = new List<RoomModule>();
@@ -45,9 +56,9 @@ namespace DDRemakeProject.World
 
         }
 
-        public void Generate(bool loadingFromFile)
+        public void Generate(bool loadingFromFile,Generator generator)
         {
-           
+            Generator = generator;
             //if (!loadingFromFile)
             //{
             //    Tiles = new Dictionary<Vector, Tile>();
@@ -55,7 +66,10 @@ namespace DDRemakeProject.World
             //}
             Tiles = new Dictionary<Vector, Tile>();
             WallTiles = new HashSet<Tile>();
-
+            if (loadingFromFile)
+            {
+                Roads = new List<Road>();
+            }
             
             int area = (int) (Rect.Width * Rect.Height);
             for (int i = area  - 1; i >= 0; i--)
@@ -123,28 +137,34 @@ namespace DDRemakeProject.World
 
             AvailableAngles.ForEach(angle =>
             {
+                void AddAngle(Vector v)
+                {
+                    if(Math.Abs(v.X-v.Y)>4)
+                        AddAngles.Add(v);
+                }
+
                 if (addedAngle.X > angle.X && addedAngle.Y < angle.Y)
                 {
-                    AddAngles.Add(new Vector(addedAngle.Y, angle.Y));
-                    AddAngles.Add(new Vector(angle.X,addedAngle.X));
+                    AddAngle(new Vector(addedAngle.Y, angle.Y));
+                    AddAngle(new Vector(angle.X,addedAngle.X));
                     //angle.Y = addedAngle.X;
                 }
                 else
                 {
                     if (addedAngle.X > angle.X)
                     {
-                        AddAngles.Add(new Vector(angle.X, addedAngle.X));
+                        AddAngle(new Vector(angle.X, addedAngle.X));
                         //angle.Y = addedAngle.X;
                     }
                     else
                     {
                         //angle.X = addedAngle.Y;
-                        AddAngles.Add(new Vector(addedAngle.Y, angle.Y));
+                        AddAngle(new Vector(addedAngle.Y, angle.Y));
                     }
                 }
             });
-
-            AvailableAngles = AddAngles;
+            
+            AvailableAngles = AddAngles.Distinct().ToList();
         }
 
     }

@@ -6,8 +6,12 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
 using System.Windows.Media;
+using DDRemakeProject.GamePlay.New;
+using DDRemakeProject.GamePlay.New.Character.Logic;
 using DDRemakeProject.GamePlay.Old;
 using DDRemakeProject.WorldGeneration;
+using Newtonsoft.Json;
+using Character = DDRemakeProject.GamePlay.New.Character.Character;
 
 namespace DDRemakeProject.World
 {
@@ -16,20 +20,29 @@ namespace DDRemakeProject.World
         
         public Player(Engine engine)
         {
-            Tile tile;
-            tile = new Tile(engine.Generator.Size, new RoomModule(), Tile.TypeEnum.Wall);
-            tile.Rect.Fill = Brushes.DarkBlue;
-            tile.Position = engine.Generator.Rooms.First().Rect.LocationCenter();
+            if(engine==null)return;
+            
+            Tile = new Tile(engine.Generator.Size, new RoomModule(), Tile.TypeEnum.Wall)
+            {
+                Rect = {Fill = Brushes.DarkBlue},
+                Position = engine.Generator.Rooms.First().Rect.LocationCenter()
+            };
 
 
-            Tile = tile;
             MapWindow.BackgroundCanvas.Children.Remove(Tile.Rect);
             MapWindow.DynamicCanvas.Children.Add(Tile.Rect);
             Engine = engine;
+
+            List<Character> characters = new List<Character>{new Character(5,5,5,5),new Character(10,5,2,3),new Character(2,2,10,6)};
+            Party = new Party(characters);
+
         }
 
+        [JsonIgnore]
         public Engine Engine { get; set; }
         public Tile Tile { get; set; }
+        [JsonIgnore]
+        public Party Party { get; set; }
 
         public void MoveTile(KeyEventArgs e)
         {
@@ -70,7 +83,7 @@ namespace DDRemakeProject.World
                 else return Engine.Generator.Tiles[Tile.Position];
             }
         }
-
+        [JsonIgnore]
         public IMultiTileShape CurrentMultiTileShape => CurrentTile.MultiTileShape;
     }
 }

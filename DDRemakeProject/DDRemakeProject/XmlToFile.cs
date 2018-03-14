@@ -20,14 +20,13 @@ namespace DDRemakeProject
             TextWriter writer = null;
             try
             {
-                //var serializer = new System.Xml.Serialization.XmlSerializer(typeof(T));
-                //writer = new StreamWriter(filePath, append);
-                //serializer.Serialize(writer, objectToWrite);
+                XmlSerializer serializer = new System.Xml.Serialization.XmlSerializer(typeof(T));
+                writer = new StreamWriter(filePath, append);
+                serializer.Serialize(writer, objectToWrite);
             }
             finally
             {
-                if (writer != null)
-                    writer.Close();
+                writer?.Close();
             }
         }
 
@@ -49,8 +48,7 @@ namespace DDRemakeProject
             }
             finally
             {
-                if (reader != null)
-                    reader.Close();
+                reader?.Close();
             }
         }
 

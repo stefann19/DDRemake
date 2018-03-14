@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using DDRemakeProject.GamePlay.Old;
+using Newtonsoft.Json;
 using Point = System.Windows.Point;
 using Size = System.Windows.Size;
 
@@ -43,11 +44,19 @@ namespace DDRemakeProject.World
             VisitedShapes = visitedShape;
         }
 
+        public MiniMap()
+        {
+        }
+
+        [JsonIgnore]
         public HashSet<IMultiTileShape> VisitedShapes { get; set; }
         public Vector Scale { get; set; }
         public HashSet<MapShape> Tiles { get; set; }
+        [JsonIgnore]
         public Engine Engine { get; set; }
+        [JsonIgnore]
         public Canvas MiniMapCanvas { get; set; }
+        [JsonIgnore]
         public Border Border { get; set; }
 
         public MapShape PlayerMapShape { get; set; }
@@ -76,7 +85,7 @@ namespace DDRemakeProject.World
         public void MovePlayer()
         {
             Point minimMapPosition = new Point((Engine.Player.Tile.Position.X-1) * Constants.TilePx / Scale.X, (Engine.Player.Tile.Position.Y-1) * Constants.TilePx / Scale.Y);
-            PlayerMapShape.Rect.SetMinimapPosition((Vector)minimMapPosition);
+            PlayerMapShape.Rectangle.SetMinimapPosition((Vector)minimMapPosition);
         }
 
         public MapShape AddVisitedItem(IMultiTileShape shape)

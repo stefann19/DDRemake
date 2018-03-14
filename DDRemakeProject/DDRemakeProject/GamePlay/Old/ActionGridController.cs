@@ -12,6 +12,7 @@ namespace DDRemakeProject.GamePlay.Old
         {
             ActionGrid = actionGrid;
             ActionGrid.Children.Clear();
+            
         }
 
         public static Grid ActionGrid { get; set; }

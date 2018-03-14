@@ -20,6 +20,7 @@ namespace DDRemakeProject.GamePlay.Old
         {
             Status = CharacterTypes.Status.Dead;
             CharacterUiControl.CharAvatarControl.Visibility = Visibility.Hidden;
+            
         }
 
         public Character(CharacterStats characterStats, CharacterTypes.Type type, BattleEngine battleEngine)

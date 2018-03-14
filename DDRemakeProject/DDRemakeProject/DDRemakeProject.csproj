@@ -56,6 +56,9 @@
     <Reference Include="Microsoft.Practices.ServiceLocation, Version=1.2.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\CommonServiceLocator.1.2\lib\portable-windows8+net40+sl5+windowsphone8\Microsoft.Practices.ServiceLocation.dll</HintPath>
     </Reference>
+    <Reference Include="Newtonsoft.Json, Version=11.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.11.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
@@ -83,14 +86,27 @@
     <Compile Include="AnimatedButton.xaml.cs">
       <DependentUpon>AnimatedButton.xaml</DependentUpon>
     </Compile>
-    <Compile Include="GamePlay\New\Character.cs" />
-    <Compile Include="GamePlay\New\Resistance.cs" />
-    <Compile Include="GamePlay\New\Resistances.cs" />
-    <Compile Include="GamePlay\New\Stat.cs" />
-    <Compile Include="GamePlay\New\Stats.cs" />
+    <Compile Include="GamePlay\New\Character\Character.cs" />
+    <Compile Include="GamePlay\New\Character\CharacterLogic.cs" />
+    <Compile Include="GamePlay\New\Character\Logic\Level.cs" />
+    <Compile Include="GamePlay\New\Character\Logic\Modifiers.cs" />
+    <Compile Include="GamePlay\New\Character\Logic\Race.cs" />
+    <Compile Include="GamePlay\New\Character\Logic\Resistance.cs" />
+    <Compile Include="GamePlay\New\Character\Logic\Resistances.cs" />
+    <Compile Include="GamePlay\New\Character\Logic\Stat.cs" />
+    <Compile Include="GamePlay\New\Character\Logic\Stats.cs" />
+    <Compile Include="GamePlay\New\Character\Logic\Trait.cs" />
+    <Compile Include="GamePlay\New\Character\Logic\Traits.cs" />
+    <Compile Include="GamePlay\New\Party.cs" />
+    <Compile Include="SerializingHelpers\MinimapSerializer.cs" />
+    <Compile Include="SerializingHelpers\PlayerSerializer.cs" />
+    <Compile Include="UserControls\MapButton.xaml.cs">
+      <DependentUpon>MapButton.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Windows\MapWindow.xaml.cs">
       <DependentUpon>MapWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="SerializingHelpers\JsonSerializer.cs" />
     <Compile Include="World\Camera.cs" />
     <Compile Include="World\KeyboardInput.cs" />
     <Compile Include="World\MapShape.cs" />
@@ -104,7 +120,6 @@
     <Compile Include="GamePlay\Old\ButtonStatesImages.cs" />
     <Compile Include="GamePlay\Old\ButtonStatesList.cs" />
     <Compile Include="GamePlay\Old\CharacterUi.cs" />
-    <Compile Include="GamePlay\Old\Player.cs" />
     <Compile Include="GamePlay\Old\SkillEffects.cs" />
     <Compile Include="GamePlay\Old\TurnSystem.cs" />
     <Compile Include="UserControls\CharAvatar.xaml.cs">
@@ -158,6 +173,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="UserControls\CharIcon.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UserControls\MapButton.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

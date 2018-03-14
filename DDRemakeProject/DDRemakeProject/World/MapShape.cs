@@ -4,6 +4,7 @@ using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Shapes;
 using System.Xml.Serialization;
+using Newtonsoft.Json;
 
 namespace DDRemakeProject.World
 {
@@ -33,8 +34,8 @@ namespace DDRemakeProject.World
 
         private TypeEnum _type;
 
-        [XmlIgnore]
-        public Rectangle Rect { get; set; }
+        [JsonIgnore]
+        public Rectangle Rectangle { get; set; }
 
         public TypeEnum Type
         {
@@ -42,18 +43,33 @@ namespace DDRemakeProject.World
             set
             {
                 _type = value;
-                if (Rect == null) return;
-                Rect.Fill = TypeBrushes[value];
+                if (Rectangle == null) return;
+                Rectangle.Fill = TypeBrushes[value];
+            }
+        }
+        [JsonIgnore]
+        public Vector Position
+        {
+            get => new Vector((int) Rectangle.Margin.Left, (int) Rectangle.Margin.Top) / Constants.TilePx;
+            set
+            {
+                if (MultiTileShape == null)
+                {
+                    Rect = new Rect((Point)value,new Size(Constants.TilePx,Constants.TilePx));
+                }
+                else
+                {
+                    Rect = new Rect((Point)value, MultiTileShape.Rect.Size);
+
+                }
+
+                Rectangle?.SetPosition(value);
             }
         }
 
-        public Vector Position
-        {
-            get => new Vector((int) Rect.Margin.Left, (int) Rect.Margin.Top) / Constants.TilePx;
-            set => Rect?.SetPosition(value);
-        }
+        public Rect Rect { get; set; }  
 
-
+        [JsonIgnore]
         public IMultiTileShape MultiTileShape { get; set; }
 
         #endregion
@@ -85,6 +101,10 @@ namespace DDRemakeProject.World
             InitialiseRect(position, size);
         }
 
+        public MapShape()
+        {
+        }
+
         #endregion
 
 
@@ -92,18 +112,19 @@ namespace DDRemakeProject.World
 
         public void InitialiseRect(Vector position, Size size)
         {
+            Rect = new Rect((Point) position,size);
             Application.Current.Dispatcher.Invoke(delegate
             {
-                Rect = new Rectangle();
-                Rect.SetMinimapPosition(position);
-                Rect.Width = size.Width;
-                Rect.Height = size.Height;
-                Rect.Fill = TypeBrushes[_type];
-                Rect.StrokeThickness = 0;
+                Rectangle = new Rectangle();
+                Rectangle.SetMinimapPosition(position);
+                Rectangle.Width = size.Width;
+                Rectangle.Height = size.Height;
+                Rectangle.Fill = TypeBrushes[_type];
+                Rectangle.StrokeThickness = 0;
                 
                 
-                Panel.SetZIndex(Rect,TypeZIndexDictionary[_type]);
-                MapWindow.MapCanvas.Children.Add(Rect);
+                Panel.SetZIndex(Rectangle,TypeZIndexDictionary[_type]);
+                MapWindow.MapCanvas.Children.Add(Rectangle);
             });
         }
 

@@ -6,6 +6,7 @@ using System.Windows;
 using System.Windows.Media;
 using System.Xml.Serialization;
 using DDRemakeProject.World;
+using Newtonsoft.Json;
 using static System.Linq.Enumerable;
 
 namespace DDRemakeProject.WorldGeneration
@@ -45,8 +46,12 @@ namespace DDRemakeProject.WorldGeneration
         //public List<Tile> GenerationTiles { get; set; }
 
         public List<RoomModule> Rooms { get; set; }
+
+        [JsonIgnore]
         public List<RoomModule> GenerationRooms { get; set; }
+
         public List<Road> Roads { get; set; }
+        [JsonIgnore]
         public Dictionary<Vector, Tile> Tiles { get; set; }
         #endregion
 
@@ -74,7 +79,7 @@ namespace DDRemakeProject.WorldGeneration
                 if (firstRoom)
                 {
                     int size = (GeneratorExtensions.MaxRoomSize + GeneratorExtensions.MinRoomSize) / 2;
-                    RoomModule r = new RoomModule(new Rect(startingPos,new Size(size, size)));
+                    RoomModule r = new RoomModule(new Rect(startingPos,new Size(size, size)),this);
                     AddRoom(r);
                     firstRoom = false;
 
@@ -87,7 +92,7 @@ namespace DDRemakeProject.WorldGeneration
 
                     if (!r.IsEmpty)
                     {
-                        AddRoom(new RoomModule(r));
+                        AddRoom(new RoomModule(r,this));
                     }
                     else
                     {
@@ -102,11 +107,22 @@ namespace DDRemakeProject.WorldGeneration
 
         public void Generate()
         {
+            Tiles = new Dictionary<Vector, Tile>();
             foreach (RoomModule rm in Rooms)
             {
-                rm.Generate(true);
-                Thread.Sleep(10);
+                rm.Generate(true,this);
+                /*Thread.Sleep(10);*/
             }
+
+            Roads.ForEach(road =>
+            {
+                road.Generate(true,this);
+
+                /*AddRoads(new List<Rect>{road.Rect},null);*/
+                /*road.Tiles.Where(tile => !Tiles.ContainsKey(tile.Key)).ToList().ForEach(tile => Tiles.Add(tile.Key, tile.Value)); 
+                road.Tiles.Values.ToList()
+                    .ForEach(tile => tile.InitialiseRect(new Size(Constants.TilePx, Constants.TilePx)));*/
+            });
         }
 
 
@@ -135,7 +151,7 @@ namespace DDRemakeProject.WorldGeneration
                         }
                     }
                 });
-            r.Tiles.Where(tile=> !Tiles.ContainsKey(tile.Key)).ToList().ForEach(tile => Tiles.Add(tile.Key, tile.Value));
+            /*r.Tiles.Where(tile=> !Tiles.ContainsKey(tile.Key)).ToList().ForEach(tile => Tiles.Add(tile.Key, tile.Value));*/
             _nrOfUsedtiles += r.Tiles.Count;
         }
 
@@ -353,6 +369,7 @@ namespace DDRemakeProject.WorldGeneration
 
             List<Road> newRoads = AddRoads(roadRects, rooms);
             if (newRoads == null) return false;
+            Roads.AddRange(newRoads);
             startingRoomModule.Roads.AddRange(newRoads);
             endingRoomModule.Roads.AddRange(newRoads);
             return true;
@@ -361,7 +378,7 @@ namespace DDRemakeProject.WorldGeneration
         private List<Road> AddRoads(List<Rect> roadRects, List<RoomModule> rooms)
         {
             List<Road> newRoads = new List<Road>();
-            roadRects.ForEach(roadRect => newRoads.Add(new Road(roadRect)));
+            roadRects.ForEach(roadRect => newRoads.Add(new Road(roadRect,this)));
 
             int roadIntersects = 0;
             int wallIntersects = 0;
@@ -375,6 +392,7 @@ namespace DDRemakeProject.WorldGeneration
                     if (Tiles[tile.Key].Type == Tile.TypeEnum.Wall && tile.Value.Type == Tile.TypeEnum.Road)
                         wallIntersects++;
                     if (Tiles[tile.Key].Type == Tile.TypeEnum.Floor && tile.Value.Type == Tile.TypeEnum.Road)
+                        if(rooms!=null)
                         if (rooms.All(room => !room.Tiles.ContainsKey(tile.Key))) floorIntersects++;
                 });
             });
@@ -403,8 +421,8 @@ namespace DDRemakeProject.WorldGeneration
                 road.Tiles.Where(v => !Tiles.ContainsKey(v.Key)).ToList()
                     .ForEach(tile => Tiles.Add(tile.Key, tile.Value));
             });
-            rooms.First().ConnectedRoomModules.Add(rooms.Last());
-            rooms.Last().ConnectedRoomModules.Add(rooms.First());
+            rooms?.First().ConnectedRoomModules.Add(rooms.Last());
+            rooms?.Last().ConnectedRoomModules.Add(rooms.First());
 
             newRoads.ForEach(road => road.Tiles.Values.ToList().ForEach(tile => tile.InitialiseRect( new Size(Constants.TilePx,Constants.TilePx))));
             return newRoads;

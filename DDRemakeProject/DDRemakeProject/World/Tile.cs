@@ -5,6 +5,7 @@ using System.Windows;
 using System.Windows.Media;
 using System.Xml.Serialization;
 using DDRemakeProject.WorldGeneration;
+using Newtonsoft.Json;
 
 namespace DDRemakeProject.World
 {
@@ -20,6 +21,7 @@ namespace DDRemakeProject.World
             {TypeEnum.Road,Brushes.Chocolate }
         };
 
+
         public enum TypeEnum
         {
             Wall,
@@ -30,7 +32,7 @@ namespace DDRemakeProject.World
 
 
         private TypeEnum _type;
-        [XmlIgnore]
+        [JsonIgnore]
         public System.Windows.Shapes.Rectangle Rect { get; set; }
 
         public TypeEnum Type
@@ -44,11 +46,12 @@ namespace DDRemakeProject.World
             }
         }
 
+        [JsonIgnore]
         public Vector Position
         {
             get
             {
-                if (Rect == null) return PositionWhileNotIntialised;
+                if (Rect == null) return _positionWhileNotIntialised;
                 return new Vector((int)Rect.Margin.Left,(int) Rect.Margin.Top)/Constants.TilePx;
             }
             set => Rect?.SetPosition(value);
@@ -63,9 +66,10 @@ namespace DDRemakeProject.World
             }    
         }
 */
-        private Vector PositionWhileNotIntialised;
+        [JsonProperty]
+        private Vector _positionWhileNotIntialised;
 
-
+        [JsonIgnore]
         public IMultiTileShape MultiTileShape { get; set; }
         
         #endregion
@@ -94,17 +98,17 @@ namespace DDRemakeProject.World
         {
 
             this.Type = TypeEnum.Door;
-            PositionWhileNotIntialised = position;
+            _positionWhileNotIntialised = position;
 
             InitialiseRect(size);
         }
 
         public Tile(Vector position,IMultiTileShape multiTileShape ,TypeEnum type,bool initialise = true)
         {
-
+            
             this.Type = type;
             this.MultiTileShape = multiTileShape;
-            PositionWhileNotIntialised = position;
+            _positionWhileNotIntialised = position;
 
             if (initialise) InitialiseRect(new Size(Constants.TilePx,Constants.TilePx));
             //InitialiseRect(position);
@@ -158,7 +162,7 @@ namespace DDRemakeProject.World
             Application.Current.Dispatcher.Invoke((System.Action)delegate
             {
                 Rect = new System.Windows.Shapes.Rectangle();
-                this.Rect.SetPosition(PositionWhileNotIntialised);
+                this.Rect.SetPosition(_positionWhileNotIntialised);
                 this.Rect.Width = size.Width;
                 this.Rect.Height = size.Height ;
                 this.Rect.Fill = TypeBrushes[_type];

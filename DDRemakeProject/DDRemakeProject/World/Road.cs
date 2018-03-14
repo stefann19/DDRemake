@@ -4,12 +4,16 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Xml.Serialization;
+using DDRemakeProject.WorldGeneration;
+using Newtonsoft.Json;
 
 namespace DDRemakeProject.World
 {
     public class Road : IMultiTileShape
     {
-
+        [JsonIgnore]
+        public Generator Generator { get; set; }
         public Rect Rect { get; set; }
 
         /// <summary>
@@ -20,8 +24,9 @@ namespace DDRemakeProject.World
         /// <summary>
         /// List of Tiles containing all the wall tiles in the Room
         /// </summary>
+        [JsonIgnore]
         public HashSet<Tile> WallTiles { get; set; }
-
+        [JsonIgnore]
         public List<RoomModule> ConnectedRoomsList { get; set; }
 
         public Road()
@@ -29,26 +34,34 @@ namespace DDRemakeProject.World
 
         }
 
-        public Road(Rect size)
+        public Road(Rect size,Generator generator)
         {
+            Generator = generator;
             this.Rect = size;
-            Generate(false);
+            Generate(false,Generator);
 
 
 
         }
 
-        public void Generate(bool loadingFromFile)
+        public void Generate(bool loadingFromFile,Generator generator)
         {
-
+            Generator = generator;
             //if (!loadingFromFile)
             //{
             //    Tiles = new Dictionary<Vector, Tile>();
             //    WallTiles = new HashSet<Tile>();
             //}
+            if (loadingFromFile)
+            {
+                RebuildTiles();
+                return;
+            }
+
             Tiles = new Dictionary<Vector, Tile>();
             WallTiles = new HashSet<Tile>();
 
+            
 
             int area = (int)(Rect.Width * Rect.Height);
             for (int i = area - 1; i >= 0; i--)
@@ -66,11 +79,32 @@ namespace DDRemakeProject.World
 
                     tileType = Tile.TypeEnum.Road;
                 }
-
                 this.AddTile(tilePosition, tileType);
             }
 
 
+        }
+
+        private void RebuildTiles()
+        {
+            Dictionary<Vector,Tile> tilesCopy = new Dictionary<Vector, Tile>(Tiles);
+            Tiles = new Dictionary<Vector, Tile>();
+            WallTiles  = new HashSet<Tile>();
+            tilesCopy.Values.ToList().ForEach(tile =>
+            {
+                Tile t =this.AddTile(tile.Position,tile.Type);
+                t.InitialiseRect(new Size(Constants.TilePx,Constants.TilePx));
+                if (Generator.Tiles.ContainsKey(t.Position))
+                {
+                    if(t.Type == Tile.TypeEnum.Door)(Generator.Tiles[t.Position].MultiTileShape as RoomModule)?.Roads.Add(this);
+
+                    if (t.Type==Tile.TypeEnum.Road || t.Type == Tile.TypeEnum.Door)
+                    Generator.Tiles[t.Position] = t;
+
+                   
+                }else
+                Generator.Tiles.Add(t.Position,t);
+            });
         }
 
         /*public static void AddTile(this MultiTileShape multiTileShape,Vector Position, Tile.TypeEnum type)

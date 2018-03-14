@@ -1,10 +1,12 @@
 ﻿using System.Collections.Generic;
 using System.Windows;
+using DDRemakeProject.WorldGeneration;
 
 namespace DDRemakeProject.World
 {
     public interface IMultiTileShape
     {
+        Generator Generator { get; set; }
         Rect Rect { get; set; }
 
         /// <summary>
@@ -17,19 +19,24 @@ namespace DDRemakeProject.World
         /// </summary>
         HashSet<Tile> WallTiles { get; set; }
 
-        void Generate(bool loadingFromFile);
+        void Generate(bool loadingFromFile,Generator generator);
     }
 
     public static class MultiTileShapeExtensions
     {
-        public static void AddTile(this IMultiTileShape multiTileShape, Vector position, Tile.TypeEnum type)
+        public static Tile AddTile(this IMultiTileShape multiTileShape, Vector position, Tile.TypeEnum type)
         {
             Tile t = new Tile(position, multiTileShape, type, multiTileShape is RoomModule);
-            if (multiTileShape.Tiles.ContainsKey(t.Position)) return;
+            if (multiTileShape.Tiles.ContainsKey(t.Position)) return null;
             multiTileShape.Tiles.Add(t.Position, t);
 
             if (t.Type == Tile.TypeEnum.Wall)
                 multiTileShape.WallTiles.Add(t);
+
+            if(multiTileShape is RoomModule)
+            if (!multiTileShape.Generator.Tiles.ContainsKey(t.Position))
+                multiTileShape.Generator.Tiles.Add(t.Position, t);
+            return t;
         }
     }
 }

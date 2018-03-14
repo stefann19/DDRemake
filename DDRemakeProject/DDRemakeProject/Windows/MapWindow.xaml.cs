@@ -1,10 +1,16 @@
 ﻿using System.ComponentModel;
+using System.IO;
+using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
 using DDRemakeProject.GamePlay.Old;
+using DDRemakeProject.SerializingHelpers;
 using DDRemakeProject.World;
+using DDRemakeProject.WorldGeneration;
+using Newtonsoft.Json;
+using JsonSerializer = DDRemakeProject.SerializingHelpers.JsonSerializer;
 
 namespace DDRemakeProject
 {
@@ -57,11 +63,28 @@ namespace DDRemakeProject
 
         public void OnWindowClosing(object sender, CancelEventArgs e)
         {
-            XmlToFile.WriteToXmlFile(@"C:\VisualStudioProjects\DDRemake\DDRemakeProject\DDRemakeProject\" + MapBasicInfo.Name + ".xml", Generator);
+            /* XmlToFile.WriteToXmlFile(@"Maps\" + MapBasicInfo.Name + ".xml", Generator);*/
+            /*
+                        MapBasicInfo.Name = MapBasicInfo.Name.Replace($"({Generator.Size.X},{Generator.Size.Y})", "");
+            */
+            System.IO.Directory.CreateDirectory(@"Maps\" + MapBasicInfo.Name);
+
+            JsonSerializer.WriteToFile(JsonSerializer.GetGeneratorPath(MapBasicInfo.Name), Generator);
+            JsonSerializer.WriteToFile(JsonSerializer.GetMapInfoPath(MapBasicInfo.Name), MapBasicInfo);
+            JsonSerializer.WriteToFile(JsonSerializer.GetMinimapPath(MapBasicInfo.Name), new MinimapSerializer(_engine.MiniMap.Tiles));
+            JsonSerializer.WriteToFile(JsonSerializer.GetPlayerPath(MapBasicInfo.Name), new PlayerSerializer(_engine.Player.Tile.Position));
+
+            /*
+                        JsonSerializer.WriteToFile(@"Maps\"+ MapBasicInfo.Name + @"\" + MapBasicInfo.Name+$"({Generator.Size.X},{Generator.Size.Y})" + ".json", Generator);
+            */
+            /*
+                        JsonSerializer.WriteToFile(@"Maps\" + MapBasicInfo.Name + @"\" + MapBasicInfo.Name +$"({Generator.Size.X},{Generator.Size.Y})" + ".json", _engine);
+            */
+
             // Handle closing logic, set e.Cancel as needed
         }
 
-        private Engine _v1;
+        private Engine _engine;
         private void DoShit()
         {
             if (!_loadFromFile)
@@ -81,13 +104,36 @@ namespace DDRemakeProject
         private void GenerateMap(MapBasicInfo map)
         {
             Generator = new WorldGeneration.Generator((Vector)map.Size);
-            _v1 = new Engine(this);
+            _engine = new Engine(this);
         }
         private void LoadMap(string mapName)
         {
-            Generator = XmlToFile.ReadFromXmlFile<WorldGeneration.Generator>(@"C:\VisualStudioProjects\DDRemake\DDRemakeProject\DDRemakeProject\" + mapName + ".xml");
+            /*Generator = XmlToFile.ReadFromXmlFile<WorldGeneration.Generator>(@"Maps\" + mapName + ".xml");*/
+/*
+            Generator = JsonConvert.DeserializeObject<Generator>(File.ReadAllText(@"Maps\"+mapName.Split('(').First()+@"\" + mapName + ".json"));
+*/
+            Generator = JsonConvert.DeserializeObject<Generator>(File.ReadAllText(JsonSerializer.GetGeneratorPath(mapName)));
             Generator.Generate();
-            _v1 = new Engine( this);
+
+            _engine = new Engine(this);
+            PlayerSerializer player = JsonConvert.DeserializeObject<PlayerSerializer>(File.ReadAllText(JsonSerializer.GetPlayerPath(mapName)));
+            _engine.Player.Tile.Position = player.Position;
+            MinimapSerializer minimap =  JsonConvert.DeserializeObject<MinimapSerializer>(
+                File.ReadAllText(JsonSerializer.GetMinimapPath(mapName)));
+            _engine.MiniMap.Tiles.UnionWith(minimap.MapShapes);
+            _engine.MiniMap.Tiles.ToList().ForEach(tile=> tile.InitialiseRect((Vector) tile.Rect.Location, tile.Rect.Size));
+            _engine.MiniMap.MovePlayer();
+            _engine.Camera.CheatsActivated = true;
+            _engine.Camera.CheatsActivated = false;
+
+            /*_engine = new Engine(this);
+            Engine old = JsonConvert.DeserializeObject<Engine>(File.ReadAllText(JsonSerializer.GetEnginePath(mapName)));
+            _engine.Player = old.Player;*/
+            /*_engine =
+            _engine.Generator = Generator;*/
+            /*
+                        _engine = new Engine( this);
+            */
         }
 
         private void DeleteCanvas()

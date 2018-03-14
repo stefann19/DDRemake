@@ -1,4 +1,5 @@
 ﻿using System.Windows;
+using Newtonsoft.Json;
 
 namespace DDRemakeProject.World
 {
@@ -7,6 +8,7 @@ namespace DDRemakeProject.World
 
         public Size Size { get; set; }
         public string Name { get; set; }
+        [JsonIgnore]
         public Rect Rect { get; set; }
 
         public MapBasicInfo(string name,Size size)
