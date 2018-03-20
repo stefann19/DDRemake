@@ -4,6 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using DDRemakeProject.GamePlay.New.Character.Logic;
+using DDRemakeProject.GamePlay.Old;
+using Action = DDRemakeProject.GamePlay.Old.Action;
 
 namespace DDRemakeProject.GamePlay.New
 {
@@ -17,6 +19,7 @@ namespace DDRemakeProject.GamePlay.New
             Resistances = new Resistances(this);
             Stats = new Stats(this);
             Modifiers = new Modifiers(this);
+            GetDefaultActions();
         }
 
         public void LevelUp()
@@ -37,5 +40,17 @@ namespace DDRemakeProject.GamePlay.New
         public Modifiers Modifiers { get; set; }
         public Level Level { get; set; }
         
+
+
+
+        //needs refactoring
+        public Old.Character CharacterParent { get; set; }
+
+        public List<Action> Actions { get; set; }
+
+        private void GetDefaultActions()
+        {
+            Actions = new List<Action> { StatsLogic.LowAttack, StatsLogic.MediumAttack, StatsLogic.FireSpell, StatsLogic.HeavyAttack, StatsLogic.AirSpell, StatsLogic.EarthSpell, StatsLogic.WaterSpell, StatsLogic.BasicBlock };
+        }
     }
 }

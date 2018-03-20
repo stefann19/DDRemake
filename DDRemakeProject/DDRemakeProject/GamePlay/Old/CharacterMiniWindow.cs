@@ -3,6 +3,7 @@ using System.IO;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media.Imaging;
+using DDRemakeProject.GamePlay.New;
 
 namespace DDRemakeProject.GamePlay.Old
 {
@@ -21,13 +22,13 @@ namespace DDRemakeProject.GamePlay.Old
             _characterContentControl = characterContentControl;
         }
 
-        public void SetStats(CharacterStats ch)
+        public void SetStats(CharacterLogic ch)
         {
-            Hp = ch.CurrentHp + "/" + ch.Hp;
-            Mp = ch.CurrentMp + "/" + ch.Mp;
-            Ap = ch.CurrentAp + "/" + ch.Ap;
-            Name = ch.Name;
-            IconPath = ch.CharacterIconPng;
+            Hp = ch.Stats.Health.CurrentValue + "/" + ch.Stats.Health.MaxValue;
+            Mp = ch.Stats.Mana.CurrentValue + "/" + ch.Stats.Mana.MaxValue;
+            Ap = ch.Stats.Stamina.CurrentValue + "/" + ch.Stats.Stamina.MaxValue;
+            Name = ch.CharacterParent.Name;
+            IconPath = ch.CharacterParent.CharacterUiControl.CharacterIconPng;
         }
 
         public string SelectType

@@ -20,7 +20,7 @@ namespace DDRemakeProject.GamePlay.Old
                 new Tuple<CharacterUi, bool>(new CharacterUi(BattleEngine.BattleWindowUi.Position4,BattleEngine.BattleWindowUi.Icon4), true),
                 new Tuple<CharacterUi, bool>(new CharacterUi(BattleEngine.BattleWindowUi.Position5,BattleEngine.BattleWindowUi.Icon5), true)
             };
-
+            
         }
 
         private static readonly List<Tuple<CharacterUi,bool>> AvailableAllySpots;

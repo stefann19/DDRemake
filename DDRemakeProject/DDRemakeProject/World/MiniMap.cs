@@ -6,6 +6,8 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using DDRemakeProject.GamePlay.New;
+using DDRemakeProject.GamePlay.New.Character.Logic;
 using DDRemakeProject.GamePlay.Old;
 using Newtonsoft.Json;
 using Point = System.Windows.Point;
@@ -106,6 +108,13 @@ namespace DDRemakeProject.World
                 {
                     RoomModule s = (RoomModule)shape;
                     s.Roads.ForEach(road=> AddVisitedItem(road));
+
+                    List<CharacterLogic> allyCharacters = new List<CharacterLogic>{new CharacterLogic(new Traits(10,10,10,10)), new CharacterLogic(new Traits(10, 10, 10, 10)) , new CharacterLogic(new Traits(10, 10, 10, 10)) };
+                    List<CharacterLogic> enemyCharacters = new List<CharacterLogic> { new CharacterLogic(new Traits(10, 10, 10, 10)), new CharacterLogic(new Traits(10, 10, 10, 10)), new CharacterLogic(new Traits(10, 10, 10, 10)) };
+
+                    BattleEngine battleEngine = new BattleEngine(allyCharacters,enemyCharacters);
+                    BattleWindow battleWindow = BattleEngine.BattleWindowUi;
+                    battleWindow.Show();
                 }
 
                 return t;

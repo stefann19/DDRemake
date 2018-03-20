@@ -22,7 +22,7 @@ namespace DDRemakeProject.GamePlay.Old
             set
             {
                 _currentHp = value;
-                CharacterParent?.UpdateHpUi();
+               /* CharacterParent?.UpdateHpUi();*/
             }
         }
 

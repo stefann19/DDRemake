@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
+using DDRemakeProject.GamePlay.New;
 
 namespace DDRemakeProject.GamePlay.Old
 {
@@ -34,7 +35,7 @@ namespace DDRemakeProject.GamePlay.Old
 
         public static Character WeakestCharacter { get; set; }
 
-        public BattleEngine(IEnumerable<CharacterStats> allyCharacters, IEnumerable<CharacterStats> enemyCharacters)
+        public BattleEngine(IEnumerable<CharacterLogic> allyCharacters, IEnumerable<CharacterLogic> enemyCharacters)
         {
             WaitForAnimation = false;
             BattleWindowUi = new BattleWindow(this);
@@ -42,9 +43,9 @@ namespace DDRemakeProject.GamePlay.Old
             //GenerateMap();
 
             Characters = new List<Character>();
-            foreach (CharacterStats characterStats in allyCharacters)
+            foreach (CharacterLogic characterStats in allyCharacters)
                 Characters.Add(new Character(characterStats, CharacterTypes.Type.Ally, this));
-            foreach (CharacterStats characterStats in enemyCharacters)
+            foreach (CharacterLogic characterStats in enemyCharacters)
                 Characters.Add(new Character(characterStats, CharacterTypes.Type.Enemy, this));
             InitialiseBottomRightMiniWindows();
             InitialiseButtons();
@@ -85,24 +86,24 @@ namespace DDRemakeProject.GamePlay.Old
 
             TurnSystem.GetNextTurn(Characters);
 
-            CurrentCharacterMiniWindow.SetStats(Characters[TurnSystem.CurrentCharIndex].CharacterStats);
+            CurrentCharacterMiniWindow.SetStats(Characters[TurnSystem.CurrentCharIndex].CharacterLogic);
             CurrentCharacterMiniWindow.SelectType = "Current Turn";
 
 
             Characters[TurnSystem.CurrentCharIndex].CharacterUiControl.ScalingType = CharacterUi.ScaleType.Selected;
 
-            if (Characters[TurnSystem.CurrentCharIndex].Type == CharacterTypes.Type.Enemy)
+           /* if (Characters[TurnSystem.CurrentCharIndex].Type == CharacterTypes.Type.Enemy)
             {
                 WeakestCharacter = ChooseWeakestAllyTarget();
                 Fight(ChooseWeakestAllyTarget(),
-                    Characters[TurnSystem.CurrentCharIndex].CharacterStats.Actions.First());
-            }
+                    Characters[TurnSystem.CurrentCharIndex].CharacterLogic.Actions.First());
+            }*/
         }
 
 
         public void ReloadChar()
         {
-            CharacterStats ch = Characters[TurnSystem.CurrentCharIndex].CharacterStats;
+            CharacterLogic ch = Characters[TurnSystem.CurrentCharIndex].CharacterLogic;
             CurrentCharacterMiniWindow.SetStats(ch);
         }
 
@@ -112,7 +113,7 @@ namespace DDRemakeProject.GamePlay.Old
         {
             if (character == null) return;
             SelectedCharacterMiniWindow.SetVisibility(Visibility.Visible);
-            SelectedCharacterMiniWindow.SetStats(character.CharacterStats);
+            SelectedCharacterMiniWindow.SetStats(character.CharacterLogic);
             SelectedCharacterMiniWindow.SelectType = "Selected";
         }
 
@@ -131,12 +132,12 @@ namespace DDRemakeProject.GamePlay.Old
                 : Characters
                     .Where(character =>
                         character.Type == CharacterTypes.Type.Ally && character.Status == CharacterTypes.Status.Alive)
-                    .Aggregate((a, b) => a.CharacterStats.CurrentHp < b.CharacterStats.CurrentHp ? a : b);
+                    .Aggregate((a, b) => a.CharacterLogic.Stats.Health.CurrentValue < b.CharacterLogic.Stats.Health.CurrentValue ? a : b);
         }
 
         public void AttackFromTrigger()
         {
-            Fight(WeakestCharacter, Characters[TurnSystem.CurrentCharIndex].CharacterStats.Actions.First());
+            Fight(WeakestCharacter, Characters[TurnSystem.CurrentCharIndex].CharacterLogic.Actions.First());
         }
 
 
@@ -146,7 +147,7 @@ namespace DDRemakeProject.GamePlay.Old
 
             if (defenderCharacter == null) return;
 
-            if (skill.ApCost <= Characters[TurnSystem.CurrentCharIndex].CharacterStats.CurrentAp)
+            if (skill.ApCost <= Characters[TurnSystem.CurrentCharIndex].CharacterLogic.Stats.Stamina.CurrentValue)
             {
                 // execute the attack animation in the UI
                 //skill.SkillEffect;
@@ -161,25 +162,27 @@ namespace DDRemakeProject.GamePlay.Old
 
 
                 //Execute the stats changes of the fight\
-                DoFightStatChanges(Characters[TurnSystem.CurrentCharIndex].CharacterStats, defenderCharacter, skill);
+                DoFightStatChanges(Characters[TurnSystem.CurrentCharIndex].CharacterLogic, defenderCharacter, skill);
             }
             WeakestCharacter = null;
             //SetNextTurn();
         }
 
-        private void DoFightStatChanges(CharacterStats attackerCharacter, Character defenderCharacter, Action skill)
+        private void DoFightStatChanges(CharacterLogic attackerCharacter, Character defenderCharacter, Action skill)
         {
-            int damageAfterReductions =
-                (int) StatsLogic.CalculateDamageAfterAr(defenderCharacter.CharacterStats.Armour, skill.Damage);
-            defenderCharacter.CharacterStats.CurrentHp -= damageAfterReductions;
-            attackerCharacter.CurrentAp -= skill.ApCost;
-            attackerCharacter.CurrentMp -= skill.MpCost;
+            int damageAfterReductions = (int)defenderCharacter.CharacterLogic.Resistances.Armour.Calculate(skill.Damage);
+/*
+                (int) StatsLogic.CalculateDamageAfterAr(defenderCharacter.CharacterLogic.Resistances.Armour.Calculate, skill.Damage);
+*/
+            defenderCharacter.CharacterLogic.Stats.Health.CurrentValue -= damageAfterReductions;
+            attackerCharacter.Stats.Stamina.CurrentValue -= skill.ApCost;
+            attackerCharacter.Stats.Mana.CurrentValue -= skill.MpCost;
             CheckIfDead(defenderCharacter);
         }
 
         private bool CheckIfDead(Character ch)
         {
-            if (ch.CharacterStats.CurrentHp <= 0) //Declare dead
+            if (ch.CharacterLogic.Stats.Health.CurrentValue <= 0) //Declare dead
             {
                 //Execute Cleanup function
                 DeadCleanup(ch);
@@ -201,7 +204,7 @@ namespace DDRemakeProject.GamePlay.Old
 
         public List<Action> GetAvailableActions(ActionTypes.ActionType actionType)
         {
-            return Characters[TurnSystem.CurrentCharIndex].CharacterStats.Actions
+            return Characters[TurnSystem.CurrentCharIndex].CharacterLogic.Actions
                 .Where(action => action.ActionType == actionType).ToList();
         }
     }

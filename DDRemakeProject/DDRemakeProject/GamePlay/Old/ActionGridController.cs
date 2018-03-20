@@ -19,10 +19,10 @@ namespace DDRemakeProject.GamePlay.Old
 
         public static void Activate(ActionTypes.ActionType actionType, BattleEngine battleEngine)
         {
-            Character currentCharacter = battleEngine.Characters[TurnSystem.CurrentCharIndex];
+           /* Character currentCharacter = battleEngine.Characters[TurnSystem.CurrentCharIndex];
             ActionGrid.Children.Clear();
 
-            List<Action> actions = currentCharacter.CharacterStats.Actions
+            List<Action> actions = currentCharacter.CharacterLogic.Actions
                 .Where(action => action.ActionType == actionType).ToList();
             List<AnimatedButtonController> animatedButtonControllers = new List<AnimatedButtonController>();
 
@@ -44,7 +44,7 @@ namespace DDRemakeProject.GamePlay.Old
                     action.ActionType, battleEngine));
                 ActionGrid.Children.Add(animatedButton);
                 left += 40;
-            });
+            });*/
         }
 
         private static void InitiateFight(object sender, MouseButtonEventArgs e)

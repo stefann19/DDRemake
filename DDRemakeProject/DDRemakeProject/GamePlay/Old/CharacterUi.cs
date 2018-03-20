@@ -1,7 +1,12 @@
-﻿using System.Windows.Controls;
+﻿using System;
+using System.Windows.Controls;
 using System.Windows.Input;
+using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using DDRemakeProject.GamePlay.New;
 using DDRemakeProject.UserControls;
+using WpfAnimatedGif;
+using Path = System.IO.Path;
 
 namespace DDRemakeProject.GamePlay.Old
 {
@@ -19,6 +24,9 @@ namespace DDRemakeProject.GamePlay.Old
         public CharAvatar CharAvatarControl { get; }
         public CharIcon CharIconControl { get; }
 
+        public string CharacterPng { get; set; }
+        public string CharacterIconPng { get; set; }
+
 
         public CharacterUi(CharAvatar charAvatarControl, CharIcon charIconControl)
         {
@@ -29,7 +37,29 @@ namespace DDRemakeProject.GamePlay.Old
             CharAvatarControl.HitBox.MouseLeave += HitBoxOnMouseLeave;
             CharAvatarControl.HitBox.MouseDown += HitBox_MouseDown;
             _scalingType = ScaleType.NoScaling;
+            CharacterSetup();
         }
+        private void CharacterSetup()
+        {
+            CharacterPng = "../../Assets/char/paladin/idle2.gif";
+            CharacterIconPng = "../../Assets/char/paladin/faceset.png";
+            string path = System.IO.Path.Combine(Environment.CurrentDirectory, CharacterPng);
+
+            ImageBehavior.SetAnimatedSource(CharAvatarControl.AvatarImage,
+                new BitmapImage(new Uri(path)));
+            path = Path.Combine(Environment.CurrentDirectory, CharacterIconPng);
+            CharIconControl.Icon.Source = new BitmapImage(new Uri(path));
+/*
+            UpdateHpUi();
+*/
+        }
+        public void UpdateHpUi()
+        {
+            CharIconControl.HpValue.Text = $"{ParentCharacter.CharacterLogic.Stats.Health.CurrentValue} / {ParentCharacter.CharacterLogic.Stats.Health.MaxValue}";
+            CharIconControl.HpValueRect.Width =
+                Math.Max(0d, ParentCharacter.CharacterLogic.Stats.Health.CurrentValue * 78f / ParentCharacter.CharacterLogic.Stats.Health.MaxValue);
+        }
+
 
 
         public void AssignCharactersToUi(Character character)
