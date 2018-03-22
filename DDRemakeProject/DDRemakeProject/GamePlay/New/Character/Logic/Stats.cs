@@ -5,10 +5,10 @@
         public Stats(CharacterLogic characterLogic)
         {
             CharacterLogic = characterLogic;
-            double enduranceValue = characterLogic.Traits.Endurance.Value;
-            double strengthValue = characterLogic.Traits.Strength.Value;
-            double intelligenceValue = characterLogic.Traits.Intelligence.Value;
-            double agilityValue = characterLogic.Traits.Agility.Value;
+            double enduranceValue = characterLogic.Traits.Endurance;
+            double strengthValue = characterLogic.Traits.Strength;
+            double intelligenceValue = characterLogic.Traits.Intelligence;
+            double agilityValue = characterLogic.Traits.Agility;
             int level = characterLogic.Level.CurrentLevel;
 
             double health = enduranceValue * 7 + strengthValue * 3;

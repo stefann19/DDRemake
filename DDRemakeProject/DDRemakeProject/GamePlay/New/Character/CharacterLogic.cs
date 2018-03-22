@@ -12,8 +12,31 @@ namespace DDRemakeProject.GamePlay.New
     public class CharacterLogic
     {
 
+
+        public CharacterLogic(Races race, int level, int strength,int agility,int endurance,int intelligence)
+        {
+            Level = new Level(this, level, () => Level.TargetXp * 1.2f);
+            Race = Race.GetRaceFromEnum(race);
+            Traits = new Traits(this,strength,agility,intelligence,endurance);
+            Resistances = new Resistances(this);
+            Stats = new Stats(this);
+            Modifiers = new Modifiers(this);
+            GetDefaultActions();
+        }
+
         public CharacterLogic(Traits traits)
         {
+            Traits = traits;
+            Level = new Level(this, 1, () => Level.TargetXp * 1.2f);
+            Resistances = new Resistances(this);
+            Stats = new Stats(this);
+            Modifiers = new Modifiers(this);
+            GetDefaultActions();
+        }
+
+        public CharacterLogic(Race race,Traits traits)
+        {
+            Race = race;
             Traits = traits;
             Level = new Level(this,1,() => Level.TargetXp * 1.2f);
             Resistances = new Resistances(this);
@@ -24,6 +47,7 @@ namespace DDRemakeProject.GamePlay.New
 
         public void LevelUp()
         {
+           
             Resistances = new Resistances(this);
             Stats = new Stats(this);
             Modifiers = new Modifiers(this);
@@ -39,7 +63,7 @@ namespace DDRemakeProject.GamePlay.New
         public Resistances Resistances { get; set; }
         public Modifiers Modifiers { get; set; }
         public Level Level { get; set; }
-        
+        public Race Race { get; set; }
 
 
 

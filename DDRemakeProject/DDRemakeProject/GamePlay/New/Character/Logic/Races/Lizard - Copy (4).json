@@ -1,0 +1,25 @@
+{
+  "Name": "Lizard",
+  "AvatarPath": "../../Assets/monster/dino/idle2.gif",
+  "IconPath": "../../Assets/monster/dino/idle.gif",
+  "StrengthGrowth": 3,
+  "AgilityGrowth": 1,
+  "IntelligenceGrowth": 2,
+  "EnduranceGrowth": 4,
+  "ArmourResistanceFactors": {
+    "Flat": 0.2,
+    "Percentage": 0.3
+  },
+  "AirResistanceFactors": {
+    "Flat": 0.2,
+    "Percentage": 0.3
+  },
+  "FireArmourResistanceFactors": {
+    "Flat": 0.4,
+    "Percentage": 0.4
+  },
+  "WaterResistanceFactors": {
+    "Flat": 0.4,
+    "Percentage": 0.3
+  }
+}

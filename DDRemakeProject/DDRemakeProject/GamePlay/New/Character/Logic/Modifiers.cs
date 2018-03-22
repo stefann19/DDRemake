@@ -1,21 +1,27 @@
-﻿namespace DDRemakeProject.GamePlay.New.Character.Logic
+﻿using System;
+using System.Collections.Generic;
+using System.Linq.Expressions;
+using NReco.Linq;
+
+namespace DDRemakeProject.GamePlay.New.Character.Logic
 {
     public class Modifiers
     {
         public Modifiers(CharacterLogic characterLogic)
         {
-            double enduranceValue = characterLogic.Traits.Endurance.Value;
-            double strengthValue = characterLogic.Traits.Strength.Value;
-            double intelligenceValue = characterLogic.Traits.Intelligence.Value;
-            double agilityValue = characterLogic.Traits.Agility.Value;
-            int level = characterLogic.Level.CurrentLevel;
+            CharacterLogic = characterLogic;
 
-            PhysicalAttack = strengthValue * 5 + level * 2 + agilityValue * 3;
-            FireAttack = strengthValue * 3 + intelligenceValue * 7;
-            WaterAttack = intelligenceValue * 3 + agilityValue * 4 + strengthValue *3;
-            AirAttack = intelligenceValue * 8 + agilityValue * 2;
-            EarthAttack = enduranceValue * 3 + intelligenceValue * 4 + strengthValue *3;
+            LambdaParser lambdaParser = new NReco.Linq.LambdaParser();
+            Dictionary<string, object> varContext = new Dictionary<string, object> {["traits"] = characterLogic.Traits};
+
+            PhysicalAttack =  double.Parse(lambdaParser.Eval(characterLogic.Race.ArmourAttackFormulaString, varContext).ToString());
+            FireAttack = double.Parse(lambdaParser.Eval(characterLogic.Race.FireAttackFormulaString, varContext).ToString());
+            WaterAttack = double.Parse(lambdaParser.Eval(characterLogic.Race.WaterAttackFormulaString, varContext).ToString());
+            AirAttack = double.Parse(lambdaParser.Eval(characterLogic.Race.AirAttackFormulaString, varContext).ToString());
+            EarthAttack = double.Parse(lambdaParser.Eval(characterLogic.Race.EarthAttackFormulaString, varContext).ToString());
         }
+
+        public CharacterLogic CharacterLogic { get; set; }
 
         public double PhysicalAttack { get; set; }
         public double FireAttack { get; set; }

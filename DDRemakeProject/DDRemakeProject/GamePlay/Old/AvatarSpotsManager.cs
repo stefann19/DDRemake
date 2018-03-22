@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace DDRemakeProject.GamePlay.Old
 {
@@ -23,8 +24,8 @@ namespace DDRemakeProject.GamePlay.Old
             
         }
 
-        private static readonly List<Tuple<CharacterUi,bool>> AvailableAllySpots;
-        private static readonly List<Tuple<CharacterUi, bool>> AvailableEnemySpots;
+        private static List<Tuple<CharacterUi,bool>> AvailableAllySpots;
+        private static List<Tuple<CharacterUi, bool>> AvailableEnemySpots;
 
         public static CharacterUi GetSpot(CharacterTypes.Type type)
         {
@@ -52,8 +53,16 @@ namespace DDRemakeProject.GamePlay.Old
             }
             else
             {
-                FreeSpotForList(charAvater, AvailableAllySpots);
+                FreeSpotForList(charAvater, AvailableEnemySpots);
             }
+        }
+
+
+        public static void FreeAllSpots()
+        {
+            AvailableAllySpots = AvailableAllySpots.Select(all => new Tuple<CharacterUi, bool>(all.Item1, true)).ToList();
+            AvailableEnemySpots = AvailableEnemySpots.Select(all => new Tuple<CharacterUi, bool>(all.Item1, true)).ToList();
+
         }
 
         private static void FreeSpotForList(CharacterUi charUi, List<Tuple<CharacterUi, bool>> list)

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
@@ -26,7 +27,22 @@ namespace DDRemakeProject
         {
             InitializeComponent();
             this._currentBattleEngine = currentBattleEngine;
+            this.Closing += BattleWindow_Closing;
         }
+
+        private void BattleWindow_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+
+            MessageBoxResult result = MessageBox.Show("Do you want to close this window?", "Confirmation", MessageBoxButton.YesNo, MessageBoxImage.Question);
+            if (result == MessageBoxResult.No)
+            {
+                e.Cancel = true;
+                return;
+                
+            }
+            AvatarSpotsManager.FreeAllSpots();
+        }
+
 
         //private void ScrollBar_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
         //{
@@ -211,5 +227,6 @@ namespace DDRemakeProject
             //if (ActionGrid.Children.Count > 0) ActionGrid.Children.Clear();
             
         }
+       
     }
 }

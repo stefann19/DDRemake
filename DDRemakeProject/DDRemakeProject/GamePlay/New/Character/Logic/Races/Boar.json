@@ -1,0 +1,25 @@
+{
+  "Name": "Boar",
+  "AvatarPath": "../../Assets/monster/boar/idle2.gif",
+  "IconPath": "../../Assets/monster/boar/idle.gif",
+  "StrengthGrowth": 4,
+  "AgilityGrowth": 1,
+  "IntelligenceGrowth": 1,
+  "EnduranceGrowth": 5,
+  "ArmourResistanceFactors": {
+    "Flat": 0.4,
+    "Percentage": 0.5
+  },
+  "AirResistanceFactors": {
+    "Flat": 0.3,
+    "Percentage": 0.3
+  },
+  "FireArmourResistanceFactors": {
+    "Flat": 0.3,
+    "Percentage": 0.2
+  },
+  "WaterResistanceFactors": {
+    "Flat": 0.2,
+    "Percentage": 0.1
+  }
+}

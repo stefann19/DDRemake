@@ -2,25 +2,43 @@
 {
     public class Traits
     {
+        public Traits(CharacterLogic characterLogic,int strength, int agility, int intelligence, int endurance)
+        {
+            CharacterLogic = characterLogic;
+            StrengthTrait = new Trait(strength,characterLogic.Race.StrengthGrowth);
+            AgilityTrait = new Trait(agility, characterLogic.Race.AgilityGrowth); 
+            IntelligenceTrait = new Trait(intelligence, characterLogic.Race.IntelligenceGrowth); 
+            EnduranceTrait = new Trait(endurance, characterLogic.Race.EnduranceGrowth); 
+        }
         public Traits(Trait strength, Trait agility, Trait intelligence, Trait endurance)
         {
-            Strength = strength;
-            Agility = agility;
-            Intelligence = intelligence;
-            Endurance = endurance;
+            StrengthTrait = strength;
+            AgilityTrait = agility;
+            IntelligenceTrait = intelligence;
+            EnduranceTrait = endurance;
         }
-
         public Traits(int strength, int agility, int intelligence, int endurance)
         {
-            Strength = new Trait(strength);
-            Agility = new Trait(agility);
-            Intelligence = new Trait(intelligence);
-            Endurance = new Trait(endurance);
+            //StrengthTrait = new Trait(strength,0);
+            //AgilityTrait = new Trait(agility,0);
+            //IntelligenceTrait = new Trait(intelligence,0);
+            //EnduranceTrait = new Trait(endurance,0);
         }
 
-        public Trait Strength { get; set; }
-        public Trait Agility { get; set; }
-        public Trait Intelligence { get; set; }
-        public Trait Endurance { get; set; }
+
+        public double Strength => StrengthTrait.Value(_level);
+        public double Agility => AgilityTrait.Value(_level);
+        public double Intelligence => IntelligenceTrait.Value(_level);
+        public double Endurance => EnduranceTrait.Value(_level);
+
+
+
+        private int _level => CharacterLogic?.Level.CurrentLevel ?? 0;
+
+        public CharacterLogic CharacterLogic { get; set; }
+        private Trait StrengthTrait { get; set; }
+        private Trait AgilityTrait { get; set; }
+        private Trait IntelligenceTrait { get; set; }
+        private Trait EnduranceTrait { get; set; }
     }
 }

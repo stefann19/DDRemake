@@ -2,11 +2,14 @@
 {
     public class Trait
     {
-        public Trait(double value)
+        public Trait(double value,double growthPerLevel)
         {
-            Value = value;
+            @base = value;
+            _growthPerLevel = growthPerLevel;
         }
 
-        public double Value { get; set; }
+        private double @base;
+        private double _growthPerLevel;
+        public double Value(int level) => @base + _growthPerLevel * level;
     }
 }
