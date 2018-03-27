@@ -26,10 +26,10 @@
         }
 
 
-        public double Strength => StrengthTrait.Value(_level);
-        public double Agility => AgilityTrait.Value(_level);
-        public double Intelligence => IntelligenceTrait.Value(_level);
-        public double Endurance => EnduranceTrait.Value(_level);
+        public double Strength => StrengthTrait?.Value(_level) ?? 0;
+        public double Agility => AgilityTrait?.Value(_level) ?? 0;
+        public double Intelligence => IntelligenceTrait?.Value(_level) ?? 0;
+        public double Endurance => EnduranceTrait?.Value(_level) ?? 0;
 
 
 

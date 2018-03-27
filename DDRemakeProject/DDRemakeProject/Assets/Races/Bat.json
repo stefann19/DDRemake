@@ -1,0 +1,34 @@
+{
+  "Name": "Bat",
+  "AvatarPath": "../../Assets/monster/bat/idle.gif",
+  "IconPath": "../../Assets/monster/bat/idle2.gif",
+  "StrengthGrowth": 1,
+  "AgilityGrowth": 2,
+  "IntelligenceGrowth": 5,
+  "EnduranceGrowth": 2,
+  "ArmourResistanceFactors": {
+    "Flat": 0.05,
+    "Percentage": 0.05
+  },
+  "AirResistanceFactors": {
+    "Flat": 0.4,
+    "Percentage": 0.6
+  },
+  "FireArmourResistanceFactors": {
+    "Flat": 0.3,
+    "Percentage": 0.4
+  },
+  "WaterResistanceFactors": {
+    "Flat": 0.3,
+    "Percentage": 0.5
+  },
+  "EarthResistanceFactors": {
+    "Flat": 0.2,
+    "Percentage": 0.2
+  },
+  "ArmourAttackFormulaString": "(traits.Strength * 3+ traits.Agility * 3 )",
+  "FireAttackFormulaString": "(traits.Intelligence * 7 + traits.Agility * 3)",
+  "WaterAttackFormulaString": "(traits.Agility * 6)",
+  "AirAttackFormulaString": "( traits.Intelligence * 5 + traits.Agility * 2)",
+  "EarthAttackFormulaString": "( traits.Strength * 2 + traits.Endurance * 4)"
+}

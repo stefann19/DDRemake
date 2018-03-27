@@ -1,0 +1,34 @@
+{
+  "Name": "Mage",
+  "AvatarPath": "../../Assets/char/mage/idle.gif",
+  "IconPath": "../../Assets/char/mage/idle2.gif",
+  "StrengthGrowth": 1,
+  "AgilityGrowth": 2,
+  "IntelligenceGrowth": 5,
+  "EnduranceGrowth": 2,
+  "ArmourResistanceFactors": {
+    "Flat": 0.2,
+    "Percentage": 0.15
+  },
+  "AirResistanceFactors": {
+    "Flat": 0.7,
+    "Percentage": 0.8
+  },
+  "FireArmourResistanceFactors": {
+    "Flat": 0.8,
+    "Percentage": 0.9
+  },
+  "WaterResistanceFactors": {
+    "Flat": 0.6,
+    "Percentage": 0.8
+  },
+  "EarthResistanceFactors": {
+    "Flat": 0.2,
+    "Percentage": 0.1
+  },
+  "ArmourAttackFormulaString": "(traits.Intelligence * 3+ traits.Agility * 6 )",
+  "FireAttackFormulaString": "(traits.Intelligence * 7 +traits.Agility * 6)",
+  "WaterAttackFormulaString": "(traits.Intelligence * 6 + traits.Agility * 7)",
+  "AirAttackFormulaString": "( traits.Intelligence * 8 + traits.Agility * 5)",
+  "EarthAttackFormulaString": "( traits.Strength * 4 + traits.Endurance * 4 +traits.Intelligence * 5)"
+}

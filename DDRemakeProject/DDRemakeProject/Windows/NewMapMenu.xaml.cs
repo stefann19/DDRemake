@@ -1,4 +1,5 @@
 ﻿using System.Windows;
+using DDRemakeProject.Windows;
 using DDRemakeProject.World;
 
 namespace DDRemakeProject
@@ -6,7 +7,7 @@ namespace DDRemakeProject
     /// <summary>
     /// Interaction logic for NewMapMenu.xaml
     /// </summary>
-    public partial class NewMapMenu : Window
+    public partial class NewMapMenu 
     {
         public NewMapMenu()
         {
@@ -21,6 +22,9 @@ namespace DDRemakeProject
                 Size mapSize = new Size(int.Parse(textBoxWidth.Text), int.Parse(textBoxHeight.Text));
                 MapBasicInfo map = new MapBasicInfo(textBoxName.Text,mapSize);
                 MapWindow window = new MapWindow(false, map);
+/*
+                CharacterCreationMenu window = new CharacterCreationMenu();
+*/
                 window.Show();
                 this.Close();
             }

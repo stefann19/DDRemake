@@ -1,0 +1,34 @@
+{
+  "Name": "Paladin",
+  "AvatarPath": "../../Assets/char/paladin/idle.gif",
+  "IconPath": "../../Assets/char/paladin/idle2.gif",
+  "StrengthGrowth": 5,
+  "AgilityGrowth": 1,
+  "IntelligenceGrowth": 2,
+  "EnduranceGrowth": 5,
+  "ArmourResistanceFactors": {
+    "Flat": 0.9,
+    "Percentage": 0.7
+  },
+  "AirResistanceFactors": {
+    "Flat": 0.4,
+    "Percentage": 0.5
+  },
+  "FireArmourResistanceFactors": {
+    "Flat": 0.3,
+    "Percentage": 0.2
+  },
+  "WaterResistanceFactors": {
+    "Flat": 0.6,
+    "Percentage": 0.4
+  },
+  "EarthResistanceFactors": {
+    "Flat": 0.7,
+    "Percentage": 0.8
+  },
+  "ArmourAttackFormulaString": "(traits.Strength * 7+ traits.Agility * 2 +traits.Endurance* 6 )",
+  "FireAttackFormulaString": "(traits.Strength * 4 + traits.Intelligence * 2 +traits.Agility * 2)",
+  "WaterAttackFormulaString": "(traits.Intelligence * 2 + traits.Agility * 2)",
+  "AirAttackFormulaString": "( traits.Agility * 2 +traits.Intelligence * 3)",
+  "EarthAttackFormulaString": "( traits.Strength * 5 + traits.Endurance * 4 +traits.Agility * 4)"
+}

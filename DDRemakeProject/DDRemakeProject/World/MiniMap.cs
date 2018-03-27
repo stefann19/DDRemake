@@ -9,6 +9,7 @@ using System.Windows.Controls;
 using DDRemakeProject.GamePlay.New;
 using DDRemakeProject.GamePlay.New.Character.Logic;
 using DDRemakeProject.GamePlay.Old;
+using MahApps.Metro.SimpleChildWindow;
 using Newtonsoft.Json;
 using Point = System.Windows.Point;
 using Size = System.Windows.Size;
@@ -109,12 +110,25 @@ namespace DDRemakeProject.World
                     RoomModule s = (RoomModule)shape;
                     s.Roads.ForEach(road=> AddVisitedItem(road));
 
-                    List<CharacterLogic> allyCharacters = new List<CharacterLogic>{new CharacterLogic(new Traits(10,10,10,10)), new CharacterLogic(new Traits(10, 10, 10, 10)) , new CharacterLogic(new Traits(10, 10, 10, 10)) };
-                    List<CharacterLogic> enemyCharacters = new List<CharacterLogic> { new CharacterLogic(new Traits(10, 10, 10, 10)), new CharacterLogic(new Traits(10, 10, 10, 10)), new CharacterLogic(new Traits(10, 10, 10, 10)) };
+                    List<CharacterLogic> allyCharacters = new List<CharacterLogic>
+                    {
+                        new CharacterLogic(race: Races.Warrior,level: 1,strength: 2,agility: 1,endurance: 2,intelligence: 3),
+                        new CharacterLogic(race: Races.Mage,level: 2,strength: 1,agility: 2,endurance: 3,intelligence: 2),
+                         new CharacterLogic(race: Races.Paladin,level: 1,strength: 4,agility: 2,endurance: 1,intelligence: 2)
+                    };
+                    List<CharacterLogic> enemyCharacters = new List<CharacterLogic> {
 
+                        new CharacterLogic(race: Races.Boar,level: 1,strength: 2,agility: 1,endurance: 2,intelligence: 3),
+                        new CharacterLogic(race: Races.Bat,level: 2,strength: 1,agility: 2,endurance: 3,intelligence: 2),
+                        new CharacterLogic(race: Races.Dragon,level: 2,strength: 4,agility: 2,endurance: 1,intelligence: 2)
+                    };
                     BattleEngine battleEngine = new BattleEngine(allyCharacters,enemyCharacters);
                     BattleWindow battleWindow = BattleEngine.BattleWindowUi;
+                    Engine.MapWindow.ShowChildWindowAsync(battleWindow);
+
+/*
                     battleWindow.Show();
+*/
                 }
 
                 return t;

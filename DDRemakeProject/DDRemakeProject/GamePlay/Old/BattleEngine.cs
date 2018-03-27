@@ -38,7 +38,7 @@ namespace DDRemakeProject.GamePlay.Old
         public BattleEngine(IEnumerable<CharacterLogic> allyCharacters, IEnumerable<CharacterLogic> enemyCharacters)
         {
             WaitForAnimation = false;
-            BattleWindowUi = new BattleWindow(this);
+            BattleWindowUi = new BattleWindow(this){IsModal = false};
             ActionGrid = new ActionGridController(BattleWindowUi.ActionGrid);
             //GenerateMap();
 
@@ -47,6 +47,9 @@ namespace DDRemakeProject.GamePlay.Old
                 Characters.Add(new Character(characterStats, CharacterTypes.Type.Ally, this));
             foreach (CharacterLogic characterStats in enemyCharacters)
                 Characters.Add(new Character(characterStats, CharacterTypes.Type.Enemy, this));
+
+
+
             InitialiseBottomRightMiniWindows();
             InitialiseButtons();
             //UiBackEndInstance.SetPopOutWindow(BWindow.PopOutWindow);

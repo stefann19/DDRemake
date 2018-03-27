@@ -32,8 +32,8 @@ namespace DDRemakeProject.GamePlay.Old
             Status = CharacterTypes.Status.Alive;
             Type = type;
             BattleEngine = battleEngine;
-            CharacterUiControl = AvatarSpotsManager.GetSpot(Type);
-            CharacterUiControl.AssignCharactersToUi(this);
+            CharacterUiControl = AvatarSpotsManager.GetSpot(type: Type);
+            CharacterUiControl.AssignCharactersToUi(character: this);
         }
 
 

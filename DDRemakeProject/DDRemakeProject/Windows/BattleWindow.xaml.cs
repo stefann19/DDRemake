@@ -20,7 +20,7 @@ namespace DDRemakeProject
     /// <summary>
     /// Interaction logic for BattleWindow.xaml
     /// </summary>
-    public partial class BattleWindow : Window
+    public partial class BattleWindow
     {
         private readonly BattleEngine _currentBattleEngine;
         public BattleWindow(BattleEngine currentBattleEngine)

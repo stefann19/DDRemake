@@ -1,0 +1,34 @@
+{
+  "Name": "Bowman",
+  "AvatarPath": "../../Assets/char/bowman/idle.gif",
+  "IconPath": "../../Assets/char/bowman/idle2.gif",
+  "StrengthGrowth": 2,
+  "AgilityGrowth": 4,
+  "IntelligenceGrowth": 2,
+  "EnduranceGrowth": 2,
+  "ArmourResistanceFactors": {
+    "Flat": 0.4,
+    "Percentage": 0.45
+  },
+  "AirResistanceFactors": {
+    "Flat": 0.6,
+    "Percentage": 0.8
+  },
+  "FireArmourResistanceFactors": {
+    "Flat": 0.4,
+    "Percentage": 0.5
+  },
+  "WaterResistanceFactors": {
+    "Flat": 0.5,
+    "Percentage": 0.4
+  },
+  "EarthResistanceFactors": {
+    "Flat": 0.4,
+    "Percentage": 0.5
+  },
+  "ArmourAttackFormulaString": "(traits.Strength * 5+ traits.Agility * 8 )",
+  "FireAttackFormulaString": "(traits.Strength * 4 + traits.Intelligence * 4 +traits.Agility * 7)",
+  "WaterAttackFormulaString": "(traits.Intelligence * 2 + traits.Agility * 3)",
+  "AirAttackFormulaString": "( traits.Agility * 2)",
+  "EarthAttackFormulaString": "( traits.Strength * 3 + traits.Endurance * 4)"
+}

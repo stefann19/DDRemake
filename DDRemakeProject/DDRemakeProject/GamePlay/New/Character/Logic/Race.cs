@@ -14,15 +14,23 @@ namespace DDRemakeProject.GamePlay.New.Character.Logic
 {
     public enum Races
     {
+        Bat,
+        Boar,
         Dino,
-        Boar
+        Dragon,
+        Ghost,
+        Bowman,
+        Mage,
+        Paladin,
+        Warrior
+        
     }
     public class Race
     {
         private string _avatarPath;
         private string _iconPath;
 
-        public static string GetRaceLocation(Races race) => $"{AppDomain.CurrentDomain.BaseDirectory}\\Races\\{race.ToString()}.json";
+        public static string GetRaceLocation(Races race) => $"{AppDomain.CurrentDomain.BaseDirectory}\\Assets\\Races\\{race.ToString()}.json";
 
         public static Race GetRaceFromEnum(Races race)
         {

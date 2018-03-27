@@ -1,0 +1,34 @@
+{
+  "Name": "Boar",
+  "AvatarPath": "../../Assets/monster/boar/idle.gif",
+  "IconPath": "../../Assets/monster/boar/idle2.gif",
+  "StrengthGrowth": 3,
+  "AgilityGrowth": 4,
+  "IntelligenceGrowth": 1,
+  "EnduranceGrowth": 2,
+  "ArmourResistanceFactors": {
+    "Flat": 0.5,
+    "Percentage": 0.5
+  },
+  "AirResistanceFactors": {
+    "Flat": 0.25,
+    "Percentage": 0.25
+  },
+  "FireArmourResistanceFactors": {
+    "Flat": 0.35,
+    "Percentage": 0.35
+  },
+  "WaterResistanceFactors": {
+    "Flat": 0.3,
+    "Percentage": 0.2
+  },
+  "EarthResistanceFactors": {
+    "Flat": 0.4,
+    "Percentage": 0.4
+  },
+  "ArmourAttackFormulaString": "(traits.Strength * 4+ traits.Agility * 8 )",
+  "FireAttackFormulaString": "(traits.Intelligence * 3 + traits.Agility * 3)",
+  "WaterAttackFormulaString": "(traits.Intelligence * 10)",
+  "AirAttackFormulaString": "( traits.Intelligence * 3 + traits.Agility * 2)",
+  "EarthAttackFormulaString": "( traits.Strength * 6 + traits.Endurance * 10)"
+}

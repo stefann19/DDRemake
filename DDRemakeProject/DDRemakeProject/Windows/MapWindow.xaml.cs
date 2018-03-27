@@ -17,7 +17,7 @@ namespace DDRemakeProject
     /// <summary>
     /// Interaction logic for MapWindow.xaml
     /// </summary>
-    public partial class MapWindow : Window
+    public partial class MapWindow 
     {
         public static Canvas BackgroundCanvas;
         public static Canvas DynamicCanvas;
@@ -48,7 +48,7 @@ namespace DDRemakeProject
             //Canvas.MouseWheel += new MouseWheelEventHandler(mainWindow_MouseWheel);
 
             Closing += OnWindowClosing;
-            DoShit();
+            DoStuff();
 
             Canvas.Width = map.Size.Width * Constants.TilePx;
             Canvas.Height = map.Size.Height * Constants.TilePx;
@@ -85,7 +85,7 @@ namespace DDRemakeProject
         }
 
         private Engine _engine;
-        private void DoShit()
+        private void DoStuff()
         {
             if (!_loadFromFile)
             {

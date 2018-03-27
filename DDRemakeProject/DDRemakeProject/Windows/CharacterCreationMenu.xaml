@@ -1,0 +1,19 @@
+﻿<Controls:MetroWindow x:Class="DDRemakeProject.Windows.CharacterCreationMenu"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
+        xmlns:simpleChildWindow="clr-namespace:MahApps.Metro.SimpleChildWindow;assembly=MahApps.Metro.SimpleChildWindow"
+        xmlns:local="clr-namespace:DDRemakeProject.Windows"
+        mc:Ignorable="d"
+        Title="CharacterCreationMenu" Height="300" Width="300">
+    <StackPanel Name="StackPanelMain">
+		<StackPanel Name="StackPanelCharacters" Orientation="Horizontal">
+			<Button Controls:ControlsHelper.CornerRadius="0" Content="John"></Button>
+			<Button Controls:ControlsHelper.CornerRadius="0" Content="Doe"></Button>
+			<Button Controls:ControlsHelper.CornerRadius="1000" Content=" + "></Button>
+		</StackPanel>
+		
+	</StackPanel>
+</Controls:MetroWindow>

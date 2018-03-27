@@ -1,0 +1,34 @@
+{
+  "Name": "Dragon",
+  "AvatarPath": "../../Assets/monster/dragon/idle.gif",
+  "IconPath": "../../Assets/monster/dragon/idle.gif",
+  "StrengthGrowth": 4,
+  "AgilityGrowth": 3,
+  "IntelligenceGrowth": 4,
+  "EnduranceGrowth": 4,
+  "ArmourResistanceFactors": {
+    "Flat": 1,
+    "Percentage": 0.5
+  },
+  "AirResistanceFactors": {
+    "Flat": 0.8,
+    "Percentage": 1.5
+  },
+  "FireArmourResistanceFactors": {
+    "Flat": 5,
+    "Percentage": 10
+  },
+  "WaterResistanceFactors": {
+    "Flat": 0.3,
+    "Percentage": 0.4
+  },
+  "EarthResistanceFactors": {
+    "Flat": 0.7,
+    "Percentage": 0.3
+  },
+  "ArmourAttackFormulaString": "(traits.Strength * 7+ traits.Agility * 8 + traits.Endurance * 6 )",
+  "FireAttackFormulaString": "(traits.Intelligence * 8 + traits.Agility * 4 + traits.Strength * 6)",
+  "WaterAttackFormulaString": "(traits.Agility * 4 + traits.Intelligence * 1)",
+  "AirAttackFormulaString": "( traits.Intelligence * 10 + traits.Agility * 6)",
+  "EarthAttackFormulaString": "( traits.Strength * 3 + traits.Endurance * 7)"
+}

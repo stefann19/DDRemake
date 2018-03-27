@@ -22,19 +22,24 @@ namespace DDRemakeProject.World
         {
             if(engine==null)return;
             
-            Tile = new Tile(engine.Generator.Size, new RoomModule(), Tile.TypeEnum.Wall)
+            Tile = new Tile(position: engine.Generator.Size, multiTileShape: new RoomModule(), type: Tile.TypeEnum.Wall)
             {
                 Rect = {Fill = Brushes.DarkBlue},
                 Position = engine.Generator.Rooms.First().Rect.LocationCenter()
             };
 
 
-            MapWindow.BackgroundCanvas.Children.Remove(Tile.Rect);
-            MapWindow.DynamicCanvas.Children.Add(Tile.Rect);
+            MapWindow.BackgroundCanvas.Children.Remove(element: Tile.Rect);
+            MapWindow.DynamicCanvas.Children.Add(element: Tile.Rect);
             Engine = engine;
 
-            List<Character> characters = new List<Character>{new Character(5,5,5,5),new Character(10,5,2,3),new Character(2,2,10,6)};
-            Party = new Party(characters);
+            List<Character> characters = new List<Character>
+            {
+                new Character(characterLogic: new CharacterLogic(race: Races.Warrior,level: 1,strength: 2,agility: 1,endurance: 2,intelligence: 3))
+                ,new Character(characterLogic: new CharacterLogic(race: Races.Mage,level: 2,strength: 1,agility: 2,endurance: 3,intelligence: 2)),
+                new Character(characterLogic: new CharacterLogic(race: Races.Paladin,level: 1,strength: 4,agility: 2,endurance: 1,intelligence: 2))
+            };
+            Party = new Party(characters: characters);
 
         }
 
@@ -48,26 +53,26 @@ namespace DDRemakeProject.World
         {
             if (e.IsRepeat) return;
             Vector movingVector = e.Key == Key.S
-                ? new Vector(0, 1)
-                : new Vector(0, 0)
-                  + (e.Key == Key.W ? new Vector(0, -1) : new Vector(0, 0))
-                  + (e.Key == Key.A ? new Vector(-1, 0) : new Vector(0, 0))
-                  + (e.Key == Key.D ? new Vector(1, 0) : new Vector(0, 0));
+                ? new Vector(x: 0, y: 1)
+                : new Vector(x: 0, y: 0)
+                  + (e.Key == Key.W ? new Vector(x: 0, y: -1) : new Vector(x: 0, y: 0))
+                  + (e.Key == Key.A ? new Vector(x: -1, y: 0) : new Vector(x: 0, y: 0))
+                  + (e.Key == Key.D ? new Vector(x: 1, y: 0) : new Vector(x: 0, y: 0));
 
             //_r.Rect.Margin = new Thickness();
             Tile.TypeEnum lastType = CurrentTile.Type;
             Engine.MiniMap.MovePlayer();
-            if (Engine.Generator.Tiles[Tile.Position + movingVector]?.Type != Tile.TypeEnum.Wall)
+            if (Engine.Generator.Tiles[key: Tile.Position + movingVector]?.Type != Tile.TypeEnum.Wall)
             {
                 Tile.Position += movingVector;
                 //e.Handled = true;
                 if (!Engine.Camera.CheatsActivated)
                 {
-                    Engine.Camera.Follow(movingVector);
+                    Engine.Camera.Follow(movementVector: movingVector);
                     if (lastType == Tile.TypeEnum.Door)
                     {
                         Engine.Camera.Zoom();
-                        Engine.MiniMap.AddVisitedItem(CurrentMultiTileShape);
+                        Engine.MiniMap.AddVisitedItem(shape: CurrentMultiTileShape);
                     }
                 }
             }
@@ -79,8 +84,8 @@ namespace DDRemakeProject.World
         {
             get
             {
-                if (!Engine.Generator.Tiles.ContainsKey(Tile.Position)) return null;
-                else return Engine.Generator.Tiles[Tile.Position];
+                if (!Engine.Generator.Tiles.ContainsKey(key: Tile.Position)) return null;
+                else return Engine.Generator.Tiles[key: Tile.Position];
             }
         }
         [JsonIgnore]

@@ -10,7 +10,7 @@ namespace DDRemakeProject
     /// <summary>
     ///     Interaction logic for MainMenu.xaml
     /// </summary>
-    public partial class MainMenu : Window
+    public partial class MainMenu 
     {
         public MainMenu()
         {
@@ -40,27 +40,7 @@ namespace DDRemakeProject
            BattleEngine be = new BattleEngine(allies, enemies);
            BattleWindow window = BattleEngine.BattleWindowUi;*/
 
-            Race dino = new Race(name: Races.Dino, iconPath: "../../Assets/monster/dino/idle2.gif",
-                avatarPath: "../../Assets/monster/dino/idle.gif", strengthGrowth: 3, agilityGrowth: 1, intelligenceGrowth: 2, enduranceGrowth: 4,
-                armourResistanceFactors: new Race.Resist(flat: 0.2, percentage: 0.3), airResistanceFactors: new Race.Resist(flat: 0.2, percentage: 0.3), fireArmourResistanceFactors: new Race.Resist(flat: 0.4, percentage: 0.4),
-                waterResistanceFactors: new Race.Resist(flat: 0.4, percentage: 0.3),
-                earthResistanceFactors: new Race.Resist(flat: 0.2, percentage: 0.3),
-                armourAttackFormulaString: "(traits.Strength * 5+ traits.Agility * 6 )", fireAttackFormulaString: "(traits.Strength * 5 + traits.Agility * 6)",
-                waterAttackFormulaString: "(traits.Strength * 5 + traits.Agility * 6)", airAttackFormulaString: "( traits.Strength * 5 + traits.Agility * 6)",
-                earthAttackFormulaString: "( traits.Strength * 5 + traits.Agility * 6)");
-            string te = JsonConvert.SerializeObject(value: dino, formatting: Formatting.Indented);
 
-            File.WriteAllText(path: Race.GetRaceLocation(race: dino.Name), contents: te);
-
-            dino = JsonConvert.DeserializeObject<Race>(value: File.ReadAllText(path: Race.GetRaceLocation(race: dino.Name)));
-
-            Character ch =
-                new Character(
-                    characterLogic: new CharacterLogic(race: Races.Dino,level: 10, agility: 10, endurance: 10, strength: 10, intelligence: 10),
-                    type: CharacterTypes.Type.Ally, battleEngine: null);
-
-
-            Race dinoCon = JsonConvert.DeserializeObject<Race>(value: te);
 
 
             NewMapMenu window = new NewMapMenu();
