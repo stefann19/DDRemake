@@ -14,21 +14,52 @@
         <BitmapImage UriSource="../Assets/monster/bat/idle.gif"  x:Key="Race"></BitmapImage>
     </UserControl.Resources>
     <Canvas SnapsToDevicePixels="True" >
-        <Rectangle  RadiusX="10" RadiusY="10" StrokeDashCap="Triangle" StrokeDashArray="8" Style="{DynamicResource SimpleSection}" HorizontalAlignment="Left" Height="60.4" Width="143.733" Canvas.Left="10" Canvas.Top="10"/>
-        <TextBox Foreground="{DynamicResource AccentColorBrush}"  mah:TextBoxHelper.Watermark="Name"  HorizontalAlignment="Left" Height="17.067" TextWrapping="Wrap"  Width="108.267" Canvas.Left="28.266" Canvas.Top="26"/>
-        <Rectangle  RadiusX="10" RadiusY="10" StrokeDashCap="Triangle" StrokeDashArray="8" Style="{DynamicResource SimpleSection}" HorizontalAlignment="Left" Height="60" Width="296" Canvas.Left="10" Canvas.Top="87"/>
-        <Rectangle  RadiusX="10" RadiusY="10" StrokeDashCap="Triangle" StrokeDashArray="8" Style="{DynamicResource SimpleSection}" HorizontalAlignment="Left" Height="252" Width="296" Canvas.Left="10" Canvas.Top="162"/>
-        <Rectangle  RadiusX="10" RadiusY="10" StrokeDashCap="Triangle" StrokeDashArray="8" Style="{DynamicResource SimpleSection}" HorizontalAlignment="Left" Height="480" Width="304" Canvas.Left="311" Canvas.Top="10"/>
+        <!--        Name-->
+        <Grid x:Name="GridName" Height="68.4" Canvas.Left="10" Canvas.Top="10" Width="296">
+            <Rectangle  RadiusX="10" RadiusY="10" StrokeDashCap="Triangle" StrokeDashArray="8" Style="{DynamicResource SimpleSection}"/>
+            <TextBox Foreground="{DynamicResource AccentColorBrush}"  mah:TextBoxHelper.Watermark="Insert name here" Height="17.067" TextWrapping="Wrap" VerticalAlignment="Center" MinHeight="25" HorizontalAlignment="Center" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
+            <TextBlock HorizontalAlignment="Center" Height="23.333" TextWrapping="Wrap" VerticalAlignment="Top" Width="94" TextAlignment="Center" Style="{DynamicResource HeaderSection}" Margin="101,0" Text="Name"/>
+        </Grid>
+        <Grid x:Name="GridLevel" Height="79" Canvas.Left="10" Canvas.Top="168" Width="296">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="25*"/>
+                <RowDefinition Height="50*"/>
+                <RowDefinition Height="15*"/>
+            </Grid.RowDefinitions>
 
-        <userControls:TextWithArrows Canvas.Left="28" Canvas.Top="98"  Width="263" Title="Level" Value="1"></userControls:TextWithArrows>
-        <userControls:TextWithArrows Canvas.Left="28" Canvas.Top="364" Width="263" Title="Endurance"  ></userControls:TextWithArrows>
-        <userControls:TextWithArrows Canvas.Left="28" Canvas.Top="308" Width="263" Title="Inteligence" ></userControls:TextWithArrows>
-        <userControls:TextWithArrows Canvas.Left="28" Canvas.Top="243" Width="263" Title="Agility"></userControls:TextWithArrows>
-        <userControls:TextWithArrows Canvas.Left="28" Canvas.Top="184" Width="263" Title="Strength" ></userControls:TextWithArrows>
+            <Rectangle  RadiusX="10" RadiusY="10" StrokeDashCap="Triangle" StrokeDashArray="8" Style="{DynamicResource SimpleSection}" Width="296" Grid.RowSpan="3"/>
+            <userControls:TextWithArrows Title="Level" Value="1" Grid.Row="1" Margin="10,0"/>
+            <TextBlock HorizontalAlignment="Center" Height="23.333" TextWrapping="Wrap" VerticalAlignment="Top" Width="94" TextAlignment="Center" Style="{DynamicResource HeaderSection}" Margin="101,0" Grid.RowSpan="2"><Run Text="Level"/><LineBreak/><Run/></TextBlock>
+        </Grid>
 
-        <StackPanel Height="214" Width="263" Canvas.Left="337" Canvas.Top="31">
-            <userControls:TextWithArrows Title="Race" Value="Dino" Typee="Race"/>
-            <Grid ClipToBounds="True" Height="150" Width="100" Margin="0,0,-116,0">
+        <Grid x:Name="GridBasicStats" Height="238" Canvas.Left="10" Canvas.Top="252" Width="296">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="22*"/>
+                <RowDefinition Height="50*"/>
+                <RowDefinition Height="50*"/>
+                <RowDefinition Height="50*"/>
+                <RowDefinition Height="50*"/>
+                <RowDefinition Height="19*"/>
+            </Grid.RowDefinitions>
+
+            <Rectangle  RadiusX="10" RadiusY="10" StrokeDashCap="Triangle" StrokeDashArray="8" Style="{DynamicResource SimpleSection}" HorizontalAlignment="Left" Width="296" Grid.RowSpan="6"/>
+
+            <userControls:TextWithArrows Title="Endurance"   Grid.Row="4"   Margin=",0" />
+            <userControls:TextWithArrows Title="Inteligence"  Grid.Row="3"  Margin=",0" />
+            <userControls:TextWithArrows Title="Agility"  Grid.Row="2"      Margin=",0" />
+            <userControls:TextWithArrows Title="Strength" Grid.Row="1"      Margin=",0" />
+            <TextBlock HorizontalAlignment="Center" Height="23.333" TextWrapping="Wrap" Text="Stats" VerticalAlignment="Top" Width="94" TextAlignment="Center" Style="{DynamicResource HeaderSection}" Margin="101,0" Grid.RowSpan="2"/>
+
+        </Grid>
+        <Grid x:Name="GridRace" Height="480" Canvas.Left="311" Canvas.Top="10" Width="304">
+            <Rectangle  RadiusX="10" RadiusY="10" StrokeDashCap="Triangle" StrokeDashArray="8" Style="{DynamicResource SimpleSection}" HorizontalAlignment="Left" Width="304"/>
+
+            <userControls:TextWithArrows Title="" Value="Dino" Typee="Race" Margin="80,16,0,427.4"/>
+            <Grid Margin="10,222,10,145">
+                <Rectangle  RadiusX="10" RadiusY="10" StrokeDashCap="Triangle" StrokeDashArray="8" Style="{DynamicResource SimpleSubSection}" Stretch="Fill" />
+                <TextBlock HorizontalAlignment="Center" Height="23.333" TextWrapping="Wrap" Text="Offense" VerticalAlignment="Top" Width="94" TextAlignment="Center" Style="{DynamicResource HeaderSection}"/>
+            </Grid>
+            <Grid ClipToBounds="True" Margin="189,57.6,10,263">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="1*"/>
                     <RowDefinition Height="8*"/>
@@ -41,9 +72,48 @@
                 </Grid.ColumnDefinitions>
                 <Rectangle  RadiusX="10" RadiusY="10" StrokeDashCap="Triangle" StrokeDashArray="8" Style="{DynamicResource SimpleSubSection}" Stretch="Fill" Grid.ColumnSpan="3" Grid.RowSpan="3" />
                 <Image Grid.Row="1" Grid.Column="1" Source="{DynamicResource Race}" />
+                <TextBlock HorizontalAlignment="Center" Height="20.666"  TextWrapping="Wrap" Text="Avatar" VerticalAlignment="Top"  TextAlignment="Center" Style="{DynamicResource HeaderSection}" Grid.ColumnSpan="3" Grid.RowSpan="2"/>
             </Grid>
-            <!--Race Image-->
-        </StackPanel>
+            <Grid Margin="10,340,10,10">
+                <Rectangle  RadiusX="10" RadiusY="10" StrokeDashCap="Triangle" StrokeDashArray="8" Style="{DynamicResource SimpleSubSection}" Stretch="Fill" />
+                <TextBlock HorizontalAlignment="Center" Height="23.333" TextWrapping="Wrap" Text="Deffense" VerticalAlignment="Top" Width="94" TextAlignment="Center" Style="{DynamicResource HeaderSection}" Margin="98.333,0,91.667,0"/>
+            </Grid>
+            <Grid Margin="10,57.6,120,263">
+                <Rectangle  RadiusX="10" RadiusY="10" StrokeDashCap="Triangle" StrokeDashArray="8" Style="{DynamicResource SimpleSubSection}" Stretch="Fill" />
+                <TextBlock HorizontalAlignment="Center" Height="20.666" Margin="10,0" TextWrapping="Wrap" Text="Stats growth" VerticalAlignment="Top" Width="154" TextAlignment="Center"  Style="{DynamicResource HeaderSection}"/>
+
+
+
+
+            </Grid>
+            <TextBlock HorizontalAlignment="Center" Height="23.333" TextWrapping="Wrap" VerticalAlignment="Top" Width="94" TextAlignment="Center" Style="{DynamicResource HeaderSection}" Text="Race"/>
+
+
+
+
+        </Grid>
+        <Grid x:Name="GridPoints" Height="79" Canvas.Left="10" Canvas.Top="84" Width="296">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="100*"/>
+                <ColumnDefinition Width="40*"/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="25*"/>
+                <RowDefinition Height="25*"/>
+                <RowDefinition Height="25*"/>
+                <RowDefinition Height="15*"/>
+            </Grid.RowDefinitions>
+
+            <Rectangle RadiusX="10" RadiusY="10" StrokeDashCap="Triangle" StrokeDashArray="8" Style="{DynamicResource SimpleSection}" Grid.RowSpan="4" Grid.ColumnSpan="2"/>
+            <TextBlock HorizontalAlignment="Center" Height="23.333" TextWrapping="Wrap" VerticalAlignment="Top" Width="94" TextAlignment="Center" Style="{DynamicResource HeaderSection}" Margin="101,0" Grid.RowSpan="2" Text="Points" Grid.ColumnSpan="2"/>
+            <TextBlock Grid.Row="1" Text="Points remaining:" Style="{DynamicResource SmallTextSection}" Margin="10,0"></TextBlock>
+            <TextBlock Grid.Row="2" Text="Points used on this character:" Style="{DynamicResource SmallTextSection}" Margin="10,0" ></TextBlock>
+
+            <TextBlock Grid.Row="1" Grid.Column="1" Text="100" Style="{DynamicResource SmallValueTextSection}" Margin="10,0"></TextBlock>
+            <TextBlock Grid.Row="2" Grid.Column="1" Text="20" Style="{DynamicResource SmallValueTextSection}" Margin="10,0" ></TextBlock>
+
+
+        </Grid>
 
 
 

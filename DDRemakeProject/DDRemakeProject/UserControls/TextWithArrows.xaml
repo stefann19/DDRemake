@@ -17,14 +17,14 @@
             <ColumnDefinition Width="3*"/>
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
-        <Label Foreground="{DynamicResource LabelTextBrush}" Grid.Column="0" Content="{Binding Path=Title}" FontSize="20" VerticalAlignment="Center" ></Label>
+        <TextBlock Foreground="{DynamicResource LabelTextBrush}" Grid.Column="0" Text="{Binding Path=Title}" VerticalAlignment="Center" Style="{DynamicResource TextWithArrowsSection}" />
         <Button Grid.Column="1" BorderBrush="{x:Null}" Background="{DynamicResource MenuItemDisabledBrush}" Click="LowerTheValue">
             <Button.OpacityMask>
                 <ImageBrush ImageSource="/DDRemakeProject;component/Assets/HUD/arrow-left.png" Stretch="Uniform"/>
             </Button.OpacityMask>
 
         </Button>
-        <Label Foreground="{DynamicResource LabelTextBrush}" Grid.Column="2" Content="{Binding Path=Value}" FontWeight="Light" HorizontalAlignment="Center" FontSize="20" VerticalAlignment="Center"></Label>
+        <TextBlock Grid.Column="2" Text="{Binding Path=Value}"  VerticalAlignment="Center" Style="{DynamicResource ValueTextWithArrowSection}"></TextBlock>
         <Button Grid.Column="3" BorderBrush="{x:Null}" Background="{DynamicResource MenuItemDisabledBrush}" Click="RaiseTheValue">
             <Button.OpacityMask>
                 <ImageBrush ImageSource="/DDRemakeProject;component/Assets/HUD/arrow-right.png" Stretch="Uniform"/>
