@@ -2,7 +2,7 @@
 using DDRemakeProject.GamePlay.Old;
 using Action = DDRemakeProject.GamePlay.Old.Action;
 
-namespace DDRemakeProject
+namespace DDRemakeProject.UserControls
 {
     /// <summary>
     /// Interaction logic for AnimatedButton.xaml

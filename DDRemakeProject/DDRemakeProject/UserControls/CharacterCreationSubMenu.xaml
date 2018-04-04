@@ -1,12 +1,53 @@
-﻿<UserControl x:Class="DDRemakeProject.UserControls.CharacterCreationSubMenu"
+﻿<UserControl
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:DDRemakeProject.UserControls"
+             xmlns:local="clr-namespace:DDRemakeProject"
+             xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
+             xmlns:userControls="clr-namespace:DDRemakeProject.UserControls"
+             x:Class="DDRemakeProject.UserControls.CharacterCreationSubMenu"
              mc:Ignorable="d" 
-             d:DesignHeight="300" d:DesignWidth="300">
-    <Canvas>
-            
+             d:DesignHeight="500" d:DesignWidth="625" DataContext="{Binding RelativeSource={RelativeSource Self}}">
+
+    <UserControl.Resources>
+        <BitmapImage UriSource="../Assets/monster/bat/idle.gif"  x:Key="Race"></BitmapImage>
+    </UserControl.Resources>
+    <Canvas SnapsToDevicePixels="True" >
+        <Rectangle  RadiusX="10" RadiusY="10" StrokeDashCap="Triangle" StrokeDashArray="8" Style="{DynamicResource SimpleSection}" HorizontalAlignment="Left" Height="60.4" Width="143.733" Canvas.Left="10" Canvas.Top="10"/>
+        <TextBox Foreground="{DynamicResource AccentColorBrush}"  mah:TextBoxHelper.Watermark="Name"  HorizontalAlignment="Left" Height="17.067" TextWrapping="Wrap"  Width="108.267" Canvas.Left="28.266" Canvas.Top="26"/>
+        <Rectangle  RadiusX="10" RadiusY="10" StrokeDashCap="Triangle" StrokeDashArray="8" Style="{DynamicResource SimpleSection}" HorizontalAlignment="Left" Height="60" Width="296" Canvas.Left="10" Canvas.Top="87"/>
+        <Rectangle  RadiusX="10" RadiusY="10" StrokeDashCap="Triangle" StrokeDashArray="8" Style="{DynamicResource SimpleSection}" HorizontalAlignment="Left" Height="252" Width="296" Canvas.Left="10" Canvas.Top="162"/>
+        <Rectangle  RadiusX="10" RadiusY="10" StrokeDashCap="Triangle" StrokeDashArray="8" Style="{DynamicResource SimpleSection}" HorizontalAlignment="Left" Height="480" Width="304" Canvas.Left="311" Canvas.Top="10"/>
+
+        <userControls:TextWithArrows Canvas.Left="28" Canvas.Top="98"  Width="263" Title="Level" Value="1"></userControls:TextWithArrows>
+        <userControls:TextWithArrows Canvas.Left="28" Canvas.Top="364" Width="263" Title="Endurance"  ></userControls:TextWithArrows>
+        <userControls:TextWithArrows Canvas.Left="28" Canvas.Top="308" Width="263" Title="Inteligence" ></userControls:TextWithArrows>
+        <userControls:TextWithArrows Canvas.Left="28" Canvas.Top="243" Width="263" Title="Agility"></userControls:TextWithArrows>
+        <userControls:TextWithArrows Canvas.Left="28" Canvas.Top="184" Width="263" Title="Strength" ></userControls:TextWithArrows>
+
+        <StackPanel Height="214" Width="263" Canvas.Left="337" Canvas.Top="31">
+            <userControls:TextWithArrows Title="Race" Value="Dino" Typee="Race"/>
+            <Grid ClipToBounds="True" Height="150" Width="100" Margin="0,0,-116,0">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="1*"/>
+                    <RowDefinition Height="8*"/>
+                    <RowDefinition Height="1*"/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="1*"/>
+                    <ColumnDefinition Width="8*"/>
+                    <ColumnDefinition Width="1*"/>
+                </Grid.ColumnDefinitions>
+                <Rectangle  RadiusX="10" RadiusY="10" StrokeDashCap="Triangle" StrokeDashArray="8" Style="{DynamicResource SimpleSubSection}" Stretch="Fill" Grid.ColumnSpan="3" Grid.RowSpan="3" />
+                <Image Grid.Row="1" Grid.Column="1" Source="{DynamicResource Race}" />
+            </Grid>
+            <!--Race Image-->
+        </StackPanel>
+
+
+
+
     </Canvas>
+
 </UserControl>

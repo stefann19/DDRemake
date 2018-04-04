@@ -19,12 +19,10 @@ namespace DDRemakeProject
         {
             if (textBoxName.Text.Length > 0)
             {
-                Size mapSize = new Size(int.Parse(textBoxWidth.Text), int.Parse(textBoxHeight.Text));
+                /*Size mapSize = new Size(int.Parse(textBoxWidth.Text), int.Parse(textBoxHeight.Text));
                 MapBasicInfo map = new MapBasicInfo(textBoxName.Text,mapSize);
-                MapWindow window = new MapWindow(false, map);
-/*
+                MapWindow window = new MapWindow(false, map);*/
                 CharacterCreationMenu window = new CharacterCreationMenu();
-*/
                 window.Show();
                 this.Close();
             }

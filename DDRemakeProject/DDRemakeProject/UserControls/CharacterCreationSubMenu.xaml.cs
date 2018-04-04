@@ -1,17 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
+using DDRemakeProject.GamePlay.New.Character;
+using DDRemakeProject.GamePlay.New.Character.Logic;
+using MahApps.Metro.Controls;
 
 namespace DDRemakeProject.UserControls
 {
@@ -20,9 +13,19 @@ namespace DDRemakeProject.UserControls
     /// </summary>
     public partial class CharacterCreationSubMenu : UserControl
     {
+        public static readonly DependencyProperty RaceProperty = DependencyProperty.Register("Race", typeof(object), typeof(CharacterCreationSubMenu), new PropertyMetadata(Races.Dino));
+
         public CharacterCreationSubMenu()
         {
             InitializeComponent();
+        }
+
+        public object Race {
+            get {
+                TextWithArrows textWithArrows = this.GetChildObjects().Where(child => child is TextWithArrows)
+                    .FirstOrDefault(child => (child as TextWithArrows).Typee == BasicPropType.Race) as TextWithArrows; 
+                return DDRemakeProject.GamePlay.New.Character.Logic.Race.GetRaceFromEnum((Races) Enum.Parse(typeof(Races), textWithArrows.Value as string)).AvatarPath ;
+            }
         }
     }
 }

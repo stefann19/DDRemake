@@ -98,9 +98,15 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="AnimatedButton.xaml.cs">
+    <Compile Include="UserControls\AnimatedButton.xaml.cs">
       <DependentUpon>AnimatedButton.xaml</DependentUpon>
     </Compile>
+    <Compile Include="UserControls\CharacterCreationSubMenu.xaml.cs">
+      <DependentUpon>CharacterCreationSubMenu.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="CharacterCreation\BasicIntegerProperty.cs" />
+    <Compile Include="CharacterCreation\BasicProperty.cs" />
+    <Compile Include="CharacterCreation\RaceProperty.cs" />
     <Compile Include="GamePlay\New\Character\Character.cs" />
     <Compile Include="GamePlay\New\Character\CharacterLogic.cs" />
     <Compile Include="GamePlay\New\Character\Logic\Level.cs" />
@@ -113,13 +119,14 @@
     <Compile Include="GamePlay\New\Character\Logic\Trait.cs" />
     <Compile Include="GamePlay\New\Character\Logic\Traits.cs" />
     <Compile Include="GamePlay\New\Party.cs" />
+    <Compile Include="Properties\Annotations.cs" />
     <Compile Include="SerializingHelpers\MinimapSerializer.cs" />
     <Compile Include="SerializingHelpers\PlayerSerializer.cs" />
-    <Compile Include="UserControls\CharacterCreationSubMenu.xaml.cs">
-      <DependentUpon>CharacterCreationSubMenu.xaml</DependentUpon>
-    </Compile>
     <Compile Include="UserControls\MapButton.xaml.cs">
       <DependentUpon>MapButton.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\TextWithArrows.xaml.cs">
+      <DependentUpon>TextWithArrows.xaml</DependentUpon>
     </Compile>
     <Compile Include="Windows\CharacterCreationMenu.xaml.cs">
       <DependentUpon>CharacterCreationMenu.xaml</DependentUpon>
@@ -185,7 +192,7 @@
     <Compile Include="World\RoomModule.cs" />
     <Compile Include="World\VectorExtensions.cs" />
     <Compile Include="XmlToFile.cs" />
-    <Page Include="AnimatedButton.xaml">
+    <Page Include="UserControls\AnimatedButton.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -202,6 +209,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="UserControls\MapButton.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UserControls\TextWithArrows.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -229,6 +240,10 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="Windows\MetroStyles.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Windows\NewMapMenu.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -248,6 +263,7 @@
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <None Include="All.cd" />
+    <Resource Include="Assets\HUD\arrow-hi.png" />
     <Content Include="Assets\Races\Dino.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>

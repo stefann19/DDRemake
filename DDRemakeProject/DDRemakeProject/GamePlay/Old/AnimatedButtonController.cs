@@ -7,12 +7,12 @@ namespace DDRemakeProject.GamePlay.Old
     {
         public ActionTypes.ActionType ActionType;
 
-        public AnimatedButton AnimatedButton { get; set; }
+        public UserControls.AnimatedButton AnimatedButton { get; set; }
 
         private ButtonStatesImages ButtonStatesImages { get; set; }
         public BattleEngine BattleEngine;
 
-        public AnimatedButtonController(ButtonStatesImages buttonStatesImages,AnimatedButton animatedButton,ActionTypes.ActionType actionType,BattleEngine battleEngine)
+        public AnimatedButtonController(ButtonStatesImages buttonStatesImages,UserControls.AnimatedButton animatedButton,ActionTypes.ActionType actionType,BattleEngine battleEngine)
         {
             this.ButtonStatesImages = buttonStatesImages;
             this.AnimatedButton = animatedButton;

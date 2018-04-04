@@ -51,7 +51,7 @@ namespace DDRemakeProject.GamePlay.Old
         {
             Button button = sender as Button;
             Grid grid = button?.Parent as Grid;
-            AnimatedButton animatedButton = grid?.Parent as AnimatedButton;
+            UserControls.AnimatedButton animatedButton = grid?.Parent as UserControls.AnimatedButton;
 
             animatedButton?.BattleEngine.Fight(null, animatedButton.Action);
             animatedButton?.BattleEngine.SelectChar(animatedButton.BattleEngine.SelectedCharacter);

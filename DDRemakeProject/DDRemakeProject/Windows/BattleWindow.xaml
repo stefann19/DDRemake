@@ -187,10 +187,10 @@
             <Image x:Name="Spell" Grid.Row="1" Grid.Column="3" Source="../Spells.png"/>
             <Image x:Name="Item" Grid.Row="1" Grid.Column="4" Source="../Inventory.png"/>-->
             
-            <local:AnimatedButton x:Name="Attack" Grid.Row="0" Grid.Column="3"></local:AnimatedButton>
-            <local:AnimatedButton x:Name="Defend" Grid.Row="0" Grid.Column="4"></local:AnimatedButton>
-            <local:AnimatedButton x:Name="Spell" Grid.Row="1" Grid.Column="3"></local:AnimatedButton>
-            <local:AnimatedButton x:Name="Item" Grid.Row="1" Grid.Column="4"></local:AnimatedButton>
+            <userControls:AnimatedButton x:Name="Attack" Grid.Row="0" Grid.Column="3"></userControls:AnimatedButton>
+            <userControls:AnimatedButton x:Name="Defend" Grid.Row="0" Grid.Column="4"></userControls:AnimatedButton>
+            <userControls:AnimatedButton x:Name="Spell" Grid.Row="1" Grid.Column="3"></userControls:AnimatedButton>
+            <userControls:AnimatedButton x:Name="Item" Grid.Row="1" Grid.Column="4"></userControls:AnimatedButton>
 
             <!--#endregion-->
 
