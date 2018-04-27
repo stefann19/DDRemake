@@ -1,0 +1,30 @@
+﻿<UserControl x:Class="DDRemakeProject.Views.StatsSelectionView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:local="clr-namespace:DDRemakeProject.Views"
+             xmlns:userControls="clr-namespace:DDRemakeProject.UserControls"
+             xmlns:viewModels="clr-namespace:DDRemakeProject.ViewModels"
+             xmlns:controls="clr-namespace:DDRemakeProject.Controls"
+             mc:Ignorable="d"
+             MinWidth="300" MinHeight="100">
+    <UserControl.DataContext>
+        <viewModels:StatsSelectionViewModel />
+    </UserControl.DataContext>
+    <Grid>
+        <Rectangle Style="{DynamicResource SimpleSection}" />
+        <StackPanel x:Name="GridBasicStats" Margin="5">
+            <TextBlock TextWrapping="Wrap" Text="Stats" VerticalAlignment="Top" Width="94" TextAlignment="Center"
+                       Style="{DynamicResource HeaderSection}" />
+            <controls:TextValueArrowsSelect PropTitle="Strength" PropValue="{Binding Strength}" PropRaiseValue="{Binding RaiseValueCommand}" PropLowerValue="{Binding LowerValueCommand}" />
+            <controls:TextValueArrowsSelect PropTitle="Agility" PropValue="{Binding Agility}" PropRaiseValue="{Binding RaiseValueCommand}" PropLowerValue="{Binding LowerValueCommand}" />
+
+            <controls:TextValueArrowsSelect PropTitle="Intelligence" PropValue="{Binding Intelligence}"  PropRaiseValue="{Binding RaiseValueCommand}" PropLowerValue="{Binding LowerValueCommand}" />
+            <controls:TextValueArrowsSelect PropTitle="Endurance" PropValue="{Binding Endurance}" PropRaiseValue="{Binding RaiseValueCommand}" PropLowerValue="{Binding LowerValueCommand}" />
+        </StackPanel>
+    </Grid>
+
+
+</UserControl>
+

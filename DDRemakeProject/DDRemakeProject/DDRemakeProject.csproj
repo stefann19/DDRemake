@@ -98,6 +98,9 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Commands\RelayCommand.cs" />
+    <Compile Include="Commands\TextValueArrowSelectConverter.cs" />
+    <Compile Include="Controls\TabControlEx.cs" />
     <Compile Include="UserControls\AnimatedButton.xaml.cs">
       <DependentUpon>AnimatedButton.xaml</DependentUpon>
     </Compile>
@@ -127,6 +130,33 @@
     </Compile>
     <Compile Include="UserControls\TextWithArrows.xaml.cs">
       <DependentUpon>TextWithArrows.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ViewModels\CharacterCreationViewModel.cs" />
+    <Compile Include="ViewModels\LevelSelectionViewModel.cs" />
+    <Compile Include="ViewModels\NameSelectionViewModel.cs" />
+    <Compile Include="ViewModels\RacePanelViewModel.cs" />
+    <Compile Include="ViewModels\StatProjectionViewModel.cs" />
+    <Compile Include="ViewModels\StatsSelectionViewModel.cs" />
+    <Compile Include="Views\LevelSelectionView.xaml.cs">
+      <DependentUpon>LevelSelectionView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\NameSelectionView.xaml.cs">
+      <DependentUpon>NameSelectionView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\RacePanelView.xaml.cs">
+      <DependentUpon>RacePanelView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\RacePresenterView.xaml.cs">
+      <DependentUpon>RacePresenterView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\StatsProjectionPanelView.xaml.cs">
+      <DependentUpon>StatsProjectionPanelView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\StatsSelectionView.xaml.cs">
+      <DependentUpon>StatsSelectionView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\TextValueArrowsSelect.xaml.cs">
+      <DependentUpon>TextValueArrowsSelect.xaml</DependentUpon>
     </Compile>
     <Compile Include="Windows\CharacterCreationMenu.xaml.cs">
       <DependentUpon>CharacterCreationMenu.xaml</DependentUpon>
@@ -213,6 +243,34 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="UserControls\TextWithArrows.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\LevelSelectionView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\NameSelectionView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\RacePanelView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\RacePresenterView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\StatsProjectionPanelView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\StatsSelectionView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\TextValueArrowsSelect.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

@@ -14,7 +14,7 @@
     "Flat": 0.8,
     "Percentage": 1.5
   },
-  "FireArmourResistanceFactors": {
+  "FireResistanceFactors": {
     "Flat": 5,
     "Percentage": 10
   },

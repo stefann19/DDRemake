@@ -17,7 +17,7 @@
             <ColumnDefinition Width="3*"/>
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
-        <TextBlock Foreground="{DynamicResource LabelTextBrush}" Grid.Column="0" Text="{Binding Path=Title}" VerticalAlignment="Center" Style="{DynamicResource TextWithArrowsSection}" />
+        <TextBlock Name="TextBlockName" Foreground="{DynamicResource LabelTextBrush}" Grid.Column="0" Text="{Binding UserName, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Center" Style="{DynamicResource TextWithArrowsSection}" />
         <Button Grid.Column="1" BorderBrush="{x:Null}" Background="{DynamicResource MenuItemDisabledBrush}" Click="LowerTheValue">
             <Button.OpacityMask>
                 <ImageBrush ImageSource="/DDRemakeProject;component/Assets/HUD/arrow-left.png" Stretch="Uniform"/>

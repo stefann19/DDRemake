@@ -1,0 +1,24 @@
+﻿<UserControl x:Class="DDRemakeProject.Views.RacePresenterView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:DDRemakeProject.Views"
+             mc:Ignorable="d" 
+             Height="160" Width="104">
+    <Grid Name="RootLayout" ClipToBounds="True">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="1*"/>
+            <RowDefinition Height="8*"/>
+            <RowDefinition Height="1*"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="1*"/>
+            <ColumnDefinition Width="8*"/>
+            <ColumnDefinition Width="1*"/>
+        </Grid.ColumnDefinitions>
+        <Rectangle  Style="{DynamicResource SimpleSubSection}" Stretch="Fill" Grid.ColumnSpan="3" Grid.RowSpan="3" />
+        <Image Grid.Row="1" Grid.Column="1" Source="{Binding Race}" />
+        <TextBlock Height="20.666"  TextWrapping="Wrap" Text="Avatar" VerticalAlignment="Top"  TextAlignment="Center" Style="{DynamicResource HeaderSection}" Grid.ColumnSpan="3" Grid.Row="0" Grid.Column="0"/>
+    </Grid>
+</UserControl>

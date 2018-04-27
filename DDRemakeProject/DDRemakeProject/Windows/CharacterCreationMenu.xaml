@@ -1,30 +1,52 @@
 ﻿<Controls:MetroWindow
-        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
-        xmlns:simpleChildWindow="clr-namespace:MahApps.Metro.SimpleChildWindow;assembly=MahApps.Metro.SimpleChildWindow"
-        xmlns:local="clr-namespace:DDRemakeProject.Windows"
-        xmlns:DDRemakeProject="clr-namespace:DDRemakeProject"
-        xmlns:userControls="clr-namespace:DDRemakeProject.UserControls"
-        x:Class="DDRemakeProject.Windows.CharacterCreationMenu"
-        mc:Ignorable="d"
-        Title="CharacterCreationMenu" Height="600" Width="625">
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
+    xmlns:simpleChildWindow="clr-namespace:MahApps.Metro.SimpleChildWindow;assembly=MahApps.Metro.SimpleChildWindow"
+    xmlns:local="clr-namespace:DDRemakeProject.Windows"
+    xmlns:DDRemakeProject="clr-namespace:DDRemakeProject"
+    xmlns:userControls="clr-namespace:DDRemakeProject.UserControls"
+    xmlns:viewModels="clr-namespace:DDRemakeProject.ViewModels"
+    x:Class="DDRemakeProject.Windows.CharacterCreationMenu"
+    mc:Ignorable="d"
+    Title="CharacterCreationMenu" SizeToContent="WidthAndHeight">
 
+    <Window.DataContext>
+        <viewModels:CharacterCreationViewModel></viewModels:CharacterCreationViewModel>
+    </Window.DataContext>
     <StackPanel x:Name="StackPanelMain">
 
-        <Controls:MetroHeader x:Name="HeaderCharacterName" Header="Character name" HorizontalAlignment="Center"/>
-        <Grid x:Name="StackPanelCharacters" >
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition/>
-                <ColumnDefinition/>
-                <ColumnDefinition/>
-            </Grid.ColumnDefinitions>
-            <Button Foreground="{DynamicResource AccentColorBrush2}" x:Name="ButtonSelectCharacter0" Grid.Column="0" Controls:ControlsHelper.CornerRadius="0" Content="John" Controls:ButtonHelper.PreserveTextCase="True" Controls:ControlsHelper.ContentCharacterCasing="Normal" />
-            <Button Foreground="{DynamicResource AccentColorBrush2}" x:Name="ButtonSelectCharacter1" Grid.Column="1" Controls:ControlsHelper.CornerRadius="0" Content="Doe"  Controls:ControlsHelper.ContentCharacterCasing="Normal" />
-            <Button Foreground="{DynamicResource AccentColorBrush2}" x:Name="ButtonSelectCharacter2" Grid.Column="2" Controls:ControlsHelper.CornerRadius="0" Content="Ron"  Controls:ControlsHelper.ContentCharacterCasing="Normal" />
-        </Grid>
-        <userControls:CharacterCreationSubMenu></userControls:CharacterCreationSubMenu>
+        <!--<Controls:MetroTabControl Controls:TabControlHelper.Transition="Down" ItemsSource="{Binding CharacterLogicCollection}">
+            <Controls:MetroTabControl.ItemTemplate>
+                <DataTemplate>
+                    <TextBlock Text="{Binding Name}"></TextBlock>
+                </DataTemplate>
+            </Controls:MetroTabControl.ItemTemplate>
+            <Controls:MetroTabControl.ContentTemplate>
+                <DataTemplate>
+                    <userControls:CharacterCreationSubMenu Character="{Binding Path=.,Mode=TwoWay}"/>
+                </DataTemplate>
+            </Controls:MetroTabControl.ContentTemplate>
+        </Controls:MetroTabControl>-->
+        <Controls:FlipView Name="FlipView" IsBannerEnabled="False" ItemsSource="{Binding CharacterLogicCollection}">
+            <Controls:FlipView.ItemTemplate>
+                <DataTemplate>
+                    <Grid>
+                        <userControls:CharacterCreationSubMenu Character="{Binding Path=.,Mode=TwoWay}"/>
+                    </Grid>
+                </DataTemplate>
+            </Controls:FlipView.ItemTemplate>
+           <!-- <Controls:FlipView.templ>
+                <DataTemplate>
+                    <userControls:CharacterCreationSubMenu Character="{Binding Path=.,Mode=TwoWay}"/>
+                </DataTemplate>
+            </Controls:FlipView.templ>-->
+        </Controls:FlipView>
+
     </StackPanel>
 </Controls:MetroWindow>
+
+
+

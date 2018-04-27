@@ -59,7 +59,7 @@ namespace DDRemakeProject.GamePlay.New.Character.Logic
             EnduranceGrowth = enduranceGrowth;
             ArmourResistanceFactors = armourResistanceFactors;
             AirResistanceFactors = airResistanceFactors;
-            FireArmourResistanceFactors = fireArmourResistanceFactors;
+            FireResistanceFactors = fireArmourResistanceFactors;
             WaterResistanceFactors = waterResistanceFactors;
         }
 
@@ -76,7 +76,7 @@ namespace DDRemakeProject.GamePlay.New.Character.Logic
             EnduranceGrowth = enduranceGrowth;
             ArmourResistanceFactors = armourResistanceFactors;
             AirResistanceFactors = airResistanceFactors;
-            FireArmourResistanceFactors = fireArmourResistanceFactors;
+            FireResistanceFactors = fireArmourResistanceFactors;
             WaterResistanceFactors = waterResistanceFactors;
             EarthResistanceFactors = earthResistanceFactors;
             ArmourAttackFormulaString = armourAttackFormulaString;
@@ -126,7 +126,7 @@ namespace DDRemakeProject.GamePlay.New.Character.Logic
 
         public Resist ArmourResistanceFactors { get; set; }
         public Resist AirResistanceFactors { get; set; }
-        public Resist FireArmourResistanceFactors { get; set; }
+        public Resist FireResistanceFactors { get; set; }
         public Resist WaterResistanceFactors { get; set; }
         public Resist EarthResistanceFactors { get; set; }
 
@@ -151,6 +151,11 @@ namespace DDRemakeProject.GamePlay.New.Character.Logic
 
             public double Flat { get; set; }
             public double Percentage { get; set; }
+
+            public override string ToString()
+            {
+                return $"-({Flat}+{Percentage}%Damage)/point";
+            }
         }
     }
 }

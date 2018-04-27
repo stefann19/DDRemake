@@ -32,7 +32,7 @@ namespace DDRemakeProject.GamePlay.New.Character.Logic
                 resist = NewResistance((damage) => damage - resist1.Value * resistFactors.Flat - (resistFactors.Percentage * resist1.Value * damage / 100f));
             }
             AssignValues(Armour,characterLogic.Race.ArmourResistanceFactors);
-            AssignValues(Fire, characterLogic.Race.FireArmourResistanceFactors);
+            AssignValues(Fire, characterLogic.Race.FireResistanceFactors);
             AssignValues(Water, characterLogic.Race.WaterResistanceFactors);
             AssignValues(Air, characterLogic.Race.AirResistanceFactors);
             AssignValues(Earth, characterLogic.Race.EarthResistanceFactors);

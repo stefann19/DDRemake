@@ -14,10 +14,12 @@ namespace DDRemakeProject.UserControls
     public partial class CharacterCreationSubMenu : UserControl
     {
         public static readonly DependencyProperty RaceProperty = DependencyProperty.Register("Race", typeof(object), typeof(CharacterCreationSubMenu), new PropertyMetadata(Races.Dino));
+        public static readonly DependencyProperty CharacterProperty = DependencyProperty.Register("Character", typeof(Character), typeof(CharacterCreationSubMenu), new PropertyMetadata(default(Character)));
 
         public CharacterCreationSubMenu()
         {
             InitializeComponent();
+            LayoutRoot.DataContext = this;
         }
 
         public object Race {
@@ -26,6 +28,11 @@ namespace DDRemakeProject.UserControls
                     .FirstOrDefault(child => (child as TextWithArrows).Typee == BasicPropType.Race) as TextWithArrows; 
                 return DDRemakeProject.GamePlay.New.Character.Logic.Race.GetRaceFromEnum((Races) Enum.Parse(typeof(Races), textWithArrows.Value as string)).AvatarPath ;
             }
+        }
+
+        public Character Character {
+            get { return (Character) GetValue(CharacterProperty); }
+            set { SetValue(CharacterProperty, value); }
         }
     }
 }

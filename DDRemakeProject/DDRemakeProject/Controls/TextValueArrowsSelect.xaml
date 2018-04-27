@@ -1,0 +1,56 @@
+﻿<UserControl x:Class="DDRemakeProject.Controls.TextValueArrowsSelect"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:local="clr-namespace:DDRemakeProject.Views"
+             xmlns:conv="clr-namespace:DDRemakeProject.Commands"
+             mc:Ignorable="d" Height="30" MinWidth="90">
+    <UserControl.Resources>
+        <conv:TextValueArrowSelectConverter x:Key="ArrowSelectConverter" />
+    </UserControl.Resources>
+    <Grid ClipToBounds="True" Name="LayoutRoot">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="8*" />
+            <ColumnDefinition Width="3*" />
+            <ColumnDefinition Width="4*" />
+            <ColumnDefinition Width="3*" />
+        </Grid.ColumnDefinitions>
+        <TextBlock Width="160" Padding="10,0" Name="TextBlockTitle" Text="{Binding Path=PropTitle}"
+                   HorizontalAlignment="Left" Style="{DynamicResource TextWithArrowsSection}"
+                   VerticalAlignment="Center" />
+        <!--
+        <TextBlock Text="Level" Style="{DynamicResource TextWithArrowsSection}" />
+-->
+
+        <Button Grid.Column="1" Template="{DynamicResource ImageButton}"
+                Command="{Binding Path=PropLowerValue}" HorizontalAlignment="Center" VerticalAlignment="Center">
+            <Button.CommandParameter>
+                <MultiBinding Converter="{StaticResource ArrowSelectConverter}">
+                    <Binding ElementName="TextBlockValue" Path="Text" />
+                    <Binding ElementName="TextBlockTitle" Path="Text" />
+                </MultiBinding>
+            </Button.CommandParameter>
+            <Button.Background>
+                <ImageBrush ImageSource="/DDRemakeProject;component/Assets/HUD/arrow-left.png" />
+            </Button.Background>
+        </Button>
+
+
+        <TextBlock MinWidth="50" Grid.Column="2" Name="TextBlockValue" Padding="5,0" Text="{Binding Path=PropValue}"
+                   TextAlignment="Center" Style="{DynamicResource ValueTextWithArrowSection}"
+                   HorizontalAlignment="Stretch" VerticalAlignment="Center" />
+        <Button Grid.Column="3" Template="{DynamicResource ImageButton}"
+                Command="{Binding Path=PropRaiseValue}" HorizontalAlignment="Center" VerticalAlignment="Center">
+            <Button.CommandParameter>
+                <MultiBinding Converter="{StaticResource ArrowSelectConverter}">
+                    <Binding ElementName="TextBlockValue" Path="Text" />
+                    <Binding ElementName="TextBlockTitle" Path="Text" />
+                </MultiBinding>
+            </Button.CommandParameter>
+            <Button.Background>
+                <ImageBrush ImageSource="/DDRemakeProject;component/Assets/HUD/arrow-right.png" />
+            </Button.Background>
+        </Button>
+    </Grid>
+</UserControl>

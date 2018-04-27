@@ -6,51 +6,58 @@
              xmlns:local="clr-namespace:DDRemakeProject"
              xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
              xmlns:userControls="clr-namespace:DDRemakeProject.UserControls"
+             xmlns:views="clr-namespace:DDRemakeProject.Views"
              x:Class="DDRemakeProject.UserControls.CharacterCreationSubMenu"
-             mc:Ignorable="d" 
-             d:DesignHeight="500" d:DesignWidth="625" DataContext="{Binding RelativeSource={RelativeSource Self}}">
-
+             mc:Ignorable="d" Width="Auto" Height="Auto"
+             >
+    <!--DataContext="{Binding RelativeSource={RelativeSource Self}}"-->
     <UserControl.Resources>
         <BitmapImage UriSource="../Assets/monster/bat/idle.gif"  x:Key="Race"></BitmapImage>
     </UserControl.Resources>
-    <Canvas SnapsToDevicePixels="True" >
+    <StackPanel Name="LayoutRoot" Orientation="Horizontal" SnapsToDevicePixels="True" >
+        <StackPanel>
+            <Grid x:Name="GridPoints" Height="79" Width="296" Margin="5">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="100*"/>
+                    <ColumnDefinition Width="40*"/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="25*"/>
+                    <RowDefinition Height="25*"/>
+                    <RowDefinition Height="25*"/>
+                    <RowDefinition Height="15*"/>
+                </Grid.RowDefinitions>
+
+                <Rectangle RadiusX="10" RadiusY="10" StrokeDashCap="Triangle" StrokeDashArray="8" Style="{DynamicResource SimpleSection}" Grid.RowSpan="4" Grid.ColumnSpan="2"/>
+                <TextBlock HorizontalAlignment="Center" Height="23.333" TextWrapping="Wrap" VerticalAlignment="Top" Width="94" TextAlignment="Center" Style="{DynamicResource HeaderSection}" Margin="101,0" Grid.RowSpan="2" Text="Points" Grid.ColumnSpan="2"/>
+                <TextBlock Grid.Row="1" Text="Points remaining:" Style="{DynamicResource SmallTextSection}" Margin="10,0"></TextBlock>
+                <TextBlock Grid.Row="2" Text="Points used on this character:" Style="{DynamicResource SmallTextSection}" Margin="10,0" ></TextBlock>
+
+                <TextBlock Grid.Row="1" Grid.Column="1" Text="100" Style="{DynamicResource SmallValueTextSection}" Margin="10,0"></TextBlock>
+                <TextBlock Grid.Row="2" Grid.Column="1" Text="20" Style="{DynamicResource SmallValueTextSection}" Margin="10,0" ></TextBlock>
+
+
+            </Grid>
+            <!--<Grid x:Name="GridName" Height="68.4" Canvas.Left="10" Canvas.Top="10" Width="296">
+                <Rectangle  RadiusX="10" RadiusY="10" StrokeDashCap="Triangle" StrokeDashArray="8" Style="{DynamicResource SimpleSection}"/>
+                <TextBox Foreground="{DynamicResource AccentColorBrush}"  mah:TextBoxHelper.Watermark="Insert name here" Height="17.067" TextWrapping="Wrap" VerticalAlignment="Center" MinHeight="25" HorizontalAlignment="Center" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
+                <TextBlock HorizontalAlignment="Center" Height="23.333" TextWrapping="Wrap" VerticalAlignment="Top" Width="94" TextAlignment="Center" Style="{DynamicResource HeaderSection}" Margin="101,0" Text="Name"/>
+            </Grid>-->
+
+            <views:NameSelectionView CharacterName="{Binding Character.Name,Mode=TwoWay}"  Margin="5"></views:NameSelectionView>
+            <views:LevelSelectionView Character="{Binding Character,Mode=TwoWay}" Margin="5" ></views:LevelSelectionView>
+            <views:StatsSelectionView Margin="5"></views:StatsSelectionView>
+        </StackPanel>
+        
+        <StackPanel>
+            <views:RacePanelView Margin="5" Height="553" Width="383"/>
+        </StackPanel>
         <!--        Name-->
-        <Grid x:Name="GridName" Height="68.4" Canvas.Left="10" Canvas.Top="10" Width="296">
-            <Rectangle  RadiusX="10" RadiusY="10" StrokeDashCap="Triangle" StrokeDashArray="8" Style="{DynamicResource SimpleSection}"/>
-            <TextBox Foreground="{DynamicResource AccentColorBrush}"  mah:TextBoxHelper.Watermark="Insert name here" Height="17.067" TextWrapping="Wrap" VerticalAlignment="Center" MinHeight="25" HorizontalAlignment="Center" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
-            <TextBlock HorizontalAlignment="Center" Height="23.333" TextWrapping="Wrap" VerticalAlignment="Top" Width="94" TextAlignment="Center" Style="{DynamicResource HeaderSection}" Margin="101,0" Text="Name"/>
-        </Grid>
-        <Grid x:Name="GridLevel" Height="79" Canvas.Left="10" Canvas.Top="168" Width="296">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="25*"/>
-                <RowDefinition Height="50*"/>
-                <RowDefinition Height="15*"/>
-            </Grid.RowDefinitions>
 
-            <Rectangle  RadiusX="10" RadiusY="10" StrokeDashCap="Triangle" StrokeDashArray="8" Style="{DynamicResource SimpleSection}" Width="296" Grid.RowSpan="3"/>
-            <userControls:TextWithArrows Title="Level" Value="1" Grid.Row="1" Margin="10,0"/>
-            <TextBlock HorizontalAlignment="Center" Height="23.333" TextWrapping="Wrap" VerticalAlignment="Top" Width="94" TextAlignment="Center" Style="{DynamicResource HeaderSection}" Margin="101,0" Grid.RowSpan="2"><Run Text="Level"/><LineBreak/><Run/></TextBlock>
-        </Grid>
 
-        <Grid x:Name="GridBasicStats" Height="238" Canvas.Left="10" Canvas.Top="252" Width="296">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="22*"/>
-                <RowDefinition Height="50*"/>
-                <RowDefinition Height="50*"/>
-                <RowDefinition Height="50*"/>
-                <RowDefinition Height="50*"/>
-                <RowDefinition Height="19*"/>
-            </Grid.RowDefinitions>
 
-            <Rectangle  RadiusX="10" RadiusY="10" StrokeDashCap="Triangle" StrokeDashArray="8" Style="{DynamicResource SimpleSection}" HorizontalAlignment="Left" Width="296" Grid.RowSpan="6"/>
 
-            <userControls:TextWithArrows Title="Endurance"   Grid.Row="4"   Margin=",0" />
-            <userControls:TextWithArrows Title="Inteligence"  Grid.Row="3"  Margin=",0" />
-            <userControls:TextWithArrows Title="Agility"  Grid.Row="2"      Margin=",0" />
-            <userControls:TextWithArrows Title="Strength" Grid.Row="1"      Margin=",0" />
-            <TextBlock HorizontalAlignment="Center" Height="23.333" TextWrapping="Wrap" Text="Stats" VerticalAlignment="Top" Width="94" TextAlignment="Center" Style="{DynamicResource HeaderSection}" Margin="101,0" Grid.RowSpan="2"/>
-
-        </Grid>
+        <!--
         <Grid x:Name="GridRace" Height="480" Canvas.Left="311" Canvas.Top="10" Width="304">
             <Rectangle  RadiusX="10" RadiusY="10" StrokeDashCap="Triangle" StrokeDashArray="8" Style="{DynamicResource SimpleSection}" HorizontalAlignment="Left" Width="304"/>
 
@@ -92,32 +99,9 @@
 
 
         </Grid>
-        <Grid x:Name="GridPoints" Height="79" Canvas.Left="10" Canvas.Top="84" Width="296">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="100*"/>
-                <ColumnDefinition Width="40*"/>
-            </Grid.ColumnDefinitions>
-            <Grid.RowDefinitions>
-                <RowDefinition Height="25*"/>
-                <RowDefinition Height="25*"/>
-                <RowDefinition Height="25*"/>
-                <RowDefinition Height="15*"/>
-            </Grid.RowDefinitions>
-
-            <Rectangle RadiusX="10" RadiusY="10" StrokeDashCap="Triangle" StrokeDashArray="8" Style="{DynamicResource SimpleSection}" Grid.RowSpan="4" Grid.ColumnSpan="2"/>
-            <TextBlock HorizontalAlignment="Center" Height="23.333" TextWrapping="Wrap" VerticalAlignment="Top" Width="94" TextAlignment="Center" Style="{DynamicResource HeaderSection}" Margin="101,0" Grid.RowSpan="2" Text="Points" Grid.ColumnSpan="2"/>
-            <TextBlock Grid.Row="1" Text="Points remaining:" Style="{DynamicResource SmallTextSection}" Margin="10,0"></TextBlock>
-            <TextBlock Grid.Row="2" Text="Points used on this character:" Style="{DynamicResource SmallTextSection}" Margin="10,0" ></TextBlock>
-
-            <TextBlock Grid.Row="1" Grid.Column="1" Text="100" Style="{DynamicResource SmallValueTextSection}" Margin="10,0"></TextBlock>
-            <TextBlock Grid.Row="2" Grid.Column="1" Text="20" Style="{DynamicResource SmallValueTextSection}" Margin="10,0" ></TextBlock>
+        -->
 
 
-        </Grid>
-
-
-
-
-    </Canvas>
+    </StackPanel>
 
 </UserControl>
