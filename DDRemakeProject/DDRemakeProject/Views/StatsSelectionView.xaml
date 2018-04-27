@@ -8,20 +8,30 @@
              xmlns:viewModels="clr-namespace:DDRemakeProject.ViewModels"
              xmlns:controls="clr-namespace:DDRemakeProject.Controls"
              mc:Ignorable="d"
-             MinWidth="300" MinHeight="100">
-    <UserControl.DataContext>
+             MinWidth="300" MinHeight="100" Loaded="StatsSelectionView_OnLoaded">
+   <!-- <UserControl.DataContext>
         <viewModels:StatsSelectionViewModel />
-    </UserControl.DataContext>
-    <Grid>
+    </UserControl.DataContext>-->
+    <Grid Name="LayoutRoot">
         <Rectangle Style="{DynamicResource SimpleSection}" />
         <StackPanel x:Name="GridBasicStats" Margin="5">
             <TextBlock TextWrapping="Wrap" Text="Stats" VerticalAlignment="Top" Width="94" TextAlignment="Center"
                        Style="{DynamicResource HeaderSection}" />
-            <controls:TextValueArrowsSelect PropTitle="Strength" PropValue="{Binding Strength}" PropRaiseValue="{Binding RaiseValueCommand}" PropLowerValue="{Binding LowerValueCommand}" />
-            <controls:TextValueArrowsSelect PropTitle="Agility" PropValue="{Binding Agility}" PropRaiseValue="{Binding RaiseValueCommand}" PropLowerValue="{Binding LowerValueCommand}" />
+            <controls:TextValueArrowsSelect PropTitle="Strength" PropValue="{Binding DataContext.Character.CharacterLogic.Traits.Strength,ElementName=LayoutRoot,Mode=TwoWay}"
+                                            PropRaiseValue="{Binding RaiseValueCommand}"
+                                            PropLowerValue="{Binding LowerValueCommand}"
+                                            PropLowerValueParameter="{Binding DataContext.Character,ElementName=LayoutRoot}"
+                                            PropRaiseValueParameter="{Binding DataContext.Character,ElementName=LayoutRoot}"/>
+            <controls:TextValueArrowsSelect PropTitle="Agility" PropValue="{Binding Agility}"
+                                            PropRaiseValue="{Binding RaiseValueCommand}"
+                                            PropLowerValue="{Binding LowerValueCommand}" />
 
-            <controls:TextValueArrowsSelect PropTitle="Intelligence" PropValue="{Binding Intelligence}"  PropRaiseValue="{Binding RaiseValueCommand}" PropLowerValue="{Binding LowerValueCommand}" />
-            <controls:TextValueArrowsSelect PropTitle="Endurance" PropValue="{Binding Endurance}" PropRaiseValue="{Binding RaiseValueCommand}" PropLowerValue="{Binding LowerValueCommand}" />
+            <controls:TextValueArrowsSelect PropTitle="Intelligence" PropValue="{Binding Intelligence}"
+                                            PropRaiseValue="{Binding RaiseValueCommand}"
+                                            PropLowerValue="{Binding LowerValueCommand}" />
+            <controls:TextValueArrowsSelect PropTitle="Endurance" PropValue="{Binding Endurance}"
+                                            PropRaiseValue="{Binding RaiseValueCommand}"
+                                            PropLowerValue="{Binding LowerValueCommand}" />
         </StackPanel>
     </Grid>
 

@@ -4,6 +4,7 @@ using System.Runtime.CompilerServices;
 using System.Windows.Input;
 using DDRemakeProject.Annotations;
 using DDRemakeProject.Commands;
+using DDRemakeProject.GamePlay.New.Character;
 
 namespace DDRemakeProject.ViewModels
 {
@@ -40,21 +41,22 @@ namespace DDRemakeProject.ViewModels
         private void ModifyValue(object o, int changeValue)
         {
             object[] obj = (object[])o;
-            int value = int.Parse(obj[0] as string ?? "0");
+            Character character = (obj[0] as Character);
             string target = obj[1] as string;
 
             switch (target)
             {
-                case "Strength": Strength = (value + changeValue).ToString();
+                case "Strength":
+                    character.CharacterLogic.Traits.Strength += changeValue;
                     break;
                 case "Agility":
-                    Agility = (value + changeValue).ToString();
+                    character.CharacterLogic.Traits.Agility += changeValue;
                     break;
                 case "Intelligence":
-                    Intelligence = (value + changeValue).ToString();
+                    character.CharacterLogic.Traits.Intelligence += changeValue;
                     break;
                 case "Endurance":
-                    Endurance = (value + changeValue).ToString();
+                    character.CharacterLogic.Traits.Endurance += changeValue;
                     break;
                 default:
                     break;

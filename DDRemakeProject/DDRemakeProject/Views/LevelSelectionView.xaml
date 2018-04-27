@@ -19,9 +19,11 @@
         </Grid.RowDefinitions>
 
         <Rectangle Style="{DynamicResource SimpleSection}" Grid.RowSpan="3" />
-        <controls:TextValueArrowsSelect x:Name="TextValueArrowsSelect" PropTitle="Level" PropValue="{Binding Character.CharacterLogic.Level.CurrentLevel,FallbackValue=7}"
+        <controls:TextValueArrowsSelect x:Name="TextValueArrowsSelect" PropTitle="Level" PropValue="{Binding DataContext.Character.CharacterLogic.Level.CurrentLevel,ElementName=LayoutRoot}"
                                      PropLowerValue="{Binding LowerValueCommand}"
-                                     PropRaiseValue="{Binding RaiseValueCommand}" 
+                                     PropRaiseValue="{Binding RaiseValueCommand}"
+                                     PropLowerValueParameter="{Binding DataContext.Character,ElementName=LayoutRoot}"
+                                     PropRaiseValueParameter="{Binding DataContext.Character,ElementName=LayoutRoot}"
                                      Grid.Row="1" HorizontalAlignment="Stretch" 
                                      VerticalAlignment="Stretch" />
         <TextBlock Grid.Row="0" HorizontalAlignment="Center" Height="23.333" TextWrapping="Wrap"

@@ -13,6 +13,8 @@ namespace DDRemakeProject.Controls
         public static readonly DependencyProperty PropValueProperty = DependencyProperty.Register("PropValue", typeof(string), typeof(TextValueArrowsSelect), new PropertyMetadata(default(string)));
         public static readonly DependencyProperty PropLowerValueProperty = DependencyProperty.Register("PropLowerValue", typeof(ICommand), typeof(TextValueArrowsSelect), new PropertyMetadata(default(ICommand)));
         public static readonly DependencyProperty PropRaiseValueProperty = DependencyProperty.Register("PropRaiseValue", typeof(ICommand), typeof(TextValueArrowsSelect), new PropertyMetadata(default(ICommand)));
+        public static readonly DependencyProperty PropLowerValueParameterProperty = DependencyProperty.Register("PropLowerValueParameter", typeof(object), typeof(TextValueArrowsSelect), new PropertyMetadata(default(object)));
+        public static readonly DependencyProperty PropRaiseValueParameterProperty = DependencyProperty.Register("PropRaiseValueParameter", typeof(object), typeof(TextValueArrowsSelect), new PropertyMetadata(default(object)));
 
         public TextValueArrowsSelect()
         {
@@ -39,6 +41,16 @@ namespace DDRemakeProject.Controls
         public ICommand PropRaiseValue {
             get { return (ICommand) GetValue(PropRaiseValueProperty); }
             set { SetValue(PropRaiseValueProperty, value); }
+        }
+
+        public object PropLowerValueParameter {
+            get { return (object) GetValue(PropLowerValueParameterProperty); }
+            set { SetValue(PropLowerValueParameterProperty, value); }
+        }
+
+        public object PropRaiseValueParameter {
+            get { return (object) GetValue(PropRaiseValueParameterProperty); }
+            set { SetValue(PropRaiseValueParameterProperty, value); }
         }
     }
 }

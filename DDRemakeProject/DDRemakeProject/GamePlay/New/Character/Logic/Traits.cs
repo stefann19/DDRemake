@@ -1,6 +1,10 @@
-﻿namespace DDRemakeProject.GamePlay.New.Character.Logic
+﻿using System.ComponentModel;
+using System.Runtime.CompilerServices;
+using DDRemakeProject.Annotations;
+
+namespace DDRemakeProject.GamePlay.New.Character.Logic
 {
-    public class Traits
+    public class Traits :INotifyPropertyChanged
     {
         public Traits(CharacterLogic characterLogic,int strength, int agility, int intelligence, int endurance)
         {
@@ -25,11 +29,49 @@
             //EnduranceTrait = new Trait(endurance,0);
         }
 
+        public Traits(CharacterLogic characterLogic)
+        {
+            CharacterLogic = characterLogic;
+            StrengthTrait = new Trait(characterLogic.Traits.Strength, characterLogic.Race.StrengthGrowth);
+            AgilityTrait = new Trait(characterLogic.Traits.Agility, characterLogic.Race.AgilityGrowth);
+            IntelligenceTrait = new Trait(characterLogic.Traits.Intelligence, characterLogic.Race.IntelligenceGrowth);
+            EnduranceTrait = new Trait(characterLogic.Traits.Endurance, characterLogic.Race.EnduranceGrowth);
 
-        public double Strength => StrengthTrait?.Value(_level) ?? 0;
-        public double Agility => AgilityTrait?.Value(_level) ?? 0;
-        public double Intelligence => IntelligenceTrait?.Value(_level) ?? 0;
-        public double Endurance => EnduranceTrait?.Value(_level) ?? 0;
+            OnPropertyChanged(nameof(Strength));
+        }
+
+
+        public double Strength {
+            get=> StrengthTrait?.Value(_level) ?? 0;
+            set {
+                StrengthTrait.Modifiers++;
+                OnPropertyChanged();
+            }
+        }
+        public double Agility
+        {
+            get => AgilityTrait?.Value(_level) ?? 0;
+            set {
+                AgilityTrait.Modifiers++;
+                OnPropertyChanged();
+            }
+        }
+        public double Intelligence
+        {
+            get => IntelligenceTrait?.Value(_level) ?? 0;
+            set {
+                IntelligenceTrait.Modifiers++;
+                OnPropertyChanged();
+            }
+        }
+        public double Endurance
+        {
+            get => EnduranceTrait?.Value(_level) ?? 0;
+            set {
+                EnduranceTrait.Modifiers++;
+                OnPropertyChanged();
+            }
+        }
 
 
 
@@ -40,5 +82,12 @@
         private Trait AgilityTrait { get; set; }
         private Trait IntelligenceTrait { get; set; }
         private Trait EnduranceTrait { get; set; }
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        [NotifyPropertyChangedInvocator]
+        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
     }
 }

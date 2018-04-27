@@ -46,7 +46,7 @@
 
             <views:NameSelectionView CharacterName="{Binding Character.Name,Mode=TwoWay}"  Margin="5"></views:NameSelectionView>
             <views:LevelSelectionView Character="{Binding Character,Mode=TwoWay}" Margin="5" ></views:LevelSelectionView>
-            <views:StatsSelectionView Margin="5"></views:StatsSelectionView>
+            <views:StatsSelectionView Character="{Binding Character,Mode=TwoWay}"  Margin="5"></views:StatsSelectionView>
         </StackPanel>
         
         <StackPanel>

@@ -47,10 +47,11 @@ namespace DDRemakeProject.GamePlay.New
 
         public void LevelUp()
         {
-           
+            Traits = new Traits(this);
             Resistances = new Resistances(this);
             Stats = new Stats(this);
             Modifiers = new Modifiers(this);
+            
         }
 
         private void Initialise()

@@ -100,7 +100,6 @@
     </ApplicationDefinition>
     <Compile Include="Commands\RelayCommand.cs" />
     <Compile Include="Commands\TextValueArrowSelectConverter.cs" />
-    <Compile Include="Controls\TabControlEx.cs" />
     <Compile Include="UserControls\AnimatedButton.xaml.cs">
       <DependentUpon>AnimatedButton.xaml</DependentUpon>
     </Compile>

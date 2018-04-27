@@ -18,7 +18,7 @@
     </Window.DataContext>
     <StackPanel x:Name="StackPanelMain">
 
-        <!--<Controls:MetroTabControl Controls:TabControlHelper.Transition="Down" ItemsSource="{Binding CharacterLogicCollection}">
+        <Controls:MetroTabControl Controls:TabControlHelper.Transition="Down" ItemsSource="{Binding CharacterLogicCollection}">
             <Controls:MetroTabControl.ItemTemplate>
                 <DataTemplate>
                     <TextBlock Text="{Binding Name}"></TextBlock>
@@ -29,8 +29,8 @@
                     <userControls:CharacterCreationSubMenu Character="{Binding Path=.,Mode=TwoWay}"/>
                 </DataTemplate>
             </Controls:MetroTabControl.ContentTemplate>
-        </Controls:MetroTabControl>-->
-        <Controls:FlipView Name="FlipView" IsBannerEnabled="False" ItemsSource="{Binding CharacterLogicCollection}">
+        </Controls:MetroTabControl>
+        <!--<Controls:FlipView Name="FlipView" IsBannerEnabled="False" ItemsSource="{Binding CharacterLogicCollection}">
             <Controls:FlipView.ItemTemplate>
                 <DataTemplate>
                     <Grid>
@@ -38,12 +38,12 @@
                     </Grid>
                 </DataTemplate>
             </Controls:FlipView.ItemTemplate>
-           <!-- <Controls:FlipView.templ>
+           ~1~ <Controls:FlipView.templ>
                 <DataTemplate>
                     <userControls:CharacterCreationSubMenu Character="{Binding Path=.,Mode=TwoWay}"/>
                 </DataTemplate>
-            </Controls:FlipView.templ>-->
-        </Controls:FlipView>
+            </Controls:FlipView.templ>@1@
+        </Controls:FlipView>-->
 
     </StackPanel>
 </Controls:MetroWindow>

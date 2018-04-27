@@ -22,7 +22,6 @@ namespace DDRemakeProject.Views
     /// </summary>
     public partial class LevelSelectionView : UserControl
     {
-        public static readonly DependencyProperty CharacterLevelProperty = DependencyProperty.Register("CharacterLevel", typeof(string), typeof(LevelSelectionView), new PropertyMetadata(default(string)));
         public static readonly DependencyProperty CharacterProperty = DependencyProperty.Register("Character", typeof(Character), typeof(LevelSelectionView), new PropertyMetadata(default(Character)));
 
         public LevelSelectionView()
@@ -34,10 +33,7 @@ namespace DDRemakeProject.Views
 */
         }
 
-        public string CharacterLevel {
-            get => (string) GetValue(CharacterLevelProperty);
-            set { SetValue(CharacterLevelProperty, value); }
-        }
+
 
         public Character Character {
             get { return (Character) GetValue(CharacterProperty); }
@@ -46,7 +42,7 @@ namespace DDRemakeProject.Views
 
         private void LevelSelectionView_OnLoaded(object sender, RoutedEventArgs e)
         {
-            TextValueArrowsSelect.DataContext = new LevelSelectionViewModel(Character);
+            TextValueArrowsSelect.DataContext = new LevelSelectionViewModel();
         }
     }
 }

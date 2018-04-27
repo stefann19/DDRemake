@@ -1,25 +1,38 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
+using DDRemakeProject.Annotations;
 
 namespace DDRemakeProject.GamePlay.New.Character.Logic
 {
-    public class Level
+    public class Level :INotifyPropertyChanged
     {
         private int _currentXp;
+        private int _currentLevel;
 
         public CharacterLogic CharacterLogic { get; set; }
         public Level(CharacterLogic characterLogic,int currentLevel, Func<double> calculate)
         {
-            CurrentLevel = currentLevel;
+            CharacterLogic = characterLogic;
+            _currentLevel = currentLevel;
             Calculate = calculate;
             _currentXp = 0;
-
         }
 
-        public int CurrentLevel { get; set; }
+        public int CurrentLevel {
+            get => _currentLevel;
+            set {
+                if (value == _currentLevel) return;
+                _currentLevel = value;
+                OnPropertyChanged();
+                CharacterLogic.LevelUp();
+            }
+        }
+
         public int TargetXp { get; set; }
         public Func<double> Calculate { get; set; }
 
@@ -39,6 +52,14 @@ namespace DDRemakeProject.GamePlay.New.Character.Logic
                 }
             }
 
+        }
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        [NotifyPropertyChangedInvocator]
+        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
     }
 }

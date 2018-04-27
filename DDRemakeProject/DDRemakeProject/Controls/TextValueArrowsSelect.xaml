@@ -27,7 +27,7 @@
                 Command="{Binding Path=PropLowerValue}" HorizontalAlignment="Center" VerticalAlignment="Center">
             <Button.CommandParameter>
                 <MultiBinding Converter="{StaticResource ArrowSelectConverter}">
-                    <Binding ElementName="TextBlockValue" Path="Text" />
+                    <Binding Path="PropLowerValueParameter"/>
                     <Binding ElementName="TextBlockTitle" Path="Text" />
                 </MultiBinding>
             </Button.CommandParameter>
@@ -44,7 +44,7 @@
                 Command="{Binding Path=PropRaiseValue}" HorizontalAlignment="Center" VerticalAlignment="Center">
             <Button.CommandParameter>
                 <MultiBinding Converter="{StaticResource ArrowSelectConverter}">
-                    <Binding ElementName="TextBlockValue" Path="Text" />
+                    <Binding Path="PropRaiseValueParameter" />
                     <Binding ElementName="TextBlockTitle" Path="Text" />
                 </MultiBinding>
             </Button.CommandParameter>
