@@ -26,7 +26,6 @@ namespace DDRemakeProject.Views
         public NameSelectionView()
         {
             InitializeComponent();
-            LayoutRoot.DataContext = this;
         }
 
 

@@ -130,6 +130,7 @@
     <Compile Include="UserControls\TextWithArrows.xaml.cs">
       <DependentUpon>TextWithArrows.xaml</DependentUpon>
     </Compile>
+    <Compile Include="ViewModels\CharacterCreationSubViewModel.cs" />
     <Compile Include="ViewModels\CharacterCreationViewModel.cs" />
     <Compile Include="ViewModels\LevelSelectionViewModel.cs" />
     <Compile Include="ViewModels\NameSelectionViewModel.cs" />

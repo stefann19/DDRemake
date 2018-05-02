@@ -23,5 +23,6 @@ namespace DDRemakeProject.Windows
         {
             InitializeComponent();
         }
+
     }
 }

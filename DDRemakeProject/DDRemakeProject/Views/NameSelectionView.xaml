@@ -9,7 +9,7 @@
              mc:Ignorable="d" 
              Height="Auto" Width="Auto">
 
-    <Grid x:Name="LayoutRoot" MinHeight="70">
+    <Grid x:Name="LayoutRoot" MinHeight="70" DataContext="{Binding Path=., RelativeSource={RelativeSource FindAncestor, AncestorType=UserControl},Mode=TwoWay}" >
         <Rectangle Style="{DynamicResource SimpleSection}"/>
         <TextBox Margin="20" Foreground="{DynamicResource AccentColorBrush}" Text="{Binding CharacterName,Mode=TwoWay}" mah:TextBoxHelper.Watermark="Insert name here" TextWrapping="Wrap" VerticalAlignment="Center" MinHeight="25" MaxWidth="100" HorizontalAlignment="Stretch" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
         <TextBlock Height="23.333" TextWrapping="Wrap" VerticalAlignment="Top" Width="94" TextAlignment="Center" Style="{DynamicResource HeaderSection}" Text="Name"/>

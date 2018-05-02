@@ -42,7 +42,10 @@ namespace DDRemakeProject.Views
 
         private void LevelSelectionView_OnLoaded(object sender, RoutedEventArgs e)
         {
-            TextValueArrowsSelect.DataContext = new LevelSelectionViewModel();
+/*
+            Console.WriteLine(DataContext);
+*/
+            TextValueArrowsSelect.DataContext = DataContext;
         }
     }
 }

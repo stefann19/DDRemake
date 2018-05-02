@@ -4,6 +4,7 @@ using System.Windows;
 using System.Windows.Controls;
 using DDRemakeProject.GamePlay.New.Character;
 using DDRemakeProject.GamePlay.New.Character.Logic;
+using DDRemakeProject.ViewModels;
 using MahApps.Metro.Controls;
 
 namespace DDRemakeProject.UserControls
@@ -13,26 +14,31 @@ namespace DDRemakeProject.UserControls
     /// </summary>
     public partial class CharacterCreationSubMenu : UserControl
     {
-        public static readonly DependencyProperty RaceProperty = DependencyProperty.Register("Race", typeof(object), typeof(CharacterCreationSubMenu), new PropertyMetadata(Races.Dino));
+        public static readonly DependencyProperty RaceProperty = DependencyProperty.Register("Race", typeof(Race), typeof(CharacterCreationSubMenu), new PropertyMetadata(default(Race)));
         public static readonly DependencyProperty CharacterProperty = DependencyProperty.Register("Character", typeof(Character), typeof(CharacterCreationSubMenu), new PropertyMetadata(default(Character)));
 
         public CharacterCreationSubMenu()
         {
             InitializeComponent();
+/*
             LayoutRoot.DataContext = this;
+*/
         }
 
-        public object Race {
-            get {
-                TextWithArrows textWithArrows = this.GetChildObjects().Where(child => child is TextWithArrows)
-                    .FirstOrDefault(child => (child as TextWithArrows).Typee == BasicPropType.Race) as TextWithArrows; 
-                return DDRemakeProject.GamePlay.New.Character.Logic.Race.GetRaceFromEnum((Races) Enum.Parse(typeof(Races), textWithArrows.Value as string)).AvatarPath ;
-            }
+        public Race Race
+        {
+            get { return (Race)GetValue(RaceProperty); }
+            set { SetValue(RaceProperty, value); }
         }
 
         public Character Character {
             get { return (Character) GetValue(CharacterProperty); }
             set { SetValue(CharacterProperty, value); }
+        }
+
+        private void CharacterCreationSubMenu_OnLoaded(object sender, RoutedEventArgs e)
+        {
+            LayoutRoot.DataContext = new CharacterCreationSubViewModel(Character);
         }
     }
 }

@@ -16,7 +16,7 @@ namespace DDRemakeProject.ViewModels
         public LevelSelectionViewModel()
         {
 
-            LowerValueCommand = new RelayCommand(param =>
+            /*LowerValueCommand = new RelayCommand(param =>
             {
                 Character ch = ((object[])param)[0] as Character;
                 ch.CharacterLogic.Level.CurrentLevel--;
@@ -34,12 +34,45 @@ namespace DDRemakeProject.ViewModels
             {
                 Character ch = ((object[])param)[0] as Character;
                 return ch?.CharacterLogic.Level.CurrentLevel < 20;
+            });*/
+
+            LowerValueCommand = new RelayCommand(param =>
+            {
+/*
+                Character ch = ((object[])param)[0] as Character;
+*/
+                Character.CharacterLogic.Level.CurrentLevel--;
+            }, param =>
+            {
+/*
+                Character ch = ((object[])param)[0] as Character;
+*/
+                return Character?.CharacterLogic.Level.CurrentLevel > 1;
+            });
+
+            RaiseValueCommand = new RelayCommand(param =>
+            {
+/*
+                Character ch = ((object[])param)[0] as Character;
+*/
+                Character.CharacterLogic.Level.CurrentLevel++;
+            }, param =>
+            {
+/*
+                Character ch = ((object[])param)[0] as Character;
+*/
+                return Character?.CharacterLogic.Level.CurrentLevel < 20;
             });
         }
 
 
         public ICommand RaiseValueCommand { get; set; }
 
+        public LevelSelectionViewModel(Character character):this()
+        {
+            Character = character;
+        }
 
+        public Character Character { get; set; }
     }
 }

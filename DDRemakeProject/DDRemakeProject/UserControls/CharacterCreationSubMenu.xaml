@@ -7,13 +7,19 @@
              xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
              xmlns:userControls="clr-namespace:DDRemakeProject.UserControls"
              xmlns:views="clr-namespace:DDRemakeProject.Views"
+             xmlns:viewModels="clr-namespace:DDRemakeProject.ViewModels"
              x:Class="DDRemakeProject.UserControls.CharacterCreationSubMenu"
-             mc:Ignorable="d" Width="Auto" Height="Auto"
+             mc:Ignorable="d" Width="Auto" Height="Auto" Loaded="CharacterCreationSubMenu_OnLoaded"
              >
     <!--DataContext="{Binding RelativeSource={RelativeSource Self}}"-->
     <UserControl.Resources>
         <BitmapImage UriSource="../Assets/monster/bat/idle.gif"  x:Key="Race"></BitmapImage>
     </UserControl.Resources>
+    <!--<UserControl.DataContext>
+        <viewModels:CharacterCreationSubViewModel >
+
+        </viewModels:CharacterCreationSubViewModel>
+    </UserControl.DataContext>-->
     <StackPanel Name="LayoutRoot" Orientation="Horizontal" SnapsToDevicePixels="True" >
         <StackPanel>
             <Grid x:Name="GridPoints" Height="79" Width="296" Margin="5">
@@ -45,7 +51,7 @@
             </Grid>-->
 
             <views:NameSelectionView CharacterName="{Binding Character.Name,Mode=TwoWay}"  Margin="5"></views:NameSelectionView>
-            <views:LevelSelectionView Character="{Binding Character,Mode=TwoWay}" Margin="5" ></views:LevelSelectionView>
+            <views:LevelSelectionView DataContext="{Binding LevelSelectionViewModel,Mode=TwoWay}" Margin="5" ></views:LevelSelectionView>
             <views:StatsSelectionView Character="{Binding Character,Mode=TwoWay}"  Margin="5"></views:StatsSelectionView>
         </StackPanel>
         
