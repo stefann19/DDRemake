@@ -9,7 +9,7 @@
              xmlns:views="clr-namespace:DDRemakeProject.Views"
              xmlns:viewModels="clr-namespace:DDRemakeProject.ViewModels"
              x:Class="DDRemakeProject.UserControls.CharacterCreationSubMenu"
-             mc:Ignorable="d" Width="Auto" Height="Auto" Loaded="CharacterCreationSubMenu_OnLoaded"
+             mc:Ignorable="d" Width="Auto" Height="Auto"
              >
     <!--DataContext="{Binding RelativeSource={RelativeSource Self}}"-->
     <UserControl.Resources>
@@ -51,12 +51,12 @@
             </Grid>-->
 
             <views:NameSelectionView CharacterName="{Binding Character.Name,Mode=TwoWay}"  Margin="5"></views:NameSelectionView>
-            <views:LevelSelectionView DataContext="{Binding LevelSelectionViewModel,Mode=TwoWay}" Margin="5" ></views:LevelSelectionView>
+            <views:LevelSelectionView Character="{Binding Character,Mode=TwoWay}" Margin="5" ></views:LevelSelectionView>
             <views:StatsSelectionView Character="{Binding Character,Mode=TwoWay}"  Margin="5"></views:StatsSelectionView>
         </StackPanel>
         
         <StackPanel>
-            <views:RacePanelView Margin="5" Height="553" Width="383"/>
+            <views:RacePanelView Character="{Binding Character,Mode=TwoWay}"  Margin="5" Height="553" Width="383"/>
         </StackPanel>
         <!--        Name-->
 

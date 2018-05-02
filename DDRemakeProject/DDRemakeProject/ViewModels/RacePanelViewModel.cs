@@ -7,6 +7,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using DDRemakeProject.Annotations;
 using DDRemakeProject.Commands;
+using DDRemakeProject.GamePlay.New.Character;
 using DDRemakeProject.GamePlay.New.Character.Logic;
 
 namespace DDRemakeProject.ViewModels
@@ -23,11 +24,11 @@ namespace DDRemakeProject.ViewModels
         public RacePanelViewModel()
         {
             CurrentRaceAvatar = Race.GetRaceFromEnum(RaceType).Avatar;
-            NextRaceCommand = new RelayCommand((param)=>{ModifyValue(1);});
-            PreviousRaceCommand = new RelayCommand((param) => { ModifyValue(-1); });
+            NextRaceCommand = new RelayCommand((param)=>{ModifyValue(1,param);});
+            PreviousRaceCommand = new RelayCommand((param) => { ModifyValue(-1,param); });
 
-            ModifyValue(1);
-            ModifyValue(-1);
+           /* ModifyValue(1);
+            ModifyValue(-1);*/
         }
 
         public ICommand NextRaceCommand { get; set; }
@@ -47,9 +48,11 @@ namespace DDRemakeProject.ViewModels
 
         private int RacesLength => Enum.GetNames(typeof(Races)).Length;
         private int Mod(int x) => (x % RacesLength + RacesLength) % RacesLength;
-        public void ModifyValue(int change)
+        public void ModifyValue(int change,object param)
         {
-            RaceType = (Races)Mod((int)RaceType + change);
+            Character ch = ((object[])param)[0] as Character;
+            
+            ch.CharacterLogic.Race = Race.GetRaceFromEnum((Races)Mod((int)ch.CharacterLogic.Race.Name + change));
         }
         public Races RaceType {
             get => _value;

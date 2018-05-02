@@ -20,9 +20,7 @@ namespace DDRemakeProject.UserControls
         public CharacterCreationSubMenu()
         {
             InitializeComponent();
-/*
             LayoutRoot.DataContext = this;
-*/
         }
 
         public Race Race
@@ -36,9 +34,9 @@ namespace DDRemakeProject.UserControls
             set { SetValue(CharacterProperty, value); }
         }
 
-        private void CharacterCreationSubMenu_OnLoaded(object sender, RoutedEventArgs e)
-        {
-            LayoutRoot.DataContext = new CharacterCreationSubViewModel(Character);
-        }
+        //private void CharacterCreationSubMenu_OnLoaded(object sender, RoutedEventArgs e)
+        //{
+        //    LayoutRoot.DataContext = new CharacterCreationSubViewModel(Character);
+        //}
     }
 }

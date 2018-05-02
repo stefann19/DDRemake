@@ -15,10 +15,10 @@ namespace DDRemakeProject.GamePlay.New.Character.Logic
         {
             CharacterLogic = characterLogic;
 
-            double enduranceValue = characterLogic.Traits.Endurance;
-            double strengthValue = characterLogic.Traits.Strength;
-            double intelligenceValue = characterLogic.Traits.Intelligence;
-            double agilityValue = characterLogic.Traits.Agility;
+            double enduranceValue = characterLogic.Traits.EnduranceTrait.Value;
+            double strengthValue = characterLogic.Traits.StrengthTrait.Value;
+            double intelligenceValue = characterLogic.Traits.IntelligenceTrait.Value;
+            double agilityValue = characterLogic.Traits.AgilityTrait.Value;
 
             Armour = new Resistance(enduranceValue * 2 + strengthValue * 2, 1);
             Fire = new Resistance(enduranceValue + intelligenceValue * 2 + agilityValue, 1);

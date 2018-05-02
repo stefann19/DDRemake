@@ -12,6 +12,8 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using DDRemakeProject.GamePlay.New.Character;
+using DDRemakeProject.ViewModels;
 
 namespace DDRemakeProject.Views
 {
@@ -20,9 +22,24 @@ namespace DDRemakeProject.Views
     /// </summary>
     public partial class RacePanelView : UserControl
     {
+        public static readonly DependencyProperty CharacterProperty = DependencyProperty.Register("Character", typeof(Character), typeof(RacePanelView), new PropertyMetadata(default(Character)));
+
         public RacePanelView()
         {
             InitializeComponent();
+            LayoutRoot.DataContext = this;
+        }
+
+        public Character Character
+        {
+            get { return (Character) GetValue(CharacterProperty); }
+            set { SetValue(CharacterProperty, value); }
+        }
+
+
+        private void RacePanelView_OnLoaded(object sender, RoutedEventArgs e)
+        {
+            SecondLayoutRoot.DataContext = new RacePanelViewModel();
         }
     }
 }

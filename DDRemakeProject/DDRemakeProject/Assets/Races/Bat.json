@@ -26,9 +26,9 @@
     "Flat": 0.2,
     "Percentage": 0.2
   },
-  "ArmourAttackFormulaString": "(traits.Strength * 3+ traits.Agility * 3 )",
-  "FireAttackFormulaString": "(traits.Intelligence * 7 + traits.Agility * 3)",
-  "WaterAttackFormulaString": "(traits.Agility * 6)",
-  "AirAttackFormulaString": "( traits.Intelligence * 5 + traits.Agility * 2)",
-  "EarthAttackFormulaString": "( traits.Strength * 2 + traits.Endurance * 4)"
+  "ArmourAttackFormulaString": "(traits.StrengthTrait.Value * 3+ traits.AgilityTrait.Value * 3 )",
+  "FireAttackFormulaString": "(traits.IntelligenceTrait.Value * 7 + traits.AgilityTrait.Value * 3)",
+  "WaterAttackFormulaString": "(traits.AgilityTrait.Value * 6)",
+  "AirAttackFormulaString": "( traits.IntelligenceTrait.Value * 5 + traits.AgilityTrait.Value * 2)",
+  "EarthAttackFormulaString": "( traits.StrengthTrait.Value * 2 + traits.EnduranceTrait.Value * 4)"
 }

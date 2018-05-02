@@ -13,9 +13,23 @@ namespace DDRemakeProject.GamePlay.New.Character.Logic
             Modifiers = 0;
         }
 
+        
         private double @base;
         private double _growthPerLevel;
         private double _modifiers;
+        private int _level;
+
+        public int Level
+        {
+            get { return _level; }
+            set
+            {
+                if (value == _level) return;
+                _level = value;
+                OnPropertyChanged();
+                OnPropertyChanged(nameof(Value));
+            }
+        }
 
         public double Modifiers {
             get => _modifiers;
@@ -23,10 +37,11 @@ namespace DDRemakeProject.GamePlay.New.Character.Logic
                 if (value.Equals(_modifiers)) return;
                 _modifiers = value;
                 OnPropertyChanged();
+                OnPropertyChanged(nameof(Value));
             }
         }
 
-        public double Value(int level) => @base + _growthPerLevel * level+Modifiers;
+        public double Value => @base + (_growthPerLevel * Level) + _modifiers;
         public event PropertyChangedEventHandler PropertyChanged;
 
         [NotifyPropertyChangedInvocator]

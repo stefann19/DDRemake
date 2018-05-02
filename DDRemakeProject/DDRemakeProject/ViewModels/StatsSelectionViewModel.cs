@@ -47,16 +47,16 @@ namespace DDRemakeProject.ViewModels
             switch (target)
             {
                 case "Strength":
-                    character.CharacterLogic.Traits.Strength += changeValue;
+                    character.CharacterLogic.Traits.StrengthTrait.Modifiers += changeValue;
                     break;
                 case "Agility":
-                    character.CharacterLogic.Traits.Agility += changeValue;
+                    character.CharacterLogic.Traits.AgilityTrait.Modifiers += changeValue;
                     break;
                 case "Intelligence":
-                    character.CharacterLogic.Traits.Intelligence += changeValue;
+                    character.CharacterLogic.Traits.IntelligenceTrait.Modifiers += changeValue;
                     break;
                 case "Endurance":
-                    character.CharacterLogic.Traits.Endurance += changeValue;
+                    character.CharacterLogic.Traits.EnduranceTrait.Modifiers += changeValue;
                     break;
                 default:
                     break;

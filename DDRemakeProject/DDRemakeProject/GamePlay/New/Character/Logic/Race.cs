@@ -1,11 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Media.Imaging;
+using DDRemakeProject.Annotations;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using WpfAnimatedGif;
@@ -25,13 +29,13 @@ namespace DDRemakeProject.GamePlay.New.Character.Logic
         Warrior
         
     }
-    public class Race
+    public class Race 
     {
         private string _avatarPath;
         private string _iconPath;
+        private Races _name;
 
-        public static string GetRaceLocation(Races race) => $"{AppDomain.CurrentDomain.BaseDirectory}\\Assets\\Races\\{race.ToString()}.json";
-
+        public static string GetRaceLocation(Races race) =>  $"{AppDomain.CurrentDomain.BaseDirectory}\\Assets\\Races\\{race.ToString()}.json";
         public static Race GetRaceFromEnum(Races race)
         {
             string jsonString =File.ReadAllText(GetRaceLocation(race));
@@ -87,8 +91,17 @@ namespace DDRemakeProject.GamePlay.New.Character.Logic
         }
 
         [JsonConverter(typeof(StringEnumConverter))]
-        public Races Name { get; set; }
+        public Races Name
+        {
+            get { return _name; }
+            set
+            {
+                if (value == _name) return;
+                _name = value;
+            }
+        }
 
+        private string GetFullPath(string localPath) => System.IO.Path.Combine(Environment.CurrentDirectory, localPath);
 
         public string AvatarPath
         {
@@ -96,8 +109,7 @@ namespace DDRemakeProject.GamePlay.New.Character.Logic
             set
             {
                 _avatarPath = value;
-                string FullPath(string localPath) => System.IO.Path.Combine(Environment.CurrentDirectory, localPath);
-                Avatar = new BitmapImage(new Uri(FullPath(AvatarPath)));
+                Avatar = new BitmapImage(new Uri(GetFullPath(AvatarPath)));
             }
         }
 
@@ -107,8 +119,7 @@ namespace DDRemakeProject.GamePlay.New.Character.Logic
             set
             {
                 _iconPath = value;
-                string FullPath(string localPath) => System.IO.Path.Combine(Environment.CurrentDirectory, localPath);
-                Icon = new BitmapImage(new Uri(FullPath(IconPath)));
+                Icon = new BitmapImage(new Uri(GetFullPath(IconPath)));
             }
         }
 
@@ -157,5 +168,7 @@ namespace DDRemakeProject.GamePlay.New.Character.Logic
                 return $"-({Flat}+{Percentage}%Damage)/point";
             }
         }
+
+
     }
 }

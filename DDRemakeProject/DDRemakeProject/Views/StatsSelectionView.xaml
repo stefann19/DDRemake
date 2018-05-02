@@ -17,21 +17,27 @@
         <StackPanel x:Name="GridBasicStats" Margin="5">
             <TextBlock TextWrapping="Wrap" Text="Stats" VerticalAlignment="Top" Width="94" TextAlignment="Center"
                        Style="{DynamicResource HeaderSection}" />
-            <controls:TextValueArrowsSelect PropTitle="Strength" PropValue="{Binding DataContext.Character.CharacterLogic.Traits.Strength,ElementName=LayoutRoot,Mode=TwoWay}"
+            <controls:TextValueArrowsSelect PropTitle="Strength" PropValue="{Binding DataContext.Character.CharacterLogic.Traits.StrengthTrait.Value,ElementName=LayoutRoot,Mode=OneWay}"
                                             PropRaiseValue="{Binding RaiseValueCommand}"
                                             PropLowerValue="{Binding LowerValueCommand}"
                                             PropLowerValueParameter="{Binding DataContext.Character,ElementName=LayoutRoot}"
                                             PropRaiseValueParameter="{Binding DataContext.Character,ElementName=LayoutRoot}"/>
-            <controls:TextValueArrowsSelect PropTitle="Agility" PropValue="{Binding Agility}"
+            <controls:TextValueArrowsSelect PropTitle="Agility" PropValue="{Binding DataContext.Character.CharacterLogic.Traits.AgilityTrait.Value,ElementName=LayoutRoot,Mode=OneWay}"
                                             PropRaiseValue="{Binding RaiseValueCommand}"
-                                            PropLowerValue="{Binding LowerValueCommand}" />
+                                            PropLowerValue="{Binding LowerValueCommand}" 
+                                            PropLowerValueParameter="{Binding DataContext.Character,ElementName=LayoutRoot}"
+                                            PropRaiseValueParameter="{Binding DataContext.Character,ElementName=LayoutRoot}"/>
 
-            <controls:TextValueArrowsSelect PropTitle="Intelligence" PropValue="{Binding Intelligence}"
+            <controls:TextValueArrowsSelect PropTitle="Intelligence" PropValue="{Binding DataContext.Character.CharacterLogic.Traits.IntelligenceTrait.Value,ElementName=LayoutRoot,Mode=OneWay}"
                                             PropRaiseValue="{Binding RaiseValueCommand}"
-                                            PropLowerValue="{Binding LowerValueCommand}" />
-            <controls:TextValueArrowsSelect PropTitle="Endurance" PropValue="{Binding Endurance}"
+                                            PropLowerValue="{Binding LowerValueCommand}" 
+                                            PropLowerValueParameter="{Binding DataContext.Character,ElementName=LayoutRoot}"
+                                            PropRaiseValueParameter="{Binding DataContext.Character,ElementName=LayoutRoot}"/>
+            <controls:TextValueArrowsSelect PropTitle="Endurance" PropValue="{Binding DataContext.Character.CharacterLogic.Traits.EnduranceTrait.Value,ElementName=LayoutRoot,Mode=OneWay}"
                                             PropRaiseValue="{Binding RaiseValueCommand}"
-                                            PropLowerValue="{Binding LowerValueCommand}" />
+                                            PropLowerValue="{Binding LowerValueCommand}"
+                                            PropLowerValueParameter="{Binding DataContext.Character,ElementName=LayoutRoot}"
+                                            PropRaiseValueParameter="{Binding DataContext.Character,ElementName=LayoutRoot}"/>
         </StackPanel>
     </Grid>
 

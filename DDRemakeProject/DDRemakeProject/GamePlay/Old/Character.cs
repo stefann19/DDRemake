@@ -44,7 +44,7 @@ namespace DDRemakeProject.GamePlay.Old
 
         public int CompareTo(Character ch)
         {
-            return (int)(CharacterLogic.Traits.Intelligence - ch.CharacterLogic.Traits.Intelligence);
+            return (int)(CharacterLogic.Traits.IntelligenceTrait.Value - ch.CharacterLogic.Traits.IntelligenceTrait.Value);
         }
     }
 }

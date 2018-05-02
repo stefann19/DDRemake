@@ -45,7 +45,7 @@ namespace DDRemakeProject.Views
 /*
             Console.WriteLine(DataContext);
 */
-            TextValueArrowsSelect.DataContext = DataContext;
+            TextValueArrowsSelect.DataContext = new LevelSelectionViewModel();
         }
     }
 }
